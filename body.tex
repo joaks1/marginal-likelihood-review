@@ -1,5 +1,101 @@
 \section{Introduction}
 
-Marginal likelihoods are neat \ldots (Figure~\ref{fig:dummy}) \citep{Felsenstein1981}.
+Phylogenetics is rapidly progressing as the statistical foundation of
+comparative biology, providing a framework for accounting for the shared
+ancestry inherent in biological data.
+Soon after phylogenetics became feasible as a likelihood-based statistical
+endeavor \citep{Felsenstein1981}, models started becoming richer to better
+capture processes of biological diversification and character change.
+This trend in model complexity made Bayesian approaches appealing, because they
+can render inference under rich models practical by leveraging prior
+information and numerical techniques (e.g., data augmentation).
 
-Testing if Overleaf is playing nicely.
+From the earliest days of Bayesian phylogenetics \citep{Rannala1996,Mau1997},
+the numerical tool of choice for approximating the posterior distribution was
+Markov chain Monte Carlo (MCMC).
+By only considering the ratios of posterior densities, MCMC can avoid
+calculating the proportionality constant in the denominator of Bayes' rule.
+This proportionality constant is better known as the marginal likelihood---the
+probability of the data under the model, averaged, with respect to the prior,
+over the whole parameter space.
+This marginalized measure of model fit cannot be solved analytically due to
+the large number of parameters in phylogenetic models that need to be summed or
+integrated.
+
+Marginal likelihoods are central to model comparison in a Bayesian framework.
+Thus, we cannot avoid calculating them if we want to be able to compare the fit
+of phylogenetic models.
+As the diversity and richness of phylogenetic models has increased, there has
+been a renewed appreciation of the importance of such Bayesian model
+comparison.
+As a result, there has been a lot of work over the last decade to develop
+methods for estimating marginal likelihoods of phylogenetic models.
+
+Perhaps the simplest numerical approximation of the marginal likelihood is to
+draw samples of a model's parameters from their respective prior distributions.
+This turns the intractable integral into a sum of the samples' likelihoods.
+Because the prior weight of each sample is one in this case, the marginal
+likelihood can be approximated by simply calculating the average likelihood of
+the prior samples.
+Similarly, if we have a sample of the parameters from the posterior
+distribution---like one would obtain from a ``standard'' Bayesian phylogenetic
+analysis via MCMC---we can again use summation to approximate the integral.
+The weight of each sample is the ratio of the prior density to the posterior
+density.
+As a result, the sum simplifies to the harmonic mean (HM) of the likelihoods
+from the posterior sample \citep{Newton1994}.
+Both of these techniques are importance-sampling approximations, and suffer
+from the fact that the prior and posterior are often \emph{very} divergent,
+with the latter usually \emph{much} more peaked than the former.
+A finite sample from the prior will often yield an underestimate of the
+marginal likelihood, because the region of parameter space with high likelihood
+is likely to be missed.
+Whereas a finite sample from the posterior will almost always lead to an
+overestimate, because it will contain very few samples outside of the region of
+high likelihood, where the prior has a strong downward ``pull'' on the average
+likelihood.
+
+Recent methods developed to estimate marginal likelihoods generally fall into
+two categories of how to deal with the sharp contrast between the prior
+and posterior that cripples the simple importance-sampling approaches
+mentioned above.
+One general strategy is to turn the giant leap between the unnormalized
+posterior and prior into many small steps along a series of power posterior
+distributions.
+The second strategy is to turn the giant leap between the posterior and prior
+into a smaller leap between the posterior and a reference distribution that is
+as similar as possible to the posterior.
+These approaches are not mutually exclusive (e.g., see Fan et al.\
+\citeyear{Fan2011}), but they serve as a useful way to categorize marginal
+likelihood approximation methods.
+In practical terms, the first strategy is computationally expensive, because
+samples need to be collected from each of the power posterior distributions,
+which is not part of a ``standard'' Bayesian phylogenetic analysis.
+The second strategy is very inexpensive because it attempts to approximate the
+marginal likelihood using only the posterior samples collected from a
+``standard'' analysis.
+
+The goals of this review are to \ldots
+
+\subsection{Approaches that use only posterior samples}
+
+\begin{itemize}
+    \item Generalized harmonic mean (GHM) \citep{Gelfand1994}
+    \item Inflated density ratio \citep{Arima2012}
+\end{itemize}
+
+\subsection{Approaches that use power posterior samples}
+
+\begin{itemize}
+    \item Path-sampling \citep{Lartillot2006}
+    \item Stepping-stone \citep{Xie2011}
+    \item Generalized stepping stone \citep{Fan2011}
+\end{itemize}
+
+\subsection{Other approaches that don't fit my dichotomy}
+
+\begin{itemize}
+    \item Sequential stochastic approximation Monte Carlo (SSAMC)
+        \citep{Liang2007,Cheon2008}
+    \item Sequential Monte Carlo (SMC) \citep{Jordan2012}
+\end{itemize}
