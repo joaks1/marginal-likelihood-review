@@ -75,7 +75,34 @@ The second strategy is very inexpensive because it attempts to approximate the
 marginal likelihood using only the posterior samples collected from a
 ``standard'' analysis.
 
-The goals of this review are to \ldots
+The goals of this review are to
+(1) provide a summary about what marginal likelihoods are and why they are
+useful,
+(2) review the various methods available for approximating marginal likelihoods
+of phylogenetic models,
+(3) review applications
+(4) \ldots
+
+\section{What are marginal likelihoods}
+
+Layout what a marginal likelihood is; the marginal probability of the data
+under the model. Start with Bayes' rule; marginal likelihood is the normalizing
+constant. It is ``averaging'' (integrating) the likelihood with respect to the
+prior.
+
+Make sure to tie in phylogenetics specifically.
+
+\section{Why are marginal likelihoods useful}
+
+Describe how it is used for model choice. Might help to introduce maximum
+likelihood model choice among nested models and the problem of penalizing
+paremeters. Averaging over the model provides a ``natural'' penalty for
+parameters.
+
+The ratio of marginal likelihoods tells us the factor by which the data updated
+the prior odds ratio; the Bayes factor!
+
+\section{How to approximate a marginal likelihood}
 
 \subsection{Approaches that use only posterior samples}
 
@@ -92,7 +119,7 @@ The goals of this review are to \ldots
     \item Generalized stepping stone \citep{Fan2011}
 \end{itemize}
 
-\subsection{Other approaches that don't fit my dichotomy}
+\subsection{Importance sampling-ish}
 
 \begin{itemize}
     \item Sequential stochastic approximation Monte Carlo (SSAMC)
@@ -106,4 +133,44 @@ The goals of this review are to \ldots
         accurate these marginal likelihoods are (my guess is that they are are
         not so good). As far as I'm aware there have been no analyses to assess
         this.
+        \thought{Could perform Christian Robert-esque assessment of the
+            accuracy and precision of GLM approximations of the marginal
+            probability of the data.}
 \end{itemize}
+
+\subsection{Approximate-likelihood approaches}
+
+\begin{itemize}
+    \item Approximate-likelihood Bayesian approaches. Wegmann's ABCToolbox
+        approximates the posterior distribution with a GLM, and then takes the
+        marginal of that distribution. Knowles' lab is using this to compare
+        different phylogeographic models. It would be interesting to know how
+        accurate these marginal likelihoods are (my guess is that they are are
+        not so good). As far as I'm aware there have been no analyses to assess
+        this.
+\end{itemize}
+
+\section{Uses of marginal likelihoods}
+
+\subsection{Species delimitation}
+
+Bayes factor delimitation in *BEAST and SNAPP.
+
+\subsection{Comparing partitioning schemes}
+
+Brandley and others used importance sampling (harmonic mean estimator) to
+compare the fit of different ways to partition sequence alignments into rate
+categories.
+
+\subsection{Comparing nucleotide substitution models}
+
+\subsection{Comparing ``relaxed clock'' models}
+
+\subsection{Comparing tree models (priors)}
+
+\subsection{Comparing phylogeographic models}
+
+Knowles' lab is using Weggman's GLM approximation to compare the fit of
+phylogeographic models built atop different ecological nich models.
+
+Search for other uses of the GLM marginal.
