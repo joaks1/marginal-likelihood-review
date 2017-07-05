@@ -13,8 +13,8 @@ information and numerical techniques (e.g., data augmentation).
 From the earliest days of Bayesian phylogenetics \citep{Rannala1996,Mau1997},
 the numerical tool of choice for approximating the posterior distribution was
 Markov chain Monte Carlo (MCMC).
-By only considering the ratios of posterior densities, MCMC can avoid
-calculating the proportionality constant in the denominator of Bayes' rule.
+By only considering the ratios of posterior densities, MCMC obviates the need
+for calculating the proportionality constant in the denominator of Bayes' rule.
 This proportionality constant is better known as the marginal likelihood---the
 probability of the data under the model, averaged, with respect to the prior,
 over the whole parameter space.
@@ -31,6 +31,74 @@ comparison.
 As a result, there has been a lot of work over the last decade to develop
 methods for estimating marginal likelihoods of phylogenetic models.
 
+The goals of this review are to
+(1) provide a summary about what marginal likelihoods are and why they are
+useful,
+(2) review the various methods available for approximating marginal likelihoods
+of phylogenetic models,
+(3) review applications
+(4) \ldots
+
+\section{What is a marginal likelihood?}
+
+\begin{linenomath}
+A marginal likelihood likelihood is the average fit of a model to a dataset, where
+the average is weighted by the prior.
+\begin{equation}
+    p(\parameters \given \data, \model) = \frac{
+        p(\data \given \parameters, \model) p(\parameters \given \model)
+    }{
+        p(\data \given \model)
+    }
+    \label{eq:bayesRule}
+\end{equation}
+\begin{equation}
+    p(\data \given \model[1]) = \int_{\parameters[1]}
+    p( \data \given \parameters[1], \model[1]) p(\parameters[1] \given \model[1])
+    \diff{\parameters[1]},
+    \label{eq:marginalLikelihood}
+\end{equation}
+and
+\begin{equation}
+    p(\data \given \model[2]) = \int_{\parameters[2]}
+    p( \data \given \parameters[2], \model[2]) p(\parameters[2] \given \model[2])
+    \diff{\parameters[2]},
+\end{equation}
+The posterior probability of \model[1] is then
+\begin{equation}
+    p(\model[1] \given \data) = \frac{
+        p(\data \given \model[1]) p(\model[1])
+    }{
+        p(\data \given \model[1]) p(\model[1]) + p(\data \given \model[2]) p(\model[2])
+    }.
+\end{equation}
+\begin{equation}
+    \frac{p(\model[1] \given \data)}{p(\model[2] \given \data)} = 
+    \frac{p(\data \given \model[1])}{p(\data \given \model[2])}
+    \frac{p(\model[1])}{p(\model[2])}
+\end{equation}
+\end{linenomath}
+
+Layout what a marginal likelihood is; the marginal probability of the data
+under the model. Start with Bayes' rule; marginal likelihood is the normalizing
+constant. It is ``averaging'' (integrating) the likelihood with respect to the
+prior.
+
+Make sure to tie in phylogenetics specifically.
+
+\section{Why are marginal likelihoods useful}
+
+Describe how it is used for model choice. Might help to introduce maximum
+likelihood model choice among nested models and the problem of penalizing
+paremeters. Averaging over the model provides a ``natural'' penalty for
+parameters.
+
+The ratio of marginal likelihoods tells us the factor by which the data updated
+the prior odds ratio; the Bayes factor!
+
+
+\section{How to approximate a marginal likelihood}
+
 Perhaps the simplest numerical approximation of the marginal likelihood is to
 draw samples of a model's parameters from their respective prior distributions.
 This turns the intractable integral into a sum of the samples' likelihoods.
@@ -38,7 +106,7 @@ Because the prior weight of each sample is one in this case, the marginal
 likelihood can be approximated by simply calculating the average likelihood of
 the prior samples.
 Similarly, if we have a sample of the parameters from the posterior
-distribution---like one would obtain from a ``standard'' Bayesian phylogenetic
+distribution---like one obtained from a ``standard'' Bayesian phylogenetic
 analysis via MCMC---we can again use summation to approximate the integral.
 The weight of each sample is the ratio of the prior density to the posterior
 density.
@@ -75,40 +143,20 @@ The second strategy is very inexpensive because it attempts to approximate the
 marginal likelihood using only the posterior samples collected from a
 ``standard'' analysis.
 
-The goals of this review are to
-(1) provide a summary about what marginal likelihoods are and why they are
-useful,
-(2) review the various methods available for approximating marginal likelihoods
-of phylogenetic models,
-(3) review applications
-(4) \ldots
-
-\section{What are marginal likelihoods}
-
-Layout what a marginal likelihood is; the marginal probability of the data
-under the model. Start with Bayes' rule; marginal likelihood is the normalizing
-constant. It is ``averaging'' (integrating) the likelihood with respect to the
-prior.
-
-Make sure to tie in phylogenetics specifically.
-
-\section{Why are marginal likelihoods useful}
-
-Describe how it is used for model choice. Might help to introduce maximum
-likelihood model choice among nested models and the problem of penalizing
-paremeters. Averaging over the model provides a ``natural'' penalty for
-parameters.
-
-The ratio of marginal likelihoods tells us the factor by which the data updated
-the prior odds ratio; the Bayes factor!
-
-\section{How to approximate a marginal likelihood}
-
 \subsection{Approaches that use only posterior samples}
 
 \begin{itemize}
     \item Generalized harmonic mean (GHM) \citep{Gelfand1994}
     \item Inflated density ratio \citep{Arima2012}
+    \item Partition weighted kernel (PWK) \cite{Wang2017}; Looks promising, but
+        not used for phylo yet.
+        \begin{itemize}
+            \item Entails partitioning parameter space into regions within which the
+                posterior density is relatively homogeneous.
+            \item Given the complex structure of phylogenetic models
+                (continuous and discrete elements; cite hyper-dimensional
+                orange), it's not clear how this would be done.
+        \end{itemize}
 \end{itemize}
 
 \subsection{Approaches that use power posterior samples}
