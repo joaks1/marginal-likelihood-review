@@ -42,63 +42,80 @@ of phylogenetic models,
 \section{What is a marginal likelihood?}
 
 \begin{linenomath}
-A marginal likelihood likelihood is the average fit of a model to a dataset, where
-the average is weighted by the prior.
+A marginal likelihood likelihood is the average fit of a model to a dataset.
+More specifically, it is an average over the entire parameter space of the
+likelihood weighted by the prior.
+For a phylogenetic model \model with parameters that include the discrete
+topology (\topology) and continous branch lengths and parameters that govern
+the evolution of the characters along the tree (together represented by
+\evoparameters), the marginal likelihood can be represented as
 \begin{equation}
-    p(\parameters \given \data, \model) = \frac{
-        p(\data \given \parameters, \model) p(\parameters \given \model)
-    }{
-        p(\data \given \model)
-    }
-    \label{eq:bayesRule}
-\end{equation}
-\begin{equation}
-    p(\data \given \model[1]) = \int_{\parameters[1]}
-    p( \data \given \parameters[1], \model[1]) p(\parameters[1] \given \model[1])
-    \diff{\parameters[1]},
+    p(\data \given \model) =
+    \sum\limits_{\topology}
+    \int_{\evoparameters}
+    p( \data \given \topology, \evoparameters, \model)
+    p(\topology, \evoparameters \given \model)
+    \diff{\evoparameters},
     \label{eq:marginalLikelihood}
 \end{equation}
-and
+where \data are the data.
+Each parameter in \evoparameters adds a dimension to the model, over which the
+likelihood must be averaged.
+\end{linenomath}
+
+\begin{linenomath}
+The marginal likelihood is also the proportionality constant in the denominator
+of Bayes' rule that ensures the posterior is a proper probability density that
+integrates to one:
 \begin{equation}
-    p(\data \given \model[2]) = \int_{\parameters[2]}
-    p( \data \given \parameters[2], \model[2]) p(\parameters[2] \given \model[2])
-    \diff{\parameters[2]},
-\end{equation}
-The posterior probability of \model[1] is then
-\begin{equation}
-    p(\model[1] \given \data) = \frac{
-        p(\data \given \model[1]) p(\model[1])
+    p(\topology, \evoparameters \given \data, \model) = \frac{
+        p(\data \given \topology, \evoparameters, \model)
+        p(\topology, \evoparameters \given \model)
     }{
-        p(\data \given \model[1]) p(\model[1]) + p(\data \given \model[2]) p(\model[2])
+        p(\data \given \model)
     }.
-\end{equation}
-\begin{equation}
-    \frac{p(\model[1] \given \data)}{p(\model[2] \given \data)} = 
-    \frac{p(\data \given \model[1])}{p(\data \given \model[2])}
-    \frac{p(\model[1])}{p(\model[2])}
+    \label{eq:bayesRule}
 \end{equation}
 \end{linenomath}
 
-Layout what a marginal likelihood is; the marginal probability of the data
-under the model. Start with Bayes' rule; marginal likelihood is the normalizing
-constant. It is ``averaging'' (integrating) the likelihood with respect to the
-prior.
-
-Make sure to tie in phylogenetics specifically.
-
 \section{Why are marginal likelihoods useful}
 
-Describe how it is used for model choice. Might help to introduce maximum
-likelihood model choice among nested models and the problem of penalizing
-paremeters. Averaging over the model provides a ``natural'' penalty for
-parameters.
+Marginal likelihoods are the currency of model comparison in a Bayesian
+framework. The frequentist approach to model choice is based on comparing
+the maximum probability of the data under two models either using
+a likelihood ratio test or some information-theoretic criterion.
+Because adding a parameter (dimension) to a model will always ensure
+a maximum likelihood at least as large as without the parameter, some
+penalty must be imposed when parameters are added.
 
-The ratio of marginal likelihoods tells us the factor by which the data updated
-the prior odds ratio; the Bayes factor!
+In a Bayesian perspective, we are interested in comparing the average fit of a
+model, rather than the maximum.
+This imposes a ``natural'' penalty for parameters, because each additional
+parameter introduces a dimension that must be averaged over.
+If that dimension introduces a lot of parameter space with small likelihood,
+and little space that improves the likelihood, it will decrease the marginal
+likelihood.
+Thus, unlike the maximum likelihood, adding a parameter of a model can
+decrease the marginal likelihood.
 
+The ratio of two marginal likelihoods gives us the factor by which the
+average fit of the model in the numerator is better or worse than the
+model in the denominator.
+This is called the Bayes' factor, and is also equal to the factor by
+which the data updated the prior odds of the model.
+This gives us an intuitive measure how much the data ``favor'' one model over
+another.
 
 \section{How to approximate a marginal likelihood}
 
+For all but the simplest of models, the integration in
+Equation~\ref{eq:marginalLikelihood}
+is analytically intractable.
+This is particularly true for phylogenetic models
+For phylogenetic models, the integration in
+Equation~\ref{eq:marginalLikelihood}, which entails averaging the likelihood
+over all topologies, the branch lengths of every branch, and all other model
+parameters, is analytically intractable.
 Perhaps the simplest numerical approximation of the marginal likelihood is to
 draw samples of a model's parameters from their respective prior distributions.
 This turns the intractable integral into a sum of the samples' likelihoods.
