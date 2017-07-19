@@ -59,14 +59,14 @@ the evolution of the characters along the tree (together represented by
     \label{eq:marginalLikelihood}
 \end{equation}
 where \data are the data.
-Each parameter in \evoparameters adds a dimension to the model, over which the
+Each parameter of the model adds a dimension to the model, over which the
 likelihood must be averaged.
 \end{linenomath}
 
 \begin{linenomath}
 The marginal likelihood is also the proportionality constant in the denominator
 of Bayes' rule that ensures the posterior is a proper probability density that
-integrates to one:
+sums and integrates to one:
 \begin{equation}
     p(\topology, \evoparameters \given \data, \model) = \frac{
         p(\data \given \topology, \evoparameters, \model)
@@ -96,13 +96,13 @@ If that dimension introduces a lot of parameter space with small likelihood,
 and little space that improves the likelihood, it will decrease the marginal
 likelihood.
 Thus, unlike the maximum likelihood, adding a parameter of a model can
-decrease the marginal likelihood.
+decrease the \emph{marginal} likelihood.
 
 The ratio of two marginal likelihoods gives us the factor by which the
 average fit of the model in the numerator is better or worse than the
 model in the denominator.
 This is called the Bayes' factor, and is also equal to the factor by
-which the data updated the prior odds of the model.
+which the data update the prior odds of the model.
 This gives us an intuitive measure how much the data ``favor'' one model over
 another.
 
@@ -111,11 +111,11 @@ another.
 For all but the simplest of models, the integration in
 Equation~\ref{eq:marginalLikelihood}
 is analytically intractable.
-This is particularly true for phylogenetic models
-For phylogenetic models, the integration in
-Equation~\ref{eq:marginalLikelihood}, which entails averaging the likelihood
-over all topologies, the branch lengths of every branch, and all other model
-parameters, is analytically intractable.
+This is particularly true for phylogenetic models, which are parameter-rich
+and contain both discrete and continuous elements.
+Thus, we must resort to numerical techniques to approximate the marginal
+likelihood.
+
 Perhaps the simplest numerical approximation of the marginal likelihood is to
 draw samples of a model's parameters from their respective prior distributions.
 This turns the intractable integral into a sum of the samples' likelihoods.
