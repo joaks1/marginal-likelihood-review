@@ -211,49 +211,61 @@ Thus, if this method is adapted to phylogenetic models, it is very promising.
 \subsection{Approaches that use samples from power posterior distributions}
 
 Lartillot and Philippe \citeyear{Lartillot2006} introduced a path-sampling
-(also called thermdynamic integration) approach to address the problem that the
-posterior is often dominated by the likelihood and very divergent from the
+(also called thermodynamic integration) approach to address the problem that
+the posterior is often dominated by the likelihood and very divergent from the
 prior.
 Rather than restrict themselves to a sample from the posterior, they collected
-samples from a series of distributions between the prior and posterior.
-Specifically, samples are taken from a series of power posterior distributions
+MCMC samples from a series of distributions between the prior and posterior.
+Specifically, samples are taken from a series of power-posterior distributions,
 \begin{equation}
     p(\data \given \topology, \evoparameters, \model)^{\beta}
-    p(\topology, \evoparameters \given \model)
+    p(\topology, \evoparameters \given \model).
     \label{eq:powerPosterior}
 \end{equation}
 When $\beta = 1$, this is the unnormalized joint posterior, which integrates to
 what we want to know, the marginal likelihood. When $\beta = 0$, this is the
 joint prior distribution, which, assuming we are using proper prior probability
-distributions integrates to 1.
+distributions, integrates to 1.
 If we integrate the power posterior over 0 to 1 with respect to $\beta$, we get
-the ratio of the normalizing constants when $\beta$ equals 1 and zero, and
-since we know the constant is 1 when $\beta$ is zero, we are left with
-normalizing constant when $\beta$ is 1, which is the marginal likelihood.
+the ratio of the normalizing constants when $\beta$ equals 1 and 0, and since
+we know the constant is 1 when $\beta$ is zero, we are left with the marginal
+likelihood.
+Lartillot and Philippe \citeyear{Lartillot2006} approximated this integral by
+summing over MCMC samples taken from a discrete number of $\beta$ values evenly
+distributed between 1 and 0.
 
-\citep{Xie2011}
-Stepping-stone is similar in that we also use samples from power posteriors,
-but the motivation is not based on approximating the integral per se, but
-motivated by the fact that we can very accurately use importance sampling to
-approximate the ratio of normalizing constants at each step.
-Also, using a beta to distribute the powers improved the approximation a lot,
-because most of the change is happening near the prior (the data/likelihood
-dominate the function even when the power is close to zero.
+The stepping-stone method introduced by Xie et al.\ (\citeyear{Xie2011}) is
+similar in that we also use samples from power posteriors, but the motivation
+is not based on approximating the integral per se, but motivated by the fact
+that we can very accurately use importance sampling to approximate the ratio of
+normalizing constants at each step between the posterior and prior.
+Also, Xie et al.\ (\citeyear{Xie2011}) chose the values of $\beta$ for the
+series of power posteriors from which to sample so that most were close to
+the prior (reference) distribution, rather than evenly distributed between
+0.0 and 1.0.
+This is beneficial, because this is where most of the change happens;
+the likelihood begins to dominate quicky, even at small values of $\beta$
+Stepping-stone method results in more accurate estimates of the marginal
+likelihood with fewer steps that PS \citep{Xie2011}.
 
-\citep{Fan2011}
-We can have the best of both worlds! Use stepping-stone, but start from a
-reference distribution that is much more similar to the posterior than the
-prior.
-Reference has same form as the joint prior, but each marginal prior
+The most accurate estimator of marginal likelihoods available to date, the
+generalized stepping-stone (GSS) method, leverages both strategies; taking many
+small steps from a starting point (reference distribution) that is much closer
+to the posterior than the prior \citep{Fan2011}.
+Fan et al.\ (\citeyear{Fan2011}) improved upon the original stepping-stone
+method by using a reference distribution that, in most cases, will be much more
+similar to the posterior than the prior.
+The reference distribution has the same form as the joint prior,
+but each marginal prior
 distribution is adjusted so that their means and variances match the
 corresponding sample means and variances from an MCMC sample from the
 posterior.
-This is the current state-of-the-art; by leveraging both path sampling a better
-reference distribution, it out-performs all the others.
-However, it's application was originally limited, because it required that the
-topology to be fixed, because there was no reference distribution for
+Initially, the application of the GSS method was limited, because it required
+that the topology be fixed, because there was no reference distribution across
 topologies.
-Holder et al. \citeyear{Holder2014} introduced that reference distribution.
+However, Holder et al. \citeyear{Holder2014} introduced such a reference,
+allowing the GSS to approximate the fully marginalized likelihood of
+phylogenetic models.
 
 \subsection{Importance sampling-ish}
 
