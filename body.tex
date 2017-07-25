@@ -101,7 +101,7 @@ decrease the \emph{marginal} likelihood.
 The ratio of two marginal likelihoods gives us the factor by which the
 average fit of the model in the numerator is better or worse than the
 model in the denominator.
-This is called the Bayes' factor, and is also equal to the factor by
+This is called the Bayes factor \citep{Jeffreys1935}, and is also equal to the factor by
 which the data update the prior odds of the model.
 This gives us an intuitive measure how much the data ``favor'' one model over
 another.
@@ -260,6 +260,8 @@ but each marginal prior
 distribution is adjusted so that their means and variances match the
 corresponding sample means and variances from an MCMC sample from the
 posterior.
+This guarantees that the support of the reference distribution will cover the
+posterior.
 Initially, the application of the GSS method was limited, because it required
 that the topology be fixed, because there was no reference distribution across
 topologies.
@@ -267,13 +269,90 @@ However, Holder et al. \citeyear{Holder2014} introduced such a reference,
 allowing the GSS to approximate the fully marginalized likelihood of
 phylogenetic models.
 
-\subsection{Importance sampling-ish}
+Another approach that uses sequential importance sampling steps is sequential
+Monte Carlo (SMC), also known as particle filtering.
+Recently, SMC algorithms have been developed for approximating the posterior
+distribution of phylogenetic trees \citep{Jordan2012,Bouchard2014}.
+While inferring the posterior, SMC algorithms can approximate the marginal
+likelihood of the model ``for free,'' by keeping a running average of the
+importance-sampling weights of the trees (particles) along the way.
+SMC algorithms hold a lot of promise for complementing MCMC in Bayesian
+phylogenetics due to their sequential nature an ease with which the
+computations can be parallelized (see Bouchard-C\^{o}t\'{e}
+\citeyear{Bouchard2014} for an accessible treatment of SMC in phylogenetics).
+However, these approaches are still in their infancy, and the accuracy of SMC
+estimates of marginal likelihoods still need to be compared to the methods
+discussed above.
+
+\subsection{Bayesian model averaging}
+
+An alternative to using marginal likelihoods for Bayesian model comparison is
+to sample across the competing models directly.
+The frequency of samples from each model approximates their posterior
+probability, which can be used to approximate Bayes factors among models.
+Algorithms for sampling across models include reversible-jump MCMC
+\citep{Green1995}, Gibbs sampling \citep{Neal2000}, Bayesian stochastic search
+variable selection \citep{Lemey2009}, and approximations of reversible-jump
+\citep{Jones2014}.
+In terms of selecting the correct ``relaxed-clock'' model from simulated data,
+Baele and Lemey (\citeyear{Baele2014}) showed that model-averaging performed
+similarly to the path-sampling and stepping-stone marginal likelihood
+estimators.
+
+There are a couple of limitations for these approaches.
+First, a Bayes factor that includes a model with small posterior probability
+will suffer from Monte Carlo error.
+For example, unless a very large sample from the posterior is collected, some
+models might not be sampled at all.
+Second, and perhaps more importantly, for these numerical algorithms to be able
+to ``jump'' among models, the models being sampled need to be very similar.
+
+If two highly dissimilar models need to be compared,
+Lartillot and Philippe \citeyear{Lartillot2006} introduced a method of using
+path sampling to directly approximate the Bayes factor.
+Similarly, Baele et al.\ (\citeyear{Baele2013}) extended the stepping-stone
+approach of Xie et al.\  (\citeyear{Xie2011}) to do the same.
+However, if there are many models to compare, doing MCMC over power posteriors
+for every pairwise comparison will quickly become computationally prohibitive;
+approximating the marginal likelihood of each would be simpler.
+
+\subsection{Approximate-likelihood approaches}
+
+Approximate-likelihood Bayesian computation (ABC) approaches
+\citep{Tavare1997,Beaumont2002} have become popular in situations where it is
+not possible (or undesirable) to derive and compute the likelihood function of
+a model.
+The basic idea is simple: by generating simulations under the model, the
+fraction of times that I generate a simulated dataset that matches the observed
+data is a Monte Carlo approximation of the likelihood.
+Because, simulating the observed data exactly is not possible (or extremely
+unlikely), simulations within a zone of tolerance around the observed data are
+counted (usually a set of insufficient summary statistics are used in place of
+the data).
+
+This simple approach assumes the likelihood within the zone of tolerance is
+uniform.
+However, this zone usually needs to be quite large for computational
+tractability, so this assumption does not hold.
+Leuenberger and Wegmann \citep{Leuenberger2010} proposed fitting a general
+linear model (GLM) to approximate the likelihood within the zone of tolerance.
+With the GLM in hand, the marginal likelihood of the model can simply be
+approximated by the marginal density of the GLM.
+
+The accuracy of this estimator has not been assessed.
+However, there are good theoretical reasons to be skeptical of its accuracy.
+Because the GLM is only fit within the zone of tolerance, it cannot account for
+the weight of the prior on the marginal likelihood outside of this region.
+Whereas the posterior distribution is usually not strongly influenced by
+regions of of parameter space with low likelihood, the marginal likelihood very
+much can be.
+This is analogous to the harmonic mean being a poor estimator of the marginal
+likelihood due to having very few samples outside of the region of high
+likelihood, where the prior has a strong downward ``pull'' on the average
+likelihood.
+
 
 \begin{itemize}
-    \item Sequential stochastic approximation Monte Carlo (SSAMC)
-        \citep{Liang2007,Cheon2008}
-    \item Sequential Monte Carlo (SMC) \citep{Jordan2012}
-    \item Direct sampling (model averaging)
     \item Approximate-likelihood Bayesian approaches. Wegmann's ABCToolbox
         approximates the posterior distribution with a GLM, and then takes the
         marginal of that distribution. Knowles' lab is using this to compare
@@ -284,18 +363,6 @@ phylogenetic models.
         \thought{Could perform Christian Robert-esque assessment of the
             accuracy and precision of GLM approximations of the marginal
             probability of the data.}
-\end{itemize}
-
-\subsection{Approximate-likelihood approaches}
-
-\begin{itemize}
-    \item Approximate-likelihood Bayesian approaches. Wegmann's ABCToolbox
-        approximates the posterior distribution with a GLM, and then takes the
-        marginal of that distribution. Knowles' lab is using this to compare
-        different phylogeographic models. It would be interesting to know how
-        accurate these marginal likelihoods are (my guess is that they are are
-        not so good). As far as I'm aware there have been no analyses to assess
-        this.
 \end{itemize}
 
 \section{Uses of marginal likelihoods}
@@ -319,6 +386,6 @@ categories.
 \subsection{Comparing phylogeographic models}
 
 Knowles' lab is using Weggman's GLM approximation to compare the fit of
-phylogeographic models built atop different ecological nich models.
+phylogeographic models built atop different ecological niche models.
 
 Search for other uses of the GLM marginal.
