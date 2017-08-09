@@ -396,18 +396,18 @@ is a poor estimator of the marginal likelihood.
 
 \subsection{Phylogenetic factor analysis}
 
-\citep{Tolkoff2017}
+\citep{Tolkoff2017}---new preprint.
 Hidden (latent) factors evolving independently across the tree
 that are correlated with observed traits.
 Need to estimate how many factors best explain observed traits; they use
-marginal likelihoods.
+marginal likelihoods for this.
 Need to read this more thoroughly to know whether their marginal likelihood
-approximation is novel enought to include here, or whether it is more
+approximation is novel enough to include here, or whether it is more
 appropriate in the application section.
 
 \subsection{Nested sampling (NS)}
 
-\citep{Maturana2017}
+\citep{Maturana2017}---new preprint.
 This tries to simplify the nasty multi-dimensional integral in
 Equation~\ref{eq:marginalLikelihood}
 into a one-dimensional integral over the cumulative distribution function
@@ -442,15 +442,30 @@ delimitations.
 
 \subsection{Comparing partitioning schemes}
 
-Brandley and others used importance sampling (harmonic mean estimator) to
-compare the fit of different ways to partition sequence alignments into rate
-categories.
+One of the earliest applications of marginal likelihoods in phylogenetics was
+to choose among ways of assigning models of substitution to different subsets
+of aligned sites.
+This became important when phylogenetics moved beyond singe-gene trees to
+concatenated alignments of several genes.
+Mueller et al. \citeyear{Mueller2004},
+Nylander et al.\ \citeyear{NylanderEtal2004} and
+Brandley et al.\ \citeyear{Brandley2005}
+used Bayes factors calculated from harmonic mean
+estimates of marginal likelihoods to choose among different strategies for
+partitioning aligned characters to subtitution models.
 
-\citep{Brandley2005}
-
-\citep{Brandley2011}
-
-\citep{Brown2007}
+All three studies found that the model with the most subsets was strongly
+preferred.
+Nylander et al.\ citeyear{NylanderEtal2004} also showed that removing
+parameters for which the data seem to have little influence decreased
+the HM estimates of the marginal likelihood, suggesting that the HM
+estimates might favor over-parameterized models.
+These findings could be an artefact of the bias of the HM estimator to
+overestimate marginal likelihoods and underestimate the ``penalty'' associated
+with additional parameters.
+However, Brown and Lemmon \citeyear{Brown2007} showed that for simulated data,
+HM estimates of Bayes factors have a low error rate of over-partitioning an
+alignment.
 
 \subsection{Comparing nucleotide substitution models}
 
