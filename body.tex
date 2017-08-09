@@ -394,6 +394,37 @@ is a poor estimator of the marginal likelihood.
     each dataset. That way, even if the MLs are not comparable across datasets,
     the relative MLs of two models for each dataset should be comparable.}
 
+\subsection{Phylogenetic factor analysis}
+
+\citep{Tolkoff2017}
+Hidden (latent) factors evolving independently across the tree
+that are correlated with observed traits.
+Need to estimate how many factors best explain observed traits; they use
+marginal likelihoods.
+Need to read this more thoroughly to know whether their marginal likelihood
+approximation is novel enought to include here, or whether it is more
+appropriate in the application section.
+
+\subsection{Nested sampling (NS)}
+
+\citep{Maturana2017}
+This tries to simplify the nasty multi-dimensional integral in
+Equation~\ref{eq:marginalLikelihood}
+into a one-dimensional integral over the cumulative distribution function
+of the likelihood.
+The latter can be numerically approximated using basic quadrature methods;
+essentially summing up the area of polygons under the likelihood function.
+The algorithm works by starting with a random sample of parameter values
+from the joint prior distribution and their associated likelihood
+scores.
+Sequentially, the sample with the lowest likelihood is collected removed and
+replaced by a another random sample with the prior with the constraint that its
+likelihood must be larger than the removed sample.
+The approximate marginal likelihood is a running sum of these removed samples
+with appropriate weights.
+Sampling these removed samples according to their weights yields a posterior
+sample at no extra computational cost.
+Initial assessment of NS suggest it performs similarily to GSS
 
 
 \section{Uses of marginal likelihoods}
@@ -424,6 +455,8 @@ categories.
 \subsection{Comparing nucleotide substitution models}
 
 \subsection{Comparing ``relaxed clock'' models}
+
+\citep{Lepage2007}
 
 \subsection{Comparing tree models (priors)}
 
