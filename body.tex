@@ -350,28 +350,21 @@ likelihood due to having very few samples outside of the region of high
 likelihood, where the prior has a strong downward ``pull'' on the average
 likelihood.
 
-To test these predictions, we compared the marginal likelihood estimated via
-ABC-GLM and the stepping-stone method \citep{Xie2011} for 100 simulated
-datasets.
-The datasets were simulated using RevBayes version 1.0.5, compiled from commit
-1d6991 \citep{Hohna2014,Hohna2016}.
-The model used for the simulations was very simple:
-one population of constant size diverging into two populations of equal and
-constant size.
-Sequences (1,000 sites) were simulated along a single gene tree for 10 gene
-copies sampled from each descendant population, assuming a Jukes-Cantor
-\citep{JC1969} model of nucleotide substitutions.
-The parameters of this model are the population divergence time, population
-size ($4N_e\mu$; shared by all three branches of the population tree), and the
-node heights of the gene tree, the latter of which ABC attempts to integrate
-via simulation.
-We used gamma distributions as priors for the divergence time and population
-size, and a multi-population coalescent prior on the gene tree.
-All parameters were drawn from the same priors to simulate both the
-``observed'' alignments, and the alignments sampled from the prior for the ABC
-analyses.
-For such a simple model, we assume the stepping-stone estimates are a good
-proxy for the true marginal likelihood.
+To test these predictions, we assessed the behavior of the ABC-GLM
+method on 100 datasets simulated under the simplest possible phylogenetic
+model: two DNA sequences separated by a single branch along which they evolved
+under a Jukes-Cantor model of nucleotide evolution \citep{JC1969}.
+The simulated sequences were 10,000 nucleotides long, and the prior on the only
+parameter in the model, the length of the branch, was a uniform distribution
+from 0.0001 to 0.1 substitutions per site.
+For such a simple model, we used numerical quadrature to calculate the marginal
+likelihood for each simulated alignment of two sequences, and compared these to
+the marginal likelihoods estimated via ABC-GLM
+(Figure~\ref{fig:glmPerformance}).
+The same uniform prior was used to draw the true branch length values for the
+simulated datasets and in the ABC analyses.
+A sufficient summary statistic, the proportion of variable sites, was used for
+ABC analyses.
 Full details of these analyses can be found in the supplementary materials, and
 all of the code to replicate our results is freely available at
 \href{https://github.com/phyletica/abc-glm-marginal-test}{https://github.com/phyletica/abc-glm-marginal-test}
@@ -379,20 +372,16 @@ all of the code to replicate our results is freely available at
 Figure~\ref{fig:glmPerformance} confirms our theoretical skepticism of the
 ABC-GLM estimator.
 The different scale of the marginal likelihoods estimated by ABC-GLM is
-expected due to the full data of site-pattern counts being reduced
-to summary statistics of nucleotide diversity within and between the
-populations.
-However, if the approximation of the ABC-GLM approach is good, we expect the
-relative marginal likelihoods among the simulated datasets to be similar to the
-SS estimates (i.e., a positive correlation in Figure~\ref{fig:glmPerformance}).
-The lack of relationship between the values estimated by the two methods
-suggests that the marginal density of the GLM approximation of the likelihood
-is a poor estimator of the marginal likelihood.
-\thought{I am a bit concerned about whether the MLs are comparable between the
-    full data and the summary statistics (i.e., should we expect a strong
-    correlation?).  So, I might compare the ratio of MLs between two models for
-    each dataset. That way, even if the MLs are not comparable across datasets,
-    the relative MLs of two models for each dataset should be comparable.}
+expected due to the fact that a normalized GLM is fit to only a small
+region of the model's parameter space.
+However, given the ABC-GLM is approximating the average probability of the
+proportion of variable sites under the model (the same as the full-likelihood
+marginal likelihood), we expect the same relative marginal likelihoods among
+the simulated datasets (i.e., a positive relationship in
+Figure~\ref{fig:glmPerformance}).
+The lack of relationship between the ABC-GLM estimates and the ``true''
+marginal likelihoods suggests that the marginal density of the GLM
+approximation of the likelihood is a poor estimator of the marginal likelihood.
 
 \subsection{Phylogenetic factor analysis}
 
@@ -464,7 +453,7 @@ These findings could be an artefact of the bias of the HM estimator to
 overestimate marginal likelihoods and underestimate the ``penalty'' associated
 with additional parameters.
 However, Brown and Lemmon \citeyear{Brown2007} showed that for simulated data,
-HM estimates of Bayes factors have a low error rate of over-partitioning an
+HM estimates of Bayes factors can have a low error rate of over-partitioning an
 alignment.
 
 \subsection{Comparing nucleotide substitution models}
@@ -485,6 +474,7 @@ Search for other uses of the GLM marginal.
 \section{Conclusions}
 
 Given the difficulty of ABC estimation of the marginal likelihood seen here
+under the simplest possible phylogenetic model
 (Figure~\ref{fig:glmPerformance}), and the poor performance of ABC methods for
 model selection seen elsewhere \citep{Robert2011,Oaks2012,Oaks2014reply}, we
 agree with the recommendation of Robert et al.\ \citeyear{Robert2011} that
