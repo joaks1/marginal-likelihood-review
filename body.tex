@@ -283,6 +283,35 @@ However, these approaches are still in their infancy, and the accuracy of SMC
 estimates of marginal likelihoods still need to be compared to the methods
 discussed above.
 
+
+\subsection{Nested sampling (NS)}
+
+One recent method that does not fit into our dichotomy of using
+posterior samples versus power-posterior samples, is the
+use of nested sampling by Maturana et al.\ \citeyear{Maturana2017}.
+\thought{Check most appropriate family name to use for Patricio Andres Maturana
+    Russel.}
+This tries to simplify the nasty multi-dimensional integral in
+Equation~\ref{eq:marginalLikelihood}
+into a one-dimensional integral over the cumulative distribution function
+of the likelihood.
+The latter can be numerically approximated using basic quadrature methods;
+essentially summing up the area of polygons under the likelihood function.
+The algorithm works by starting with a random sample of parameter values
+from the joint prior distribution and their associated likelihood
+scores.
+Sequentially, the sample with the lowest likelihood is removed and replaced by
+a another random sample from the prior with the constraint that its likelihood
+must be larger than the removed sample.
+The approximate marginal likelihood is a running sum of the likelihod of these
+removed samples with appropriate weights.
+Sampling these removed samples according to their weights yields a posterior
+sample at no extra computational cost.
+Initial assessment of NS suggest it performs similarily to GSS.
+As with SMC, NS seems like a promising complement to MCMC for both
+approximating the posterior and marginal likelihood of phylogenetic models.
+
+
 \subsection{Bayesian model averaging}
 
 An alternative to using marginal likelihoods for Bayesian model comparison is
@@ -365,8 +394,10 @@ The same uniform prior was used to draw the true branch length values for the
 simulated datasets and in the ABC analyses.
 A sufficient summary statistic, the proportion of variable sites, was used for
 ABC analyses.
-Full details of these analyses can be found in the supplementary materials, and
-all of the code to replicate our results is freely available at
+Full details of these analyses, which were all designed atop the DendroPy
+phylogenetic API (version 4.3.0 commit 72ce015), can be found in the
+supplementary materials, and all of the code to replicate our results is freely
+available at
 \href{https://github.com/phyletica/abc-glm-marginal-test}{https://github.com/phyletica/abc-glm-marginal-test}
 
 Figure~\ref{fig:glmPerformance} confirms our theoretical skepticism of the
@@ -385,39 +416,12 @@ approximation of the likelihood is a poor estimator of the marginal likelihood.
 Given that the GLM approximation of the likelihood is only fit within a very
 small region of a model, it never should have been considered a marginal
 likelihood of the model.
-
-\subsection{Phylogenetic factor analysis}
-
-\citep{Tolkoff2017}---new preprint.
-Hidden (latent) factors evolving independently across the tree
-that are correlated with observed traits.
-Need to estimate how many factors best explain observed traits; they use
-marginal likelihoods for this.
-Need to read this more thoroughly to know whether their marginal likelihood
-approximation is novel enough to include here, or whether it is more
-appropriate in the application section.
-
-\subsection{Nested sampling (NS)}
-
-\citep{Maturana2017}---new preprint.
-This tries to simplify the nasty multi-dimensional integral in
-Equation~\ref{eq:marginalLikelihood}
-into a one-dimensional integral over the cumulative distribution function
-of the likelihood.
-The latter can be numerically approximated using basic quadrature methods;
-essentially summing up the area of polygons under the likelihood function.
-The algorithm works by starting with a random sample of parameter values
-from the joint prior distribution and their associated likelihood
-scores.
-Sequentially, the sample with the lowest likelihood is collected removed and
-replaced by a another random sample with the prior with the constraint that its
-likelihood must be larger than the removed sample.
-The approximate marginal likelihood is a running sum of these removed samples
-with appropriate weights.
-Sampling these removed samples according to their weights yields a posterior
-sample at no extra computational cost.
-Initial assessment of NS suggest it performs similarily to GSS
-
+\thought{The rescaling of the GLM could be dataset specific, making the
+    marginal likelihoods difficult to compare with ``true'' ML of the
+    sequences. A solution is to compare the ratios of MLs (Bayes factors)
+    estimated by ABC-GLM and quadrature integration. Then, even if MLs across
+    datasets are not comparable, the relative MLs for each dataset will be.
+    Could easily compare JC to K2P.}
 
 \section{Uses of marginal likelihoods}
 
@@ -459,13 +463,69 @@ However, Brown and Lemmon \citeyear{Brown2007} showed that for simulated data,
 HM estimates of Bayes factors can have a low error rate of over-partitioning an
 alignment.
 
-\subsection{Comparing nucleotide substitution models}
+Fan et al.\ \citeyear{Fan2011} show that, again, the HM estimator strongly
+favors the most partitioned model for a four-gene alignment from cicadas (12
+subsets partitioned by gene and codon position).  However, the marginal
+likelihoods estimated using the generalizes stepping stone method favor a much
+simpler model (3 subsets partitioned by codon position).
+
+\subsection{Comparing models of character substitution}
+
+Lartillot and Philippe \citeyear{Lartillot2006} used path sampling to compare
+models of amino-acid substitution.
+They found that the harmonic mean estimator favored the most parameter rich
+model for all five datasets they explored, whereas the path-sampling estimates
+favores simpler models for three of the datasets.
+This demonstrates the bias of the harmonic mean estimator and that marginal
+likelihoods do indeed ``penalize'' for over-parameterization of phylogenetic
+models.
 
 \subsection{Comparing ``relaxed clock'' models}
 
-\citep{Lepage2007}
+Lepage et al.\ \citeyear{Lepage2007} use path sampling to approximate Bayes
+factors comparing various ``relaxed clock'' phylogenetic models for
+three empirical dataset.
+They find that models in which the rate of substition evolves across 
+the tree (autocorrelated rate models) better explain the empirical
+sequence alignments than models that assume the rate of substitution
+on each branch is independent (uncorrelated rate models).
+
+\citep{Baele2012}
+
+\citep{Baele2013MBE}
+
+\subsection{Comparing demographic models}
+
+\citep{Baele2012}
 
 \subsection{Comparing tree models (priors)}
+
+\subsection{Phylogenetic factor analysis}
+
+The goal of comparative biology is to understand the relationships among a
+potentially large number of phenotypic traits across organisms. 
+To do so correctly, the inherent shared ancestry underlying all life needs to
+be accounted for \citep{Felsenstein1985PIC}.
+A lot of progress has been made for inferring the relationship among pairs
+of phenotypic traits as they evolve across a phylogeny,
+but a general and efficient solution for large numbers of continuous
+and discrete traits has remained elusive.
+Tolkoff et al.\ \citeyear{Tolkoff2017} introduce Bayesian factor analysis to a
+phylogenetic framework as a potential solution.
+Phylogenetic factor analysis works by modeling a small number of unobserved
+(latent) factors that evolve independently across the tree, which give rise to
+the large number of observed continuous and discrete phenotypic traits.
+This allows correlations among traits to be estimated, without having to model
+every trait as a conditionally independent process.
+
+The question that immediately arrises is, what number of factors best explains
+the evolution of the observed traits?
+To address this, \citep{Tolkoff2017} use path sampling to approximate the
+marginal likelihood of models with different number of traits.
+To do so, they extend the path sampling method to handle the latent variables
+underlying the discrete traits by softening the thresholds that delimit the
+discrete character states across the series of power posteriors.
+
 
 \subsection{Comparing phylogeographic models}
 
@@ -476,11 +536,36 @@ Search for other uses of the GLM marginal.
 
 \section{Conclusions}
 
+Need to talk about how parameter estimation and model choice are different
+beasts.
+When we have informative data, the posterior is dominated by the likelihood,
+and as a result our parameter estimates are often robust to prior assumptions
+we make about the parameters.
+However, when comparing models, we need to assess their overall ability to
+predict the data, which entails averaging over the entire parameter space of
+the model, not just the regions of high likelihood.
+As a result, marginal likelihoods and associated model choices can be very
+sensitive to priors on the parameters of the model, even if the data are very
+informative.
+To drive this difference home, the posterior probability of a model is
+proportional to the \emph{marginal} likelihood of model times the prior
+probability of the model.
+This is fundamentally different than the posterior probability of any set of
+parameter values of the model, which is proportional likelihood function times
+the prior density, both evaluated at the particular parameter values.
+It is often easy to forget about this fundamental difference and think
+of the models under consideration as just another random variable.
+The results of any application of Bayesian model selection should be
+accompanied by an assessment of the sensitivity of those results to the priors
+placed on the models' parameters.
+\thought{This is getting into the realm of Lindley's paradox; worth
+    discussing?}
+
 Given the difficulty of ABC estimation of the marginal likelihood seen here
 under the simplest possible phylogenetic model
 (Figure~\ref{fig:glmPerformance}), and the poor performance of ABC methods for
 model selection seen elsewhere \citep{Robert2011,Oaks2012,Oaks2014reply}, we
 agree with the recommendation of Robert et al.\ \citeyear{Robert2011} that
-model choice based on insufficient summary statistics of the full data should
-be treated as exploratory.
+Bayesian model choice based on approximate-likelihoods should be treated as
+exploratory.
 
