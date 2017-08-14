@@ -1,16 +1,6 @@
-\begin{figure}[htbp]
-    \begin{subfigure}[b]{0.5\textwidth}
-        \includegraphics[width=\textwidth]{images/glm-branch-length-plot.pdf}
-        \caption{A}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.5\textwidth}
-        \includegraphics[width=\textwidth]{images/mcmc-branch-length-plot.pdf}
-        \caption{B}
-    \end{subfigure}
-    \captionsetup{name=Figure S, labelformat=noSpace, listformat=sFigList}
-    \caption{A comparison of the true branch length separating each pair of
-        simulated sequences to the branch length estimated by (A) ABC-GLM and
-        (B) full-likelihood MCMC.}
-    \label{fig:branchLengthEstimates}
-\end{figure}
+\siFigure{images/branch-length-estimates.pdf}{
+    A comparison of the true branch length separating each pair of simulated
+    sequences to the branch length estimated by ABC-GLM and full-likelihood
+    MCMC under the correct branch-length model (branch length ~ uniform(0.0001,
+    0.1)) and the vague model (branch length ~ uniform(0.0001, 0.1)).
+}{fig:branchLengthEstimates}

@@ -295,7 +295,7 @@ This tries to simplify the nasty multi-dimensional integral in
 Equation~\ref{eq:marginalLikelihood}
 into a one-dimensional integral over the cumulative distribution function
 of the likelihood.
-The latter can be numerically approximated using basic quadrature methods;
+The latter can be numerically approximated using basic quadrature methods,
 essentially summing up the area of polygons under the likelihood function.
 The algorithm works by starting with a random sample of parameter values
 from the joint prior distribution and their associated likelihood
@@ -369,8 +369,9 @@ approximated by the marginal density of the GLM.
 
 The accuracy of this estimator has not been assessed.
 However, there are good theoretical reasons to be skeptical of its accuracy.
-Because the GLM is only fit within the zone of tolerance, it cannot account for
-the weight of the prior on the marginal likelihood outside of this region.
+Because the GLM is only fit within the zone of tolerance (also called the
+``truncated prior''), it cannot account for the weight of the prior on the
+marginal likelihood outside of this region.
 Whereas the posterior distribution is usually not strongly influenced by
 regions of parameter space with low likelihood, the marginal likelihood very
 much can be.
@@ -386,54 +387,63 @@ under a Jukes-Cantor model of nucleotide evolution \citep{JC1969}.
 The simulated sequences were 10,000 nucleotides long, and the prior on the only
 parameter in the model, the length of the branch, was a uniform distribution
 from 0.0001 to 0.1 substitutions per site.
-For such a simple model, we used numerical quadrature to calculate the marginal
-likelihood for each simulated alignment of two sequences, and compared these to
-the marginal likelihoods estimated via ABC-GLM
-(Figure~\ref{fig:glmPerformance}).
-The same uniform prior was used to draw the true branch length values for the
-simulated datasets and in the ABC analyses.
+For such a simple model, we used quadrature integration to calculate the
+``true'' marginal likelihood for each simulated alignment of two sequences.
 A sufficient summary statistic, the proportion of variable sites, was used for
 ABC analyses.
-Full details of these analyses, which were all designed atop the DendroPy
-phylogenetic API (version 4.3.0 commit 72ce015), can be found in the
-supplementary materials, and all of the code to replicate our results is freely
-available at
-\href{https://github.com/phyletica/abc-glm-marginal-test}{https://github.com/phyletica/abc-glm-marginal-test}
+However, the ABC-GLM and quadrature marginal likelihoods are not directly
+comparable, because the marginal probability of the proportion of variable
+sites versus the site pattern counts will be on different scales that are data
+set dependent. 
+So, we compare the ratio of marginal likelihoods (i.e., Bayes factors)
+comparing the correct branch-length model (branch length ~ uniform(0.0001, 0.1)
+to a model with a prior approximately twice as broad (branch length ~
+uniform(0.0001, 0.2).
 
-Figure~\ref{fig:glmPerformance} confirms our theoretical skepticism of the
-ABC-GLM estimator.
-The different scale of the marginal likelihoods estimated by ABC-GLM is
-expected due to the fact that a normalized GLM is fit to only a small
-region of the model's parameter space.
-However, given the ABC-GLM is approximating the average probability of the
-proportion of variable sites under the model (the same as the full-likelihood
-marginal likelihood), we expect the same relative marginal likelihoods among
-the simulated datasets (i.e., a positive relationship in
-Figure~\ref{fig:glmPerformance}).
-The lack of relationship between the ABC-GLM estimates and the ``true''
-marginal likelihoods suggests that the marginal density of the GLM
-approximation of the likelihood is a poor estimator of the marginal likelihood.
-Given that the GLM approximation of the likelihood is only fit within a very
-small region of a model, it never should have been considered a marginal
-likelihood of the model.
-\thought{The rescaling of the GLM could be dataset specific, making the
-    marginal likelihoods difficult to compare with ``true'' ML of the
-    sequences. A solution is to compare the ratios of MLs (Bayes factors)
-    estimated by ABC-GLM and quadrature integration. Then, even if MLs across
-    datasets are not comparable, the relative MLs for each dataset will be.
-    Could easily compare JC to K2P.}
+This very simple model is a nice test of the ABC-GLM for several reasons.
+The use of a sufficient statistic for a finite, one-dimensional model makes ABC
+nearly equivalent to a full-likelihood Bayesian method
+(Figure~S\ref{fig:branchLengthEstimates}).
+Thus this is a ``best-case scenario'' for the ABC-GLM approach.
+Also, quadrature integration using 1,000 and 10,000 steps and rectangular and
+trapezoidal rules all yielded identical values for the log marginal likelihood
+to at least five decimal places for all 100 simulated data sets,
+providing a very precise proxy for the true values.
+Lastly, the simple scenario gives us some analytical expectations for the
+behavior of ABC-GLM.
+If it cannot penalize the marginal likelihood for the additional branch length
+space in the model with the broader prior, the Bayes factor should be off by a
+factor of approximately 2, or more precisely $(0.2-0.0001) / (0.1-0.0001)$).
+As shown in Figure~\ref{fig:glmPerformance}, this is exactly what we find.
+This confirms our prediction that the ABC-GLM approach cannot average over
+regions of parameter space with low likelihood and thus will be biased toward
+favoring models with more parameter space.
+Given that the GLM approximation of the likelihood is only fit within regions
+of parameter space with high likelihood, which is usually a \emph{very} small
+region of a model, it never should have been considered a marginal likelihood
+of the model.
+
+Full details of these analyses, which were all designed atop the DendroPy
+phylogenetic API (version 4.3.0 commit 72ce015) \citep{Sukumaran2010}, can be
+found in the supplementary materials, and all of the code to replicate our
+results is freely available at
+\href{https://github.com/phyletica/abc-glm-marginal-test}{https://github.com/phyletica/abc-glm-marginal-test}.
+
 
 \section{Uses of marginal likelihoods}
+
+\thought{We can't be comprehensive here. Subsections need to be
+    integrated to discuss general themes of evolution we can learn
+    about using marginal likelihoods}
 
 \subsection{Species delimitation}
 Calculating the marginal probability of sequence alignments \citep{Grummer2013}
 and single-nucleotide polymorphisms \citep{Leache2014}
 under various multi-species coalescent models has been used
 to estimate species boundaries.
-By comparing the marginal likelihoods of models that differ in
-how they assign individual organisms to species, systematists
-can determine how much the genetic data support the different
-delimitations.
+By comparing the marginal likelihoods of models that differ in how they assign
+individual organisms to species, systematists can determine how much the
+genetic data support different delimitations.
 \thought{Adam, do you want to run with this?}
 
 \subsection{Comparing partitioning schemes}
@@ -444,7 +454,7 @@ of aligned sites.
 This became important when phylogenetics moved beyond singe-gene trees to
 concatenated alignments of several genes.
 Mueller et al. \citeyear{Mueller2004},
-Nylander et al.\ \citeyear{NylanderEtal2004} and
+Nylander et al.\ \citeyear{NylanderEtal2004}, and
 Brandley et al.\ \citeyear{Brandley2005}
 used Bayes factors calculated from harmonic mean
 estimates of marginal likelihoods to choose among different strategies for
@@ -453,21 +463,25 @@ partitioning aligned characters to subtitution models.
 All three studies found that the model with the most subsets was strongly
 preferred.
 Nylander et al.\ citeyear{NylanderEtal2004} also showed that removing
-parameters for which the data seem to have little influence decreased
-the HM estimates of the marginal likelihood, suggesting that the HM
-estimates might favor over-parameterized models.
-These findings could be an artefact of the bias of the HM estimator to
-overestimate marginal likelihoods and underestimate the ``penalty'' associated
-with additional parameters.
+parameters for which the data seemed to have little influence decreased the HM
+estimates of the marginal likelihood, suggesting that the HM estimates might
+favor over-parameterized models.
+These findings could be an artefact of the bias of the HM estimator toward
+overestimating marginal likelihoods and underestimating the ``penalty''
+associated with the prior weight of additional parameters.
 However, Brown and Lemmon \citeyear{Brown2007} showed that for simulated data,
 HM estimates of Bayes factors can have a low error rate of over-partitioning an
 alignment.
 
 Fan et al.\ \citeyear{Fan2011} show that, again, the HM estimator strongly
 favors the most partitioned model for a four-gene alignment from cicadas (12
-subsets partitioned by gene and codon position).  However, the marginal
-likelihoods estimated using the generalizes stepping stone method favor a much
-simpler model (3 subsets partitioned by codon position).
+subsets partitioned by gene and codon position).
+However, the marginal likelihoods estimated via the generalized stepping stone
+method favor a much simpler model (3 subsets partitioned by codon position).
+This demonstrates the bias inherent in simple importance sampling methods
+for estimating the average likelihood of phylogenetic models.
+It also suggests that relatively few, well-assigned subsets can go a long way
+to explain the variation in substitution rates among sites.
 
 \subsection{Comparing models of character substitution}
 
@@ -475,20 +489,19 @@ Lartillot and Philippe \citeyear{Lartillot2006} used path sampling to compare
 models of amino-acid substitution.
 They found that the harmonic mean estimator favored the most parameter rich
 model for all five datasets they explored, whereas the path-sampling estimates
-favores simpler models for three of the datasets.
-This demonstrates the bias of the harmonic mean estimator and that marginal
-likelihoods do indeed ``penalize'' for over-parameterization of phylogenetic
-models.
+favored simpler models for three of the datasets.
+This again demonstrates that accurately estimated marginal likelihoods do
+indeed ``penalize'' for over-parameterization of phylogenetic models.
 
 \subsection{Comparing ``relaxed clock'' models}
 
 Lepage et al.\ \citeyear{Lepage2007} use path sampling to approximate Bayes
 factors comparing various ``relaxed clock'' phylogenetic models for
 three empirical dataset.
-They find that models in which the rate of substition evolves across 
-the tree (autocorrelated rate models) better explain the empirical
-sequence alignments than models that assume the rate of substitution
-on each branch is independent (uncorrelated rate models).
+They find that models in which the rate of substition evolves across the tree
+(autocorrelated rate models) better explain the empirical sequence alignments
+they investigated than models that assume the rate of substitution on each
+branch is independent (uncorrelated rate models).
 
 \citep{Baele2012}
 

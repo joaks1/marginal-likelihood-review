@@ -1,8 +1,18 @@
-\mFigure{images/abc-glm-marginal-likelihoods.pdf}{
+\mFigure{images/abc-glm-bayes-factors.pdf}{
     A comparison of the approximate-likelihood Baysian computation general
     linear model (ABC-GLM) estimator of the marginal likelihood
-    \citep{Leuenberger2010} to quadrature integration approximations 
+    \citep{Leuenberger2010} to quadrature integration approximations
     \citep{Xie2011} for 100 simulated datasets.
+    We compared the ratio of the marginal likelihood (Bayes factor) comparing
+    the correct branch-length model (branch length ~ uniform(0.0001, 0.1)) to a
+    model with a broader prior (branch length ~ uniform(0.0001, 0.2)) on the
+    branch length.
+    The solid line represents perfect performance of the ABC-GLM estimator
+    (i.e., matching the ``true'' value of the Bayes factor).
+    The dashed line represents the expected Bayes factor when failing to
+    penalize for the extra parameter space (branch length 0.1 to 0.2) with
+    essentially zero likelihood.
     Quadrature integration with 1,000 and 10,000 steps using the rectangular
-    and trapezoidal rule produced identical values to six decimal places.
+    and trapezoidal rule produced identical values to five decimal places, so
+    we treat those values as the ``true'' Bayes factor.
 }{fig:glmPerformance}
