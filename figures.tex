@@ -4,15 +4,16 @@
     \citep{Leuenberger2010} to quadrature integration approximations
     \citep{Xie2011} for 100 simulated datasets.
     We compared the ratio of the marginal likelihood (Bayes factor) comparing
-    the correct branch-length model (branch length ~ uniform(0.0001, 0.1)) to a
-    model with a broader prior (branch length ~ uniform(0.0001, 0.2)) on the
-    branch length.
+    the correct branch-length model
+    [$\textrm{branch length} \sim \textrm{uniform}(0.0001, 0.1)$]
+    to a model with a boader prior on the branch length
+    [$\textrm{branch length} \sim \textrm{uniform}(0.0001, 0.2)$].
     The solid line represents perfect performance of the ABC-GLM estimator
     (i.e., matching the ``true'' value of the Bayes factor).
     The dashed line represents the expected Bayes factor when failing to
     penalize for the extra parameter space (branch length 0.1 to 0.2) with
     essentially zero likelihood.
     Quadrature integration with 1,000 and 10,000 steps using the rectangular
-    and trapezoidal rule produced identical values to five decimal places, so
-    we treat those values as the ``true'' Bayes factor.
+    and trapezoidal rule produced identical values of log marginal likelihoods
+    to at least five decimal places for all 100 simulated datasets.
 }{fig:glmPerformance}

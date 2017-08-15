@@ -98,14 +98,59 @@ likelihood.
 Thus, unlike the maximum likelihood, adding a parameter of a model can
 decrease the \emph{marginal} likelihood.
 
+\begin{linenomath}
 The ratio of two marginal likelihoods gives us the factor by which the
 average fit of the model in the numerator is better or worse than the
 model in the denominator.
-This is called the Bayes factor \citep{Jeffreys1935}, which is also equal to
-the factor by which the data update the prior odds of the model to give us the
-posterior odds.
-This gives us an intuitive measure how much the data ``favor'' one model over
-another.
+This is called the Bayes factor \citep{Jeffreys1935}.
+We can again leverage Bayes' rule to gain more intuition for how marginal
+likelihoods and Bayes factors guide Bayesian model selection, by using by
+writing it in terms of the posterior probability of a model, \model[1],
+among \nmodels candidate models:
+\begin{equation}
+    p(\model[1] \given \data) = \frac{
+        p(\data \given \model[1])
+        p(\model[1])
+    }{
+        \sum\limits_{i=1}^{\nmodels}
+        p(\data \given \model[i])
+        p(\model[i])
+    }.
+    \label{eq:bayesRuleModelProbability}
+\end{equation}
+This shows us that the posterior probability of a model is proportional to the
+prior probability multiplied by the marginal likelihood of that model.
+Thus, the marginal likelihood is how the data updates our prior beliefs about a
+model.
+As a result, it is often simply referred to as ``the evidence''
+\citep{MacKay2005}.
+If we look at the ratio of the posterior probability of two models,
+\begin{equation}
+    \frac{
+        p(\model[1] \given \data)
+    }{
+        p(\model[2] \given \data)
+    }
+    =
+    \frac{
+        p(\data \given \model[1])
+    }{
+        p(\data \given \model[2])
+    }
+    \times
+    \frac{
+        p(\model[1])
+    }{
+        p(\model[2])
+    },
+    \label{eq:modelOdds}
+\end{equation}
+we see that the Bayes factor is the factor by which the prior odds of a model
+is multiplied to give use the posterior odds.
+Thus, marginal likelihoods and their ratios give us intuitive measures of how
+much the data ``favor'' one model over another, and these measures are solidly
+grounded in probability theory.
+\end{linenomath}
 
 \section{How to approximate a marginal likelihood}
 
@@ -351,8 +396,8 @@ Approximate-likelihood Bayesian computation (ABC) approaches
 not possible (or undesirable) to derive and compute the likelihood function of
 a model.
 The basic idea is simple: by generating simulations under the model, the
-fraction of times that we generate a simulated dataset that matches the observed
-data is a Monte Carlo approximation of the likelihood.
+fraction of times that we generate a simulated dataset that matches the
+observed data is a Monte Carlo approximation of the likelihood.
 Because, simulating the observed data exactly is not possible (or extremely
 unlikely), simulations within a zone of tolerance around the observed data are
 counted (usually a set of insufficient summary statistics are used in place of
@@ -374,54 +419,57 @@ Because the GLM is only fit within the zone of tolerance (also called the
 marginal likelihood outside of this region.
 Whereas the posterior distribution is usually not strongly influenced by
 regions of parameter space with low likelihood, the marginal likelihood very
-much can be.
+much is.
 This is analogous to the harmonic mean being a poor estimator of the marginal
 likelihood due to having very few samples outside of the region of high
 likelihood, where the prior has a strong downward ``pull'' on the average
 likelihood.
 
-To test these predictions, we assessed the behavior of the ABC-GLM
-method on 100 datasets simulated under the simplest possible phylogenetic
-model: two DNA sequences separated by a single branch along which they evolved
-under a Jukes-Cantor model of nucleotide evolution \citep{JC1969}.
+To test these predictions, we assessed the behavior of the ABC-GLM method on
+100 datasets simulated under the simplest possible phylogenetic model: two DNA
+sequences separated by a single branch along which the sequence evolved under a
+Jukes-Cantor model of nucleotide evolution \citep{JC1969}.
 The simulated sequences were 10,000 nucleotides long, and the prior on the only
 parameter in the model, the length of the branch, was a uniform distribution
 from 0.0001 to 0.1 substitutions per site.
 For such a simple model, we used quadrature integration to calculate the
 ``true'' marginal likelihood for each simulated alignment of two sequences.
+Integration using 1,000 and 10,000 steps and rectangular and trapezoidal
+quadrature rules all yielded identical values for the log marginal likelihood
+to at least five decimal places for all 100 simulated data sets, providing a
+very precise proxy for the true values.
 A sufficient summary statistic, the proportion of variable sites, was used for
 ABC analyses.
 However, the ABC-GLM and quadrature marginal likelihoods are not directly
 comparable, because the marginal probability of the proportion of variable
 sites versus the site pattern counts will be on different scales that are data
-set dependent. 
+set dependent.
 So, we compare the ratio of marginal likelihoods (i.e., Bayes factors)
-comparing the correct branch-length model (branch length ~ uniform(0.0001, 0.1)
-to a model with a prior approximately twice as broad (branch length ~
-uniform(0.0001, 0.2).
+comparing the correct branch-length model
+[$\textrm{branch length} \sim \textrm{uniform}(0.0001, 0.1)$]
+to a model with a prior almost twice as broad
+[$\textrm{branch length} \sim \textrm{uniform}(0.0001, 0.2)$].
 
-This very simple model is a nice test of the ABC-GLM for several reasons.
+This very simple model is a good test of the ABC-GLM for several reasons.
 The use of a sufficient statistic for a finite, one-dimensional model makes ABC
 nearly equivalent to a full-likelihood Bayesian method
 (Figure~S\ref{fig:branchLengthEstimates}).
 Thus this is a ``best-case scenario'' for the ABC-GLM approach.
-Also, quadrature integration using 1,000 and 10,000 steps and rectangular and
-trapezoidal rules all yielded identical values for the log marginal likelihood
-to at least five decimal places for all 100 simulated data sets,
-providing a very precise proxy for the true values.
+Also, we can use quadrature integration for very good proxies for the true
+Bayes factors.
 Lastly, the simple scenario gives us some analytical expectations for the
 behavior of ABC-GLM.
 If it cannot penalize the marginal likelihood for the additional branch length
 space in the model with the broader prior, the Bayes factor should be off by a
-factor of approximately 2, or more precisely $(0.2-0.0001) / (0.1-0.0001)$).
+factor of approximately 2, or more precisely $(0.2-0.0001) / (0.1-0.0001)$.
 As shown in Figure~\ref{fig:glmPerformance}, this is exactly what we find.
 This confirms our prediction that the ABC-GLM approach cannot average over
 regions of parameter space with low likelihood and thus will be biased toward
 favoring models with more parameter space.
-Given that the GLM approximation of the likelihood is only fit within regions
+Given that the GLM approximation of the likelihood is only fit within a subset
 of parameter space with high likelihood, which is usually a \emph{very} small
-region of a model, it never should have been considered a marginal likelihood
-of the model.
+region of a model, the marginal of the GLM should not be considered a marginal
+likelihood of the model.
 
 Full details of these analyses, which were all designed atop the DendroPy
 phylogenetic API (version 4.3.0 commit 72ce015) \citep{Sukumaran2010}, can be
@@ -432,9 +480,8 @@ results is freely available at
 
 \section{Uses of marginal likelihoods}
 
-\thought{We can't be comprehensive here. Subsections need to be
-    integrated to discuss general themes of evolution we can learn
-    about using marginal likelihoods}
+\thought{We can't be comprehensive here. Subsections need to be integrated to
+    highlight how we can use marginal likelihoods to learn about evolution}
 
 \subsection{Species delimitation}
 Calculating the marginal probability of sequence alignments \citep{Grummer2013}
@@ -511,7 +558,9 @@ branch is independent (uncorrelated rate models).
 
 \citep{Baele2012}
 
-\subsection{Comparing tree models (priors)}
+% \subsection{Comparing tree models (priors)}
+
+% I'm pretty sure this has been done, but I cannot find the paper.
 
 \subsection{Phylogenetic factor analysis}
 
@@ -542,43 +591,72 @@ discrete character states across the series of power posteriors.
 
 \subsection{Comparing phylogeographic models}
 
-Knowles' lab is using Weggman's GLM approximation to compare the fit of
-phylogeographic models built atop different ecological niche models.
+Phylogeographers are interested in explaining the genetic variation within and
+among species across a landscape.
+As a result, we are often interested in comparing models that include include
+various combinations of micro and macro-evolutionary processes and geographic
+and ecological parameters.
+Deriving the likelihood function for such models is often difficult and, as a
+result, approximate-likelihood Bayesian computation (ABC) approaches to model
+choice are often used.
 
-Search for other uses of the GLM marginal.
+At the forefront of generalizing phylogeographic models is an approach that is
+often referred to as iDDC, which stands for integrating distributional,
+demographic, and coalescent models \citep{Papadopoulou2016}.
+This approach simulates data under various phylogeographical models upon
+proxies for habitat suitability derived from species distribution models.
+To choose the model the best explains the empirical data, this approach
+uses the marginal densities of the models estimated via the ABC-GLM method
+and p-values derived from these densities
+\citep{He2013}
+\citep{Massatti2016}
+\citep{Bemmels2016}
+\citep{Knowles2017}
+\citep{Papadopoulou2016}.
+This approach is an important step forward for bringing more biological realism
+into phylogeographical models.
+However, given that the marginal GLM densities should not be considered as
+marginal likelihoods (see above; Figure~\ref{fig:glmPerformance}), these
+methods should be seen as a useful exploration of data, rather than rigorous
+hypothesis tests.
 
 \section{Conclusions}
 
-Need to talk about how parameter estimation and model choice are different
-beasts.
-When we have informative data, the posterior is dominated by the likelihood,
-and as a result our parameter estimates are often robust to prior assumptions
-we make about the parameters.
+Marginal likelihoods are intuitive measures of model fit that are grounded in
+probability theory.
+As a result, they provide us with a coherent way of incrementally gaining a
+better understanding about how evolution proceeds from biological data.
+Because shared ancestry is a fundamental property of life, the use of marginal
+likelihoods of phylogenetic models promises to advance biology.
+
+\ldots
+
+It is often easy to forget about the fundamental differences between estimating
+parameters by approximating the posterior distribution of a model and model
+choice.
+The posterior distribution of a model is informed by the likelihood function
+(Equation~\ref{eq:bayesRule}),
+whereas the posterior probability of that model is informed by the
+\emph{marginal} likelihood
+(Equation~\ref{eq:bayesRuleModelProbability}).
+When we have informative data, the posterior distribution is dominated by the
+likelihood, and as a result our parameter estimates are often robust to prior
+assumptions we make about the parameters.
 However, when comparing models, we need to assess their overall ability to
 predict the data, which entails averaging over the entire parameter space of
 the model, not just the regions of high likelihood.
 As a result, marginal likelihoods and associated model choices can be very
 sensitive to priors on the parameters of the model, even if the data are very
 informative.
-To drive this difference home, the posterior probability of a model is
-proportional to the \emph{marginal} likelihood of model times the prior
-probability of the model.
-This is fundamentally different than the posterior probability of any set of
-parameter values of the model, which is proportional likelihood function times
-the prior density, both evaluated at the particular parameter values.
-It is often easy to forget about this fundamental difference and think
-of the models under consideration as just another random variable.
 The results of any application of Bayesian model selection should be
 accompanied by an assessment of the sensitivity of those results to the priors
 placed on the models' parameters.
-\thought{This is getting into the realm of Lindley's paradox; worth
-    discussing?}
+
+\ldots
 
 Given the difficulty of ABC estimation of the marginal likelihood seen here
 under the simplest possible phylogenetic model
 (Figure~\ref{fig:glmPerformance}), and the poor performance of ABC methods for
-model selection seen elsewhere \citep{Robert2011,Oaks2012,Oaks2014reply}, we
-agree with the recommendation of Robert et al.\ \citeyear{Robert2011} that
-Bayesian model choice based on approximate-likelihoods should be treated as
-exploratory.
-
+model selection seen elsewhere \citep{Robert2011,Oaks2012,Oaks2014reply},
+Bayesian model choice based on approximate-likelihoods should be treated as a
+useful means of exploring data, rather than a robust statistical framework.
