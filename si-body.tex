@@ -1,1 +1,99 @@
-Details of simulations for assessing ABC-GLM marginals here \ldots
+We set up a simple scenario for assessing the performance of the method for
+estimating marginal likelihoods based on approximating the likelihood function
+with a general linear model (GLM) fitted to posterior samples collected via
+approximate-likelihoood Bayesian computation (ABC) \citep{Leuenberger2010};
+hereforth referred to as ABC-GLM.
+The scenario is a DNA sequence, 10,000-nucleotides in length, that evolves
+along a branch according to a Jukes-Cantor continuous-time markov chain (CTMC)
+model of nucleotide substitution \citep{JC1969}.
+Because the Jukes-Cantor model forces the relative rates of change among the
+four nucleotides and the equilibrium nucleotide frequencies to be equal, there
+is only a single parameter in the model, the length of the branch, and the
+direction of evolution along the branch does not matter.
+
+\section{Simulating data sets}
+We simulated 100 data sets under this model by
+\begin{enumerate}
+    \item drawing 10,000 nucleotides of the ``ancestral'' sequence from their
+        equilibrium frequencies ($\frac{1}{4}$), 
+    \item drawing a branch length $\sim$ uniform(0.0001, 0.1), and
+    \item evolving the sequence along the branch according to the Jukes-Cantor
+        CTMC model to get the ``descendant'' sequence.
+\end{enumerate}
+This was done using the DendroPy phylogenetic API (version 4.3.0 commit
+72ce015) \citep{Sukumaran2010}.
+
+\section{Calculating ``true'' Bayes factors}
+For each data set, we used quadrature approaches to approximate the marginal
+likelihood by integrating the posterior density over the branch length prior.
+We did this for two models:
+\begin{enumerate}
+    \item the correct model [branch length $\sim$ uniform(0.0001, 0.1)], and
+    \item a model with a branch length prior slightly more than twice as broad
+        [branch length $\sim$ uniform(0.0001, 0.2)], which we refer to as the
+        ``vague model''.
+\end{enumerate}
+For both models and for each dataset we used the rectangular and trapezoidal
+quadrature rules with 1,000 and 10,000 steps (i.e., four approximations of the
+marginal likelihood for each data set under each model).
+Across all 100 data sets and both models, all four approximations were
+identical to at least five decimal places.
+For each data set, we calculated the log Bayes factor comparing the correct
+model to the vague model.
+
+\section{Approximate-likelihood Bayesian computation}
+To collect an approximate posterior sample from the correct model for a data
+set, we first calculated the proportion of variable sites (\pvar) between the
+two sequences.
+Next, we simulated 50,000 datasets under the correct model, calculated \pvar
+for each of them, and retained the 1,000 samples with the values of \pvar
+closest to that calculated from the data.
+Lastly, we used ABCtoolbox version 1.1 \cite{ABCtoolbox} to fit a GLM to the
+retained samples and calculate the marginal density of the GLM, using a
+bandwidth of 0.002.
+We did the same to obtain an ABC-GLM estimate of the marginal density
+for the vague model with two differences:
+(1) we drew the branch length for each prior sample from the vague prior
+[branch length $\sim$ uniform(0.0001, 0.2)], and
+(2) to maintain the same expected tolerance under both models, we simulated
+100,000 datasets under the vague model (retaining the 1,000 samples closest to
+the \pvar of the data).
+
+For each data set, we calculated the log Bayes factor from the GLM marginal
+densities of the correct and vague model, and compared the ABC-GLM-estimated
+Bayes factor to the ``true'' Bayes factor calculated via quadrature
+integration (Figure~\ref{fig:glmPerformance}).
+
+\section{Full-likelihood Markov chain Monte Carlo analyses}
+One goal of the simplicity of the above model is that the additional
+approximation of the ABC approach would be limited.
+All numerical Bayesian analyses, based on full or approximate likelihoods,
+suffer from Monte Carlo error associated with approximating the posterior with
+a finite number of samples.
+Approximate-likelihood methods usually suffer from two additional sources of
+approximation:
+(1) the full data are replaced with insufficient summary statistics, and
+(2) samples are retained that do not exactly match the data or summary
+statistics (i.e., the ``tolerance'' of ABC).
+In our analyses described above, we avoided the former source of error by
+using a sufficient statistic.
+We hoped to minimize the latter source of error by evaluating many samples from
+a one-dimensional model with finite bounds; we also kept this source of error
+approximately equal for both models by sampling in proportion to the width of
+the model.
+
+To verify that the error introduced by the tolerance of the ABC analyses was
+minimal, we compared the branch length estimates to those estimated by
+full-likelihood Markov chain Monte Carlo (MCMC).
+For each data set, under both models, we ran a chain for 10,000 generations,
+sampling every 10 generations.
+All chains appeared to reach stationarity by the first sample (10th
+generation).
+We plotted the branch length estimated via ABC-GLM and MCMC under both
+the true and vague models against the true branch lengths.
+The results of all four analyses across all 100 data sets are almost
+indistinguishable (Figure~S\ref{fig:branchLengthEstimates}), confirming that
+the approximation introduce by the tolerance is very minimal.
+Our ABC-GLM analyses are essentially equivalent to full-likelihood Bayesian
+analyses, creating a ``best-case scenario'' for evaluating the marginal
+likelihood estimates of the ABC-GLM method.
