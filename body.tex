@@ -177,8 +177,8 @@ the prior samples.
 Similarly, if we have a sample of the parameters from the posterior
 distribution---like one obtained from a ``standard'' Bayesian phylogenetic
 analysis via MCMC---we can again use summation to approximate the integral.
-The weight of each sample is the ratio of the prior density to the posterior
-density.
+In this case, the weight of each sample is the ratio of the prior density to
+the posterior density.
 As a result, the sum simplifies to the harmonic mean (HM) of the likelihoods
 from the posterior sample \citep{Newton1994}.
 Both of these techniques are importance-sampling approximations, and suffer
@@ -259,7 +259,7 @@ method by using a reference distribution that, in most cases, will be much more
 similar to the posterior than the prior.
 The reference distribution has the same form as the joint prior, but each
 marginal prior distribution is adjusted so that its mean and variance matches
-the corresponding sample mean and variance from an MCMC sample from the
+the corresponding sample mean and variance of an MCMC sample from the
 posterior.
 This guarantees that the support of the reference distribution will cover the
 posterior.
@@ -279,11 +279,13 @@ likelihood of the model ``for free,'' by keeping a running average of the
 importance-sampling weights of the trees (particles) along the way.
 SMC algorithms hold a lot of promise for complementing MCMC in Bayesian
 phylogenetics due to their sequential nature and ease with which the
-computations can be parallelized (see Bouchard-C\^{o}t\'{e}
-(\citeyear{Bouchard2014}) for an accessible treatment of SMC in phylogenetics).
+computations can be parallelized
+\citep{Jordan2012,Dinh2016preprint,Fourment2017preprint}.
 However, these approaches are still in their infancy, and the accuracy of SMC
 estimates of marginal likelihoods still need to be compared to the methods
 discussed above.
+See Bouchard-C\^{o}t\'{e} (\citeyear{Bouchard2014}) for an accessible treatment
+of SMC in phylogenetics.
 
 \subsection{Approaches that use only posterior samples}
 
@@ -590,7 +592,7 @@ The goal of comparative biology is to understand the relationships among a
 potentially large number of phenotypic traits across organisms. 
 To do so correctly, the inherent shared ancestry underlying all life needs to
 be accounted for \citep{Felsenstein1985PIC}.
-A lot of progress has been made for inferring the relationship among pairs
+A lot of progress has been made for inferring the relationship between pairs
 of phenotypic traits as they evolve across a phylogeny,
 but a general and efficient solution for large numbers of continuous
 and discrete traits has remained elusive.
@@ -602,7 +604,7 @@ the large number of observed continuous and discrete phenotypic traits.
 This allows correlations among traits to be estimated, without having to model
 every trait as a conditionally independent process.
 
-The question that immediately arrises is, what number of factors best explains
+The question that immediately arises is, what number of factors best explains
 the evolution of the observed traits?
 To address this, \citep{Tolkoff2017} use path sampling to approximate the
 marginal likelihood of models with different number of traits.
@@ -670,6 +672,15 @@ Recent work has introduced promising methods to estimate marginal likelihoods
 solely from samples from the posterior distribution.
 However, these methods remain difficult to apply to phylogenetic models, and
 their performance on rich models and large datasets is still untested.
+
+\ldots
+
+Need some text on where to go from here:
+More work on reference distributions that are as similar to the posterior
+as possible, but easy to formulate and use.
+This would advance GSS and GHM approaches.
+For promising methods that work with only a sample from the posterior, like
+IDR, making them easier to apply to phylogenetic models needs to be done.
 
 \ldots
 
