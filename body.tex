@@ -43,7 +43,9 @@ useful,
 of phylogenetic models,
 (3) review some of the ways marginal likelihoods have been applied to learn
 about evolutionary history and processes,
-(4) \ldots
+(4) discuss some of the challenges of Bayesian model choices, and
+(5) highlight some promising avenues for advancing the field of Bayesian
+phylogenetics.
 
 \section{What is a marginal likelihood?}
 
@@ -611,6 +613,11 @@ marginal likelihood of models with different number of traits.
 To do so, they extend the path sampling method to handle the latent variables
 underlying the discrete traits by softening the thresholds that delimit the
 discrete character states across the series of power posteriors.
+% This new approach demonstrates the power of marginal likelihoods for
+% Bayesian model comparison.
+This new approach leverages Bayesian model comparison via marginal likelihoods
+to learn about the processes governing the evolution of multidimensional
+phenotypes.
 
 
 \subsection{Comparing phylogeographic models}
@@ -659,30 +666,10 @@ individual organisms to species, systematists can determine how much the
 genetic data support different delimitations.
 \thought{Adam, do you want to run with this?}
 
-\section{Conclusions}
 
-As Bayesian phylogenetics continues to explore more complex models of evolution
-and datasets continue to get larger, accurate and efficient methods of
-estimating marginal likelihoods will become increasingly important.
-Thanks to substantial work in recent years, robust methods have been developed,
-such as the generalized stepping-stone approach \citep{Fan2011}.
-However, these methods are computationally demanding as they have to sample
-likelihoods across a series of power-posterior distributions.
-Recent work has introduced promising methods to estimate marginal likelihoods
-solely from samples from the posterior distribution.
-However, these methods remain difficult to apply to phylogenetic models, and
-their performance on rich models and large datasets is still untested.
+\section{Discussion}
 
-\ldots
-
-Need some text on where to go from here:
-More work on reference distributions that are as similar to the posterior
-as possible, but easy to formulate and use.
-This would advance GSS and GHM approaches.
-For promising methods that work with only a sample from the posterior, like
-IDR, making them easier to apply to phylogenetic models needs to be done.
-
-\ldots
+\subsection{The challenge of Bayesian model choice}
 
 It is often easy to forget about the fundamental differences between estimating
 parameters by approximating the posterior distribution of a model and model
@@ -705,7 +692,8 @@ The results of any application of Bayesian model selection should be
 accompanied by an assessment of the sensitivity of those results to the priors
 placed on the models' parameters.
 
-\ldots
+
+\subsection{The state of ABC approaches to Bayesian model choice}
 
 Given the difficulty of ABC estimation of the marginal likelihood seen here
 under the simplest possible phylogenetic model
@@ -714,11 +702,52 @@ model selection seen elsewhere \citep{Robert2011,Oaks2012,Oaks2014reply},
 Bayesian model choice based on approximate-likelihoods should be treated as a
 useful means of exploring data, rather than a robust statistical framework.
 
-\ldots
+
+\subsection{Promising future directions}
+
+As Bayesian phylogenetics continues to explore more complex models of evolution
+and datasets continue to get larger, accurate and efficient methods of
+estimating marginal likelihoods will become increasingly important.
+Thanks to substantial work in recent years, robust methods have been developed,
+such as the generalized stepping-stone approach \citep{Fan2011}.
+However, these methods are computationally demanding as they have to sample
+likelihoods across a series of power-posterior distributions that are not
+useful for parameter estimation.
+Recent work has introduced promising methods to estimate marginal likelihoods
+solely from samples from the posterior distribution.
+However, these methods remain difficult to apply to phylogenetic models, and
+their performance on rich models and large datasets remains to be explored.
+
+Promising avenues for future research on methods for estimating marginal
+likelihoods continued work on reference distributions that are as similar to
+the posterior as possible, but easy to formulate and use.
+This would improve the performance and applicability of the GSS and derivations
+of the GHM approach.
+Currently, the most promising method that works solely from a posterior
+sample is IDR.
+Making this method easier to apply to phylogenetic models and implementing
+it in popular Bayesian phylogenetic software packages,
+like
+RevBayes \citep{Hohna2016}
+and
+BEAST \citep{Drummond2012,Bouckaert2014}
+would be very useful.
+
+Futhermore, nested sampling and sequential Monte Carlo are exciting new
+numerical approaches to Bayesian phylogenetics.
+These methods use the same amount of computation to both sample from the
+posterior distribution of phylogenetic models and provide an approximation of
+the marginal likelihood.
+Both approaches are new to phylogenetics, but hold a lot of promise
+for Bayesian phylogenetics generally and model comparison via
+marginal likelihoods specifically.
+
+
+\subsection{Conclusions}
 
 Marginal likelihoods are intuitive measures of model fit that are grounded in
 probability theory.
 As a result, they provide us with a coherent way of incrementally gaining a
-better understanding about how evolution proceeds from biological data.
+better understanding about how evolution proceeds as we accrue biological data.
 Because shared ancestry is a fundamental property of life, the use of marginal
-likelihoods of phylogenetic models promises to advance biology.
+likelihoods of phylogenetic models promises to continue to advance biology.
