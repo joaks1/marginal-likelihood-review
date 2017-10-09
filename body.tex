@@ -18,11 +18,14 @@ Markov chain Monte Carlo (MCMC).
     terms to lead more naturally into the next part (I see that this appears
     again in the next section, but maybe a more superficial equation would be
     useful posterior = (likelihood x prior)/ marginal likelihood)?}
-By only considering the ratios of posterior densities, MCMC obviates the need
-for calculating the proportionality constant in the denominator of Bayes' rule.
-This proportionality constant is better known as the marginal likelihood---the
-probability of the data under the model, averaged, with respect to the prior,
-over the whole parameter space.
+% By only considering the ratios of posterior densities, MCMC obviates the need
+% for calculating the proportionality constant in the denominator of Bayes' rule.
+% This proportionality constant is better known as the marginal likelihood---the
+% probability of the data under the model, averaged, with respect to the prior,
+% over the whole parameter space.
+The popularity of MCMC was due, in no small part, to avoiding the calculation
+of the marginal likelihood of the model---the probability of the data under the
+model, averaged, with respect to the prior, over the whole parameter space.
 This marginalized measure of model fit cannot be solved analytically due to
 the large number of parameters in phylogenetic models that need to be summed or
 integrated. 
@@ -271,8 +274,8 @@ posterior.
 Initially, the application of the GSS method was limited, because it required
 that the topology be fixed, because there was no reference distribution across
 topologies.
-However, Holder et al.\ (\citeyear{Holder2014}) introduced such a reference,
-allowing the GSS to approximate the fully marginalized likelihood of
+However, Holder et al.\ (\citeyear{Holder2014}) introduced such a distribution
+on trees, allowing the GSS to approximate the fully marginalized likelihood of
 phylogenetic models.
 
 \subsubsection{Sequential Monte Carlo (SMC)}
@@ -417,10 +420,12 @@ a model.
 The basic idea is simple: by generating simulations under the model, the
 fraction of times that we generate a simulated dataset that matches the
 observed data is a Monte Carlo approximation of the likelihood.
-Because, simulating the observed data exactly is not possible (or extremely
-unlikely), simulations within a zone of tolerance around the observed data are
+Because, simulating the observed data exactly is often not possible (or extremely
+unlikely), simulations ``close enough'' to the observed data are
 counted, and usually a set of insufficient summary statistics are used in place
 of the data.
+Whether a simulated dataest is ``close enough'' to count is formalized as
+whether or not it falls within a zone of tolerance around the empirical data.
 
 This simple approach assumes the likelihood within the zone of tolerance is
 uniform.
@@ -447,7 +452,7 @@ likelihood.
 To test these predictions, we assessed the behavior of the ABC-GLM method on
 100 datasets simulated under the simplest possible phylogenetic model: two DNA
 sequences separated by a single branch along which the sequence evolved under a
-Jukes-Cantor model of nucleotide evolution \citep{JC1969}.
+Jukes-Cantor model of nucleotide substitution \citep{JC1969}.
 The simulated sequences were 10,000 nucleotides long, and the prior on the only
 parameter in the model, the length of the branch, was a uniform distribution
 from 0.0001 to 0.1 substitutions per site.
@@ -549,14 +554,14 @@ model for all five datasets they explored, whereas the path-sampling estimates
 favored simpler models for three of the datasets.
 This again demonstrates that accurately estimated marginal likelihoods do
 indeed ``penalize'' for over-parameterization of phylogenetic models.
-Importantly, this work also revealed that it is important to model pattern
-heterogeneity across sites of an alignment.
+More importantly, this work also revealed that modeling pattern heterogeneity
+across sites of an alignment better explains the variation in biological data.
 
 \subsection{Comparing ``relaxed clock'' models}
 
 Lepage et al.\ (\citeyear{Lepage2007}) used path sampling to approximate Bayes
 factors comparing various ``relaxed-clock'' phylogenetic models for
-three empirical dataset.
+three empirical datasets.
 They found that models in which the rate of substitution evolves across the tree
 (autocorrelated rate models) better explain the empirical sequence alignments
 they investigated than models that assume the rate of substitution on each
@@ -572,9 +577,9 @@ They found that when the dates the viruses were sampled were provided, a strict
 molecular clock was the best fit model, but when the dates were excluded,
 relaxed-clock models were strongly favored.
 
-Baele et al.\ (\citeyear{Baele2012}) demonstrated that modelling among-branch
-rate variation with a lognormal distribution tends to explain mammalian sequence
-alignments better than using an exponential distribution.
+Baele et al.\ (\citeyear{Baele2012}) also demonstrated that modelling
+among-branch rate variation with a lognormal distribution tends to explain
+mammalian sequence alignments better than using an exponential distribution.
 They used marginal likelihoods (PS and SS estimates) and Bayesian model
 averaging to compare the fit of lognormally and exponentially distributed
 relaxed clocks for almost 1,000 loci from 12 mammalian species.
@@ -619,7 +624,7 @@ every trait as a conditionally independent process.
 The question that immediately arises is, what number of factors best explains
 the evolution of the observed traits?
 To address this, \citep{Tolkoff2017} use path sampling to approximate the
-marginal likelihood of models with different number of traits.
+marginal likelihood of models with different numbers of traits.
 To do so, they extend the path sampling method to handle the latent variables
 underlying the discrete traits by softening the thresholds that delimit the
 discrete character states across the series of power posteriors.
@@ -634,7 +639,7 @@ phenotypes.
 
 Phylogeographers are interested in explaining the genetic variation within and
 among species across a landscape.
-As a result, we are often interested in comparing models that include include
+As a result, we are often interested in comparing models that include
 various combinations of micro and macro-evolutionary processes and geographic
 and ecological parameters.
 Deriving the likelihood function for such models is often difficult and, as a
@@ -741,9 +746,9 @@ like
 RevBayes \citep{Hohna2016}
 and
 BEAST \citep{Drummond2012,Bouckaert2014}
-would be very useful.
+would be very useful, though nontrivial.
 
-Futhermore, nested sampling and sequential Monte Carlo are exciting new
+Furthermore, nested sampling and sequential Monte Carlo are exciting new
 numerical approaches to Bayesian phylogenetics.
 These methods essentially use the same amount of computation to both sample
 from the posterior distribution of phylogenetic models and provide an
