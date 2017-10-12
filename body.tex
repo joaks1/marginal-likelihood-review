@@ -673,11 +673,42 @@ Nonetheless, knowledge of this bias can help guide interpretations of results.
 
 \subsection{Species delimitation}
 Calculating the marginal probability of sequence alignments \citep{Grummer2013}
-and single-nucleotide polymorphisms \citep{Leache2014} under various multi-species coalescent models has been used to estimate species boundaries.
+and single-nucleotide polymorphisms \citep{Leache2014} under various
+multi-species coalescent models has been used to estimate species boundaries.
 By comparing the marginal likelihoods of models that differ in how they assign
-individual organisms to species, systematists can calculate Bayes factors to determine how much the genetic data support different delimitations. Using simulated data, \citep{Grummer2013} found that marginal likelihoods calcualted using path sampling and stepping-stone methods outperformed harmonic mean estimators at identifying the true species delimitation model. Marginal likelihoods seem better able to distinguish some species delimitaiton models than others. For example, models that lump species together or reassign samples into different species produce larger marginal likelihood differences versus models that split populations apart \citep{Grummer2013, Leache2014}. Current implentations of the multi-species coalescent assume strict models of genetic isolation, and oversplitting populations that exchange genes creates a difficult Bayesian model comparison problem that does not include the correct model (Leache et al. in prep.). 
+individual organisms to species, systematists can calculate Bayes factors to
+determine how much the genetic data support different delimitations.
+Using simulated data, \citep{Grummer2013} found that marginal likelihoods
+calculated using path sampling and stepping-stone methods outperformed harmonic
+mean estimators at identifying the true species delimitation model.
+Marginal likelihoods seem better able to distinguish some species delimitation
+models than others.
+For example, models that lump species together or reassign samples into
+different species produce larger marginal likelihood differences versus models
+that split populations apart \citep{Grummer2013, Leache2014}.
+Current implementations of the multi-species coalescent assume strict models of
+genetic isolation, and oversplitting populations that exchange genes creates a
+difficult Bayesian model comparison problem that does not include the correct
+model (Leache et al.\ in prep.). 
 
-Species delimitation using marginal likelihoods in conjuction with Bayes factors has some advantages over alternative approaches. The flexibility of being able to compare nonnested models that contain different numbers of species, or different species assignments, is one key advantage. The methods also integrate over species trees and other model parameters making it unnecessary to fix the species tree or other parameters. Marginal likelihoods also provide a natural way to rank competing models while automatically accounting for model complexity \citep{Baele2012}. Finally, it is unnecessary to assign prior probabilities to the alternative species delimitation models being compared.
+Species delimitation using marginal likelihoods in conjunction with Bayes
+factors has some advantages over alternative approaches.
+The flexibility of being able to compare non-nested models that contain
+different numbers of species, or different species assignments, is one key
+advantage.
+The methods also integrate over gene trees, species trees, and other model
+parameter, allowing the marginal likelihoods of delimitations to be compared
+without conditioning on any parameters being known.
+Marginal likelihoods also provide a natural way to rank competing models while
+automatically accounting for model complexity \citep{Baele2012}.
+Finally, it is unnecessary to assign prior probabilities to the alternative
+species delimitation models being compared.
+The marginal likelihood of a delimitation provides the factor by which the data
+update our prior expectations, regardless of what that expectation is
+(Equation~\ref{eq:bayesRuleModelProbability}).
+As multi-species coalescent models continue to advance, using the marginal
+likelihoods of delimitations will continue to be a powerful approach to
+learning about biodiversity.
 
 \section{Discussion}
 
