@@ -14,21 +14,12 @@ augmentation).
 From the earliest days of Bayesian phylogenetics \citep{Rannala1996,Mau1997},
 the numerical tool of choice for approximating the posterior distribution was
 Markov chain Monte Carlo (MCMC).
-\thought{Maybe it would be useful Insert Bayes' theorm here and explain the
-    terms to lead more naturally into the next part (I see that this appears
-    again in the next section, but maybe a more superficial equation would be
-    useful posterior = (likelihood x prior)/ marginal likelihood)?}
-% By only considering the ratios of posterior densities, MCMC obviates the need
-% for calculating the proportionality constant in the denominator of Bayes' rule.
-% This proportionality constant is better known as the marginal likelihood---the
-% probability of the data under the model, averaged, with respect to the prior,
-% over the whole parameter space.
 The popularity of MCMC was due, in no small part, to avoiding the calculation
 of the marginal likelihood of the model---the probability of the data under the
 model, averaged, with respect to the prior, over the whole parameter space.
-This marginalized measure of model fit cannot be solved analytically due to
-the large number of parameters in phylogenetic models that need to be summed or
-integrated. 
+This marginalized measure of model fit cannot be solved analytically due to the
+large number of parameters in phylogenetic models over which the likelihood
+needs to be summed or integrated. 
 
 Marginal likelihoods are central to model comparison in a Bayesian framework.
 Thus, we cannot avoid calculating them if we want to be able to compare the fit
@@ -46,7 +37,7 @@ useful,
 of phylogenetic models,
 (3) review some of the ways marginal likelihoods have been applied to learn
 about evolutionary history and processes,
-(4) discuss some of the challenges of Bayesian model choices, and
+(4) discuss some of the challenges of Bayesian model choice, and
 (5) highlight some promising avenues for advancing the field of Bayesian
 phylogenetics.
 
@@ -57,8 +48,8 @@ A marginal likelihood is the average fit of a model to a dataset.
 More specifically, it is an average over the entire parameter space of the
 likelihood weighted by the prior.
 For a phylogenetic model \model with parameters that include the discrete
-topology (\topology) and continuous branch lengths and parameters that govern
-the evolution of the characters along the tree (together represented by
+topology (\topology) and continuous branch lengths and other parameters that
+govern the evolution of the characters along the tree (together represented by
 \evoparameters), the marginal likelihood can be represented as
 \begin{equation}
     p(\data \given \model) =
@@ -131,7 +122,7 @@ among \nmodels candidate models:
 \end{equation}
 This shows us that the posterior probability of a model is proportional to the
 prior probability multiplied by the marginal likelihood of that model.
-Thus, the marginal likelihood is how the data updates our prior beliefs about a
+Thus, the marginal likelihood is how the data update our prior beliefs about a
 model.
 As a result, it is often simply referred to as ``the evidence''
 \citep{MacKay2005}.
@@ -162,6 +153,74 @@ Thus, marginal likelihoods and their ratios give us intuitive measures of how
 much the data ``favor'' one model over another, and these measures are solidly
 grounded in probability theory.
 \end{linenomath}
+
+\section{An example of coin flipping}
+
+To help gain some intuition for marginal likelihoods and how they differ from
+the posterior distribution of a model, let's us a simple, albeit contrived,
+example.
+Let's assume we are interested in the probability of a coin we have not seen
+landing heads-side up when it is flipped (\probheads).
+Our plan is to flip this coin 100 times and count the number of times it lands
+heads up, which we model as a random outcome from a binomial distribution.
+Before flipping, we decide to compare four models that vary in our
+prior assumptions about the probability of the coin landing heads up:
+We assume
+\begin{enumerate}
+    \item all values are equally probable
+        (\coinmodel[1]: $\probheads \sim \textrm{Beta}(1, 1)$),
+    \item the coin is likely weighted to land mostly ``heads'' or ``tails''
+        (\coinmodel[2]: $\probheads \sim \textrm{Beta}(0.6, 0.6)$),
+    \item the coin is probably fair
+        (\coinmodel[3]: $\probheads \sim \textrm{Beta}(5.0, 5.0)$), and
+    \item the coin is weighted to land tails side up most of time
+        (\coinmodel[4]: $\probheads \sim \textrm{Beta}(1.0, 5.0)$).
+\end{enumerate}
+
+\begin{linenomath}
+After flipping the coin and observing that it landed heads side up 50 times,
+we can calculate the posterior probability distribution for the probability
+of landing heads up under each of our four models:
+\begin{equation}
+    p(\probheads \given \flipdata, \coinmodel[i]) = \frac{
+        p(\flipdata \given \probheads, \coinmodel[i]) p(\probheads \given \coinmodel[i])
+    }{
+        p(\flipdata \given \coinmodel[i])
+    }
+    \label{eq:coinBayesRule}
+\end{equation}
+Doing so, we see that regardless of our prior assumptions about the
+probability of the coin landing heads, the posterior distribution is
+very similar (Figure~\ref{fig:bayesDemo}).
+This makes sense; given we observed 50 heads out of 100 flips, values for
+\probheads toward zero and one are extremely unlikely, and the posterior is
+dominated by the likelihood of values near 0.5.
+\end{linenomath}
+
+\begin{linenomath}
+Given the posterior distribution for \probheads is very robust to our prior
+assumptions, we might assume that each of our four models explain the data
+similarly well.
+However, to compare their ability to explain the data, we need to
+average (integrate) the likelihood density function over all possible
+values of \probheads, weighting by the prior:
+\begin{equation}
+    p(\data \given \model[i]) =
+    \int_{\probheads}
+    p( \data \given \probheads, \model[i])
+    p(\probheads \given \model[i])
+    \diff{\probheads},
+    \label{eq:coinMarginalLikelihood}
+\end{equation}
+Looking at the plots in Figure~\ref{fig:bayesDemo} we see that the models that
+place a lot of prior weight on values of \probheads that do not explain the
+data well (i.e., have small likelihood) have a much smaller marginal likelhood.
+Thus, even if we have very informative data that make the posterior
+distribution robust to prior assumptions, this example illustrates that the
+marginal likelihood of model can still be very sensitive to the prior
+assumptions we make about the parameters.
+\end{linenomath}
+
 
 \section{Methods for marginal likelihood approximation}
 
@@ -730,7 +789,7 @@ predict the data, which entails averaging over the entire parameter space of
 the model, not just the regions of high likelihood.
 As a result, marginal likelihoods and associated model choices can be very
 sensitive to priors on the parameters of the model, even if the data are very
-informative.
+informative (Figure~\ref{fig:bayesDemo}).
 The results of any application of Bayesian model selection should be
 accompanied by an assessment of the sensitivity of those results to the priors
 placed on the models' parameters.
