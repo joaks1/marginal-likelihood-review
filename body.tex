@@ -10,6 +10,7 @@ This increasing trend in model complexity made Bayesian approaches appealing,
 because they can approximate posterior distributions of rich models by
 leveraging prior information and numerical techniques (e.g., data
 augmentation).
+\vmcomment{``data augmentation'' looks strange to me here, because 1) you can do MLE with EM, which is also a data augmentation technicque, so this concept is not exclusively Bayesian; 2) it is a bit weird to talk about data augmentation before MCMC. At the risk of trying to read your mind, I'd suggest replacing ``numerical techniques'' with ``hierarchical models, where researchers can take into account uncertaintly of all levels/layers in the hierarchy.''}
 
 From the earliest days of Bayesian phylogenetics \citep{Rannala1996,Mau1997},
 the numerical tool of choice for approximating the posterior distribution was
@@ -17,7 +18,7 @@ Markov chain Monte Carlo (MCMC).
 The popularity of MCMC was due, in no small part, to avoiding the calculation
 of the marginal likelihood of the model---the probability of the data under the
 model, averaged, with respect to the prior, over the whole parameter space.
-This marginalized measure of model fit cannot be solved analytically due to the
+This marginalized measure of model fit \vmdel{cannot be solved analytically} \vmadd{is not easy to compute} due to the
 large number of parameters in phylogenetic models over which the likelihood
 needs to be summed or integrated. 
 
