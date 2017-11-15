@@ -8,9 +8,8 @@ endeavor \citep{Felsenstein1981}, models became richer to better
 capture processes of biological diversification and character change.
 This increasing trend in model complexity made Bayesian approaches appealing,
 because they can approximate posterior distributions of rich models by
-leveraging prior information and numerical techniques (e.g., data
-augmentation).
-\vmcomment{``data augmentation'' looks strange to me here, because 1) you can do MLE with EM, which is also a data augmentation technicque, so this concept is not exclusively Bayesian; 2) it is a bit weird to talk about data augmentation before MCMC. At the risk of trying to read your mind, I'd suggest replacing ``numerical techniques'' with ``hierarchical models, where researchers can take into account uncertaintly of all levels/layers in the hierarchy.''}
+leveraging prior information and hierarchical models, where researchers can
+take into account uncertaintly of all levels in the hierarchy.
 
 From the earliest days of Bayesian phylogenetics \citep{Rannala1996,Mau1997},
 the numerical tool of choice for approximating the posterior distribution was
@@ -18,9 +17,9 @@ Markov chain Monte Carlo (MCMC).
 The popularity of MCMC was due, in no small part, to avoiding the calculation
 of the marginal likelihood of the model---the probability of the data under the
 model, averaged, with respect to the prior, over the whole parameter space.
-This marginalized measure of model fit \vmdel{cannot be solved analytically} \vmadd{is not easy to compute} due to the
-large number of parameters in phylogenetic models over which the likelihood
-needs to be summed or integrated. 
+This marginalized measure of model fit is not easy to compute due to the large
+number of parameters in phylogenetic models over which the likelihood needs to
+be summed or integrated. 
 
 Marginal likelihoods are central to model comparison in a Bayesian framework.
 Thus, we cannot avoid calculating them if we want to be able to compare the fit
@@ -127,7 +126,7 @@ Thus, the marginal likelihood is how the data update our prior beliefs about a
 model.
 As a result, it is often simply referred to as ``the evidence''
 \citep{MacKay2005}.
-If we look at the ratio of the posterior probabilit\vmadd{ies}\vmdel{y} of two models,
+If we look at the ratio of the posterior probabilities of two models,
 \begin{equation}
     \frac{
         p(\model[1] \given \data)
@@ -151,15 +150,15 @@ If we look at the ratio of the posterior probabilit\vmadd{ies}\vmdel{y} of two m
 we see that the Bayes factor is the factor by which the prior odds of a model
 is multiplied to give use the posterior odds.
 Thus, marginal likelihoods and their ratios give us intuitive measures of how
-much the data ``favor'' one model over another, and these measures \vmdel{are solidly
-grounded in probability theory} \vmadd{have natural probabilistic interpretations}.
+much the data ``favor'' one model over another, and these measures have natural
+probabilistic interpretations.
 \end{linenomath}
 
 \section{An example of coin flipping}
 
-To help gain some intuition for marginal likelihoods and how they differ from
-the posterior distribution of a model, let's us a simple, albeit contrived,
-example.
+Before we discuss methods for approximating marginal likelihoods, let's us a
+simple, albeit contrived, example to help gain some intuition for marginal
+likelihoods and how they differ from the posterior distribution of a model.
 Let's assume we are interested in the probability of a coin we have not seen
 landing heads-side up when it is flipped (\probheads).
 Our plan is to flip this coin 100 times and count the number of times it lands
@@ -177,6 +176,10 @@ We assume
     \item the coin is weighted to land tails side up most of time
         (\coinmodel[4]: $\probheads \sim \textrm{Beta}(1.0, 5.0)$).
 \end{enumerate}
+We use a beta distributions to represent our prior expectations, because the
+beta is the conjugate prior for the binomial likelihood function.
+This allows us to analytically solve the exact posterior distribution and
+marginal likelihood.
 
 \begin{linenomath}
 After flipping the coin and observing that it landed heads side up 50 times,
@@ -220,6 +223,10 @@ Thus, even if we have very informative data that make the posterior
 distribution robust to prior assumptions, this example illustrates that the
 marginal likelihood of model can still be very sensitive to the prior
 assumptions we make about the parameters.
+We have developed an interactive version of Figure~\ref{fig:bayesDemo} where
+readers can vary the parameters of the coin-flip experiment and prior
+assumptions to further gain intution for marginal likelihoods
+(\href{https://kerrycobb.github.io/beta-binomial-web-demo/}{https://kerrycobb.github.io/beta-binomial-web-demo/}).
 \end{linenomath}
 
 
