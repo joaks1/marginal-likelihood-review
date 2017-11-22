@@ -220,7 +220,7 @@ values of \probheads, weighting by the prior:
 Looking at the plots in Figure~\ref{fig:bayesDemo} we see that the models that
 place a lot of prior weight on values of \probheads that do not explain the
 data well (i.e., have small likelihood) have a much smaller marginal likelihood.
-\vmcomment{Figure 1 is very nice, but all y-axis look very strange without tick marks and numerical values.}
+\vmcomment{Figure 1 is very nice, but all y-axes look very strange without tick marks and numerical values.}
 Thus, even if we have very informative data that make the posterior
 distribution robust to prior assumptions, this example illustrates that the
 marginal likelihood of model can still be very sensitive to the prior
@@ -258,6 +258,7 @@ from the posterior sample \citep{Newton1994}.
 Both of these techniques are importance-sampling approximations, and suffer
 from the fact that the prior and posterior are often \emph{very} divergent,
 with the latter usually \emph{much} more peaked than the former.
+\vmcomment{It is a bit tricky to lump these two techniques. Sampling from the prior is not really importance sampling, because the integral of interest can be written as an expectation with respect to the prior.}
 A finite sample from the prior will often yield an underestimate of the
 marginal likelihood, because the region of parameter space with high likelihood
 is likely to be missed.
@@ -265,6 +266,7 @@ Whereas a finite sample from the posterior will almost always lead to an
 overestimate \citep{Lartillot2006,Xie2011,Fan2011}, because it will contain
 very few samples outside of the region of high likelihood, where the prior has
 a strong downward ``pull'' on the average likelihood.
+\vmcomment{I am not sure I understand the ``pull'' argument. My understanding is that simulating from the prior results in a Monte Carlo approximation with very large Monte Carlo error, which is very hard to kill by increasing the number of MC iterations.}
 
 Recent methods developed to estimate marginal likelihoods generally fall into
 two categories for dealing with the sharp contrast between the prior
