@@ -255,10 +255,10 @@ In this case, the weight of each sample is the ratio of the prior density to
 the posterior density.
 As a result, the sum simplifies to the harmonic mean (HM) of the likelihoods
 from the posterior sample \citep{Newton1994}.
-Both of these techniques are importance-sampling approximations, and suffer
+Both of these techniques \vmdel{are} \vmadd{can be thought of as} importance-sampling \vmadd{integral} approximations, and suffer
 from the fact that the prior and posterior are often \emph{very} divergent,
 with the latter usually \emph{much} more peaked than the former.
-\vmcomment{It is a bit tricky to lump these two techniques. Sampling from the prior is not really importance sampling, because the integral of interest can be written as an expectation with respect to the prior.}
+\vmcomment{It is a bit tricky to lump these two techniques. Sampling from the prior is not really importance sampling, because the integral of interest can be written as an expectation with respect to the prior. I now see that you are paraphrasing Lartillot 2006. I made an edit that may give us a compromise.}
 A finite sample from the prior will often yield an underestimate of the
 marginal likelihood, because the region of parameter space with high likelihood
 is likely to be missed.
@@ -305,10 +305,12 @@ When $\beta = 1$, this is equal to the unnormalized joint posterior, which
 integrates to what we want to know, the marginal likelihood.
 When $\beta = 0$, this is equal to the joint prior distribution, which,
 assuming we are using proper prior probability distributions, integrates to 1.
-If we integrate the power posterior over 0--1 with respect to $\beta$, we get
+If we integrate the \vmadd{posterior expectation of the  derivative with respect to $\beta$ of the log power posterior} 
+over \vmadd{the interval (0--1)} with respect to $\beta$, we get
 the ratio of the normalizing constants when $\beta$ equals 1 and 0, and since
 we know the constant is 1 when $\beta$ is zero, we are left with the marginal
 likelihood.
+\vmcomment{I re-read a couple of path sampling explanations and I don't think the sentence above is precise. I tried to make it more precise, but it is very convoluted now.}
 Lartillot and Philippe (\citeyear{Lartillot2006}) approximated this integral by
 summing over MCMC samples taken from a discrete number of $\beta$ values evenly
 distributed between 1 and 0.
@@ -364,11 +366,12 @@ computations can be parallelized
 However, these approaches are still in their infancy, and the accuracy of SMC
 estimates of marginal likelihoods still need to be compared to the methods
 discussed above.
-See Bouchard-C\^{o}t\'{e} (\citeyear{Bouchard2014}) for an accessible treatment
+See (Bouchard-C\^{o}t\'{e}, \citeyear{Bouchard2014}) for an accessible treatment
 of SMC in phylogenetics.
 
 \subsubsection{Nested sampling (NS)}
 Recently, Maturana Patricio et al.\ (\citeyear{Maturana2017})
+\vmcomment{Fix Maturana Patricio reference, no arxiv info.}
 introduced the numerical technique known as nested sampling to Bayesian
 phylogenetics.
 % One recent method that does not fit into our dichotomy of using power-posterior
