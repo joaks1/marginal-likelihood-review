@@ -156,7 +156,7 @@ probabilistic interpretations.
 
 \section{An example of coin flipping}
 
-Before we discuss methods for approximating marginal likelihoods, let's us a
+Before we discuss methods for approximating marginal likelihoods, let's us\vmadd{e} a
 simple, albeit contrived, example to help gain some intuition for marginal
 likelihoods and how they differ from the posterior distribution of a model.
 Let's assume we are interested in the probability of a coin we have not seen
@@ -178,8 +178,9 @@ We assume
 \end{enumerate}
 We use a beta distributions to represent our prior expectations, because the
 beta is a conjugate prior for the binomial likelihood function.
-This allows us to analytically solve the exact posterior distribution and
-marginal likelihood.
+This allows us to \vmdel{analytically solve the exact} 
+\vmadd{obtain the} posterior distribution and
+marginal likelihood \vmadd{analytically}.
 
 \begin{linenomath}
 After flipping the coin and observing that it landed heads side up 50 times,
@@ -190,7 +191,7 @@ of landing heads up under each of our four models:
         p(\flipdata \given \probheads, \coinmodel[i]) p(\probheads \given \coinmodel[i])
     }{
         p(\flipdata \given \coinmodel[i])
-    }
+    } \vmadd{.}
     \label{eq:coinBayesRule}
 \end{equation}
 Doing so, we see that regardless of our prior assumptions about the
@@ -213,12 +214,13 @@ values of \probheads, weighting by the prior:
     \int_{\probheads}
     p( \data \given \probheads, \model[i])
     p(\probheads \given \model[i])
-    \diff{\probheads},
+    \diff{\probheads}\vmdel{,} \vmadd{.}
     \label{eq:coinMarginalLikelihood}
 \end{equation}
 Looking at the plots in Figure~\ref{fig:bayesDemo} we see that the models that
 place a lot of prior weight on values of \probheads that do not explain the
-data well (i.e., have small likelihood) have a much smaller marginal likelhood.
+data well (i.e., have small likelihood) have a much smaller marginal likelihood.
+\vmcomment{Figure 1 is very nice, but all y-axes look very strange without tick marks and numerical values.}
 Thus, even if we have very informative data that make the posterior
 distribution robust to prior assumptions, this example illustrates that the
 marginal likelihood of model can still be very sensitive to the prior
@@ -256,6 +258,7 @@ from the posterior sample \citep{Newton1994}.
 Both of these techniques are importance-sampling approximations, and suffer
 from the fact that the prior and posterior are often \emph{very} divergent,
 with the latter usually \emph{much} more peaked than the former.
+\vmcomment{It is a bit tricky to lump these two techniques. Sampling from the prior is not really importance sampling, because the integral of interest can be written as an expectation with respect to the prior.}
 A finite sample from the prior will often yield an underestimate of the
 marginal likelihood, because the region of parameter space with high likelihood
 is likely to be missed.
@@ -263,6 +266,7 @@ Whereas a finite sample from the posterior will almost always lead to an
 overestimate \citep{Lartillot2006,Xie2011,Fan2011}, because it will contain
 very few samples outside of the region of high likelihood, where the prior has
 a strong downward ``pull'' on the average likelihood.
+\vmcomment{I am not sure I understand the ``pull'' argument. My understanding is that simulating from the prior results in a Monte Carlo approximation with very large Monte Carlo error, which is very hard to kill by increasing the number of MC iterations.}
 
 Recent methods developed to estimate marginal likelihoods generally fall into
 two categories for dealing with the sharp contrast between the prior
