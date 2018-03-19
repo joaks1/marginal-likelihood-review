@@ -176,7 +176,7 @@ We assume
     \item the coin is weighted to land tails side up most of time
         (\coinmodel[4]: $\probheads \sim \textrm{Beta}(1.0, 5.0)$).
 \end{enumerate}
-We use a beta distributions to represent our prior expectations, because the
+We use beta distributions to represent our prior expectations, because the
 beta is a conjugate prior for the binomial likelihood function.
 This allows us to obtain the posterior distribution and marginal likelihood
 analytically.
@@ -213,7 +213,7 @@ values of \probheads, weighting by the prior:
     \int_{\probheads}
     p( \data \given \probheads, \model[i])
     p(\probheads \given \model[i])
-    \diff{\probheads}\vmdel{,} \vmadd{.}
+    \diff{\probheads}.
     \label{eq:coinMarginalLikelihood}
 \end{equation}
 Looking at the plots in Figure~\ref{fig:bayesDemo} we see that the models that
@@ -507,7 +507,7 @@ Because simulating the observed data exactly is often not possible (or extremely
 unlikely), simulations ``close enough'' to the observed data are
 counted, and usually a set of insufficient summary statistics are used in place
 of the data.
-Whether a simulated dataest is ``close enough'' to count is formalized as
+Whether a simulated dataset is ``close enough'' to count is formalized as
 whether or not it falls within a zone of tolerance around the empirical data.
 
 This simple approach assumes the likelihood within the zone of tolerance is
@@ -529,7 +529,7 @@ regions of parameter space with low likelihood, the marginal likelihood very
 much is.
 By not accounting for prior weight in regions of parameter space outside the
 zone of tolerance, where the likelihood is low, we predict this method will not
-to properly penalize models and tend to favor models with more parameters.
+properly penalize models and tend to favor models with more parameters.
 This is analogous with how the harmonic mean estimator tends to overestimate
 the marginal likelihood due to having very few samples outside of the region of
 high likelihood.
@@ -594,8 +594,8 @@ results is freely available at
 
 The application of marginal likelihoods to compare phylogenetic models is
 rapidly gaining popularity.
-Rather than attempt to be comprehensive, below we highlight some examples that
-represent some the diversity of questions being asked and the insights that
+Rather than attempt to be comprehensive, below we highlight examples that
+represent some of the diversity of questions being asked and the insights that
 marginal likelihoods can provide about our data and the evolutionary processes
 giving rise to them.
 % \thought{We can't be comprehensive here. Subsections need to be integrated to
@@ -706,18 +706,18 @@ predictors of viral and bacterial epidemics.
 
 Not only can we use marginal likelihoods to learn about evolutionary models,
 but we can also use them to learn important lessons about our data.
-Brown and Thomson \citeyear{Brown2017} explored six different genomic data sets
+Brown and Thomson (\citeyear{Brown2017}) explored six different genomic data sets
 that were collected to infer phylogenetic relationships within Amniota.
 For each locus across all six data sets, they used the stepping-stone method
 \citep{Xie2011} to approximate the marginal likelihood of models that included
 or excluded a particular branch (bipartition) in the amniote tree.
-This allowed Brown and Thomson \citeyear{Brown2017} to calculate, for each
+This allowed Brown and Thomson (\citeyear{Brown2017}) to calculate, for each
 gene, Bayes factors as measures of support for or against particular
 relationships, some of which are uncontroversial (e.g., the monophyly of birds)
 and others contentious (e.g., the placement of turtles).
 
 Their use of marginal likelihoods allowed Brown and Thomson
-\citeyear{Brown2017} to reveal a large degree of variation among loci in
+(\citeyear{Brown2017}) to reveal a large degree of variation among loci in
 support for and against relationships that was masked by the corresponding
 posterior probabilities estimated by MCMC.
 Furthermore, they found that a small number of loci can have a large affect on
@@ -728,14 +728,14 @@ For example, they showed that including or excluding just two loci out of the
 1.0 in support of turtles either being sister to crocodylians or archosaurs
 (crocodylians and birds), respectively.
 By using marginal likelihoods of different topologies, Brown and Thomson
-\citeyear{Brown2017} were able to identify these two loci as putative paralogs
+(\citeyear{Brown2017}) were able to identify these two loci as putative paralogs
 due to their strikingly strong support for turtles being sister to
 crocodylians.
 This work demonstrates how marginal likelihoods can simultaneously be used as a
 powerful means of controlling the quality of data in ``phylogenomics'', while
 informing us about the evolutionary processes that gave rise to our data.
 
-Furthermore, Brown and Thomson \citeyear{Brown2017} found that the properties
+Furthermore, Brown and Thomson (\citeyear{Brown2017}) found that the properties
 of loci commonly used as proxies for the reliability of phylogenetic signal
 (rate of substitution, how ``clock-like'' the rate is, base composition
 heterogeneity, amount of missing data, and alignment uncertainty) were poor
