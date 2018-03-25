@@ -163,7 +163,7 @@ uses of the word probability.
 Our plan is to flip this coin 100 times and count the number of times it lands
 heads up, which we model as a random outcome from a binomial distribution.
 Before flipping, we decide to compare four models that vary in our prior
-assumptions about the rate of the coin landing heads up
+assumptions about the \vmdel{rate} \vmadd{probability} of the coin landing heads up
 (Figure~\ref{fig:bayesDemo}):
 We assume
 \begin{enumerate}
@@ -267,10 +267,11 @@ Whereas a finite sample from the posterior will almost always lead to an
 overestimate \citep{Lartillot2006,Xie2011,Fan2011}, because it will contain too
 few samples outside of the region of high likelihood, where the prior weight
 ``penalizes'' the average likelihood.
-\vmcomment{I am not sure I understand the ``pull'' argument. My understanding is that simulating from the prior results in a Monte Carlo approximation with very large Monte Carlo error, which is very hard to kill by increasing the number of MC iterations.}
-\jrocomment{Yes, but in practice, that Monte Carlo error is usually biased.
-    Here I'm trying to explain why it tends to be biased in lay terms. I've
-    updated the wording to hopefully be clearer.}
+%\vmcomment{I am not sure I understand the ``pull'' argument. My understanding is that simulating from the prior results in a Monte Carlo approximation with very large Monte Carlo error, which is very hard to kill by increasing the number of MC iterations.}
+%\jrocomment{Yes, but in practice, that Monte Carlo error is usually biased.
+%    Here I'm trying to explain why it tends to be biased in lay terms. I've
+%    updated the wording to hopefully be clearer.}
+%% I don't agree with the samples being biased, but I agree with your text corrections :)
 
 Recent methods developed to estimate marginal likelihoods generally fall into
 two categories for dealing with the sharp contrast between the prior and
