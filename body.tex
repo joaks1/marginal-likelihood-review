@@ -163,7 +163,7 @@ uses of the word probability.
 Our plan is to flip this coin 100 times and count the number of times it lands
 heads up, which we model as a random outcome from a binomial distribution.
 Before flipping, we decide to compare four models that vary in our prior
-assumptions about the \vmdel{rate} \vmadd{probability} of the coin landing heads up
+assumptions about the probability of the coin landing heads up
 (Figure~\ref{fig:bayesDemo}):
 We assume
 \begin{enumerate}
@@ -237,7 +237,10 @@ Nonetheless, the same fundamental principles apply.
 
 For all but the simplest of models, the summation and integrals in
 Equation~\ref{eq:marginalLikelihood}
-are analytically intractable.\kaccomment{Would it be appropriate or possible to briefly explain why this is intractable here? Or cite a good resource for understanding? Possibly explain a simple example?}
+are analytically intractable.
+% \kaccomment{Would it be appropriate or possible to briefly explain why this is
+%     intractable here? Or cite a good resource for understanding? Possibly
+%     explain a simple example?}
 This is particularly true for phylogenetic models, which have a complex
 structure containing both discrete and continuous elements \citep{Kim2000}.
 Thus, we must resort to numerical techniques to approximate the marginal
@@ -314,13 +317,13 @@ over the interval (0--1) with respect to $\beta$,
 we get the ratio of the normalizing constants when $\beta$ equals 1 and 0, and
 since we know the constant is 1 when $\beta$ is zero, we are left with the
 marginal likelihood.
-\vmcomment{I re-read a couple of path sampling explanations and I don't think the sentence above is precise. I tried to make it more precise, but it is very convoluted now.}
-\jrocomment{Here's my attempt to make it less convoluted, but hopefully not wrong. I essentially skip how to get the posterior expectation and refer readers to Lartillot and Philippes paper for details:
-By integrating the posterior expectation with respect to $\beta$ (see
-Lartillot and Philippe, \citeyear{Lartillot2006} for full details),
-we get the ratio of the normalizing constants when $\beta$ equals 1 and 0, and
-since we know the constant is 1 when $\beta$ is zero, we are left with the
-marginal likelihood.}
+% \vmcomment{I re-read a couple of path sampling explanations and I don't think the sentence above is precise. I tried to make it more precise, but it is very convoluted now.}
+% \jrocomment{Here's my attempt to make it less convoluted, but hopefully not wrong. I essentially skip how to get the posterior expectation and refer readers to Lartillot and Philippes paper for details:
+% By integrating the posterior expectation with respect to $\beta$ (see
+% Lartillot and Philippe, \citeyear{Lartillot2006} for full details),
+% we get the ratio of the normalizing constants when $\beta$ equals 1 and 0, and
+% since we know the constant is 1 when $\beta$ is zero, we are left with the
+% marginal likelihood.}
 Lartillot and Philippe (\citeyear{Lartillot2006}) approximated this integral by
 summing over MCMC samples taken from a discrete number of $\beta$ values evenly
 distributed between 1 and 0.
@@ -473,8 +476,8 @@ Algorithms for sampling across models include reversible-jump MCMC
 \citep{Green1995}, Gibbs sampling \citep{Neal2000}, Bayesian stochastic search
 variable selection \citep{George1993,Kuo1998}, and approximations of reversible-jump
 \citep{Jones2015}.
-\vmadd{In fact, the first application of Bayes factors for phylogenetic model comparison was performed by \citet{Suchard2001} via reversible-jump MCMC. 
-This technique was also used in Bayesian tests of phylogenetic incongruence/recombination \citep{Suchard2003, Minin2005}.}
+In fact, the first application of Bayes factors for phylogenetic model comparison was performed by \citet{Suchard2001} via reversible-jump MCMC.
+This technique was also used in Bayesian tests of phylogenetic incongruence/recombination \citep{Suchard2003, Minin2005}.
 In terms of selecting the correct ``relaxed-clock'' model from simulated data,
 Baele and Lemey (\citeyear{Baele2014}) showed that model-averaging performed
 similarly to the path-sampling and stepping-stone marginal likelihood
