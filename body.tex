@@ -300,9 +300,9 @@ posterior and prior into many small steps.
 The second strategy is to turn the giant leap between the posterior and prior
 into a smaller leap between the posterior and a reference distribution that is
 as similar as possible to the posterior.
-These approaches are not mutually exclusive (e.g., see Fan et al.\
-(\citeyear{Fan2011})), but they serve as a useful way to categorize many of the
-methods available for approximating marginal likelihoods.
+These approaches are not mutually exclusive (e.g., see \citet{Fan2011}), but
+they serve as a useful way to categorize many of the methods available for
+approximating marginal likelihoods.
 In practical terms, the first strategy is computationally expensive, because
 samples need to be collected from each step between the posterior and prior,
 which is not normally part of a standard Bayesian phylogenetic analysis.
@@ -313,7 +313,7 @@ typical analysis.
 \subsection{Approaches that bridge the prior and posterior with small steps}
 
 \subsubsection{Path sampling (PS)}
-Lartillot and Philippe (\citeyear{Lartillot2006}) introduced path sampling
+\citet{Lartillot2006} introduced path sampling
 (also called thermodynamic integration) to phylogenetics to address the problem
 that the posterior is often dominated by the likelihood and very divergent from
 the prior.
@@ -335,21 +335,21 @@ marginal likelihood.
 % \vmcomment{I re-read a couple of path sampling explanations and I don't think the sentence above is precise. I tried to make it more precise, but it is very convoluted now.}
 % \jrocomment{Here's my attempt to make it less convoluted, but hopefully not wrong. I essentially skip how to get the posterior expectation and refer readers to Lartillot and Philippes paper for details:
 % By integrating the posterior expectation with respect to $\beta$ (see
-% Lartillot and Philippe, \citeyear{Lartillot2006} for full details),
+% \citet{Lartillot2006} for full details),
 % we get the ratio of the normalizing constants when $\beta$ equals 1 and 0, and
 % since we know the constant is 1 when $\beta$ is zero, we are left with the
 % marginal likelihood.}
-Lartillot and Philippe (\citeyear{Lartillot2006}) approximated this integral by
+\citet{Lartillot2006} approximated this integral by
 summing over MCMC samples taken from a discrete number of $\beta$ values evenly
 distributed between 1 and 0.
 
 \subsubsection{Stepping stone (SS)}
-The stepping-stone method introduced by Xie et al.\ (\citeyear{Xie2011})
+The stepping-stone method introduced by \citet{Xie2011}
 is similar to PS in that it also uses samples from power posteriors, but the
 motivation is not based on approximating the integral per se, but by
 the fact that we can accurately use importance sampling to approximate the
 ratio of normalizing constants at each step between the posterior and prior.
-Also, Xie et al.\ (\citeyear{Xie2011}) chose the values of $\beta$ for the
+Also, \citet{Xie2011} chose the values of $\beta$ for the
 series of power posteriors from which to sample so that most were close to
 the prior (reference) distribution, rather than evenly distributed between
 0 and 1.
@@ -363,7 +363,7 @@ The most accurate estimator of marginal likelihoods available to date, the
 generalized stepping-stone (GSS) method, leverages both strategies; taking many
 small steps from a starting point (reference distribution) that is much closer
 to the posterior than the prior \citep{Fan2011}.
-Fan et al.\ (\citeyear{Fan2011}) improved upon the original stepping-stone
+\citet{Fan2011} improved upon the original stepping-stone
 method by using a reference distribution that, in most cases, will be much more
 similar to the posterior than the prior.
 The reference distribution has the same form as the joint prior, but each
@@ -375,7 +375,7 @@ posterior.
 Initially, the application of the GSS method was limited, because it required
 that the topology be fixed, because there was no reference distribution across
 topologies.
-However, Holder et al.\ (\citeyear{Holder2014}) introduced such a distribution
+However, \citet{Holder2014} introduced such a distribution
 on trees, allowing the GSS to approximate the fully marginalized likelihood of
 phylogenetic models.
 
@@ -394,12 +394,11 @@ computations can be parallelized
 However, these approaches are still in their infancy, and the accuracy of SMC
 estimates of marginal likelihoods still need to be compared to the methods
 discussed above.
-See \citep{Bouchard2014} for an accessible treatment
+See \citet{Bouchard2014} for an accessible treatment
 of SMC in phylogenetics.
 
 \subsubsection{Nested sampling (NS)}
-Recently, Maturana Patricio et al.\ (\citeyear{Maturana2017})
-% \vmcomment{Fix Maturana Patricio reference, no arxiv info.}
+Recently, \citet{Maturana2017}
 introduced the numerical technique known as nested sampling to Bayesian
 phylogenetics.
 % One recent method that does not fit into our dichotomy of using power-posterior
@@ -431,7 +430,7 @@ approximating the posterior and marginal likelihood of phylogenetic models.
 \subsection{Approaches that use only posterior samples}
 
 \subsubsection{Generalized harmonic mean (GHM)}
-Gelfand and Dey (\citeyear{Gelfand1994}) introduced a generalized harmonic mean
+\citet{Gelfand1994} introduced a generalized harmonic mean
 estimator that uses an arbitrary normalized reference distribution, as
 opposed to the prior distribution used in the HM estimator, to weight the
 samples from the posterior.
@@ -469,7 +468,7 @@ More work is necessary to determine whether the promising combination of
 accuracy and computational efficiency holds for large datasets and rich models.
 
 \subsubsection{Partition-weighted kernal (PWK)}
-Recently, Wang et al.\ (\citeyear{Wang2017}) introduced the partition weighted
+Recently, \citet{Wang2017} introduced the partition weighted
 kernal (PWK) method of approximating marginal likelihoods.
 This approach entails partitioning parameter space into regions within which
 the posterior density is relatively homogeneous.
@@ -494,7 +493,7 @@ variable selection \citep{George1993,Kuo1998}, and approximations of reversible-
 In fact, the first application of Bayes factors for phylogenetic model comparison was performed by \citet{Suchard2001} via reversible-jump MCMC.
 This technique was also used in Bayesian tests of phylogenetic incongruence/recombination \citep{Suchard2003, Minin2005}.
 In terms of selecting the correct ``relaxed-clock'' model from simulated data,
-Baele and Lemey (\citeyear{Baele2014}) showed that model-averaging performed
+\citet{Baele2014} showed that model-averaging performed
 similarly to the path-sampling and stepping-stone marginal likelihood
 estimators.
 
@@ -507,10 +506,10 @@ Second, and perhaps more importantly, for these numerical algorithms to be able
 to ``jump'' among models, the models being sampled need to be similar.
 
 If two highly dissimilar models need to be compared,
-Lartillot and Philippe (\citeyear{Lartillot2006}) introduced a method of using
+\citet{Lartillot2006} introduced a method of using
 path sampling to directly approximate the Bayes factor.
-Similarly, Baele et al.\ (\citeyear{Baele2013}) extended the stepping-stone
-approach of Xie et al.\ (\citeyear{Xie2011}) to do the same.
+Similarly, \citet{Baele2013} extended the stepping-stone
+approach of \citet{Xie2011} to do the same.
 However, if there are many models to compare, doing MCMC over power posteriors
 for every pairwise comparison will quickly become computationally prohibitive;
 approximating the marginal likelihood of each model would be simpler.
@@ -649,26 +648,26 @@ to choose among ways of assigning models of substitution to different subsets
 of aligned sites.
 This became important when phylogenetics moved beyond singe-locus trees to
 concatenated alignments of several loci.
-Mueller et al. (\citeyear{Mueller2004}),
-Nylander et al.\ (\citeyear{NylanderEtal2004}), and
-Brandley et al.\ (\citeyear{Brandley2005})
+\citet{Mueller2004},
+\citet{NylanderEtal2004}, and
+\citet{Brandley2005}
 used Bayes factors calculated from harmonic mean
 estimates of marginal likelihoods to choose among different strategies for
 partitioning aligned characters to subtitution models.
 All three studies found that the model with the most subsets was strongly
 preferred.
-Nylander et al.\ (\citeyear{NylanderEtal2004}) also showed that removing
+\citet{NylanderEtal2004} also showed that removing
 parameters for which the data seemed to have little influence decreased the HM
 estimates of the marginal likelihood, suggesting that the HM estimates might
 favor over-parameterized models.
 These findings could be an artefact of the tendency of the HM estimator to 
 overestimate marginal likelihoods and thus underestimate the ``penalty''
 associated with the prior weight of additional parameters.
-However, Brown and Lemmon (\citeyear{Brown2007}) showed that for simulated data,
+However, \citet{Brown2007} showed that for simulated data,
 HM estimates of Bayes factors can have a low error rate of over-partitioning an
 alignment.
 
-Fan et al.\ (\citeyear{Fan2011}) showed that, again, the HM estimator strongly
+\citet{Fan2011} showed that, again, the HM estimator strongly
 favors the most partitioned model for a four-gene alignment from cicadas (12
 subsets partitioned by gene and codon position).
 However, the marginal likelihoods estimated via the generalized stepping stone
@@ -681,7 +680,7 @@ to explain the variation in substitution rates among sites.
 
 \subsection{Comparing models of character substitution}
 
-Lartillot and Philippe (\citeyear{Lartillot2006}) used path sampling to compare
+\citet{Lartillot2006} used path sampling to compare
 models of amino-acid substitution.
 They found that the harmonic mean estimator favored the most parameter rich
 model for all five datasets they explored, whereas the path-sampling estimates
@@ -694,7 +693,7 @@ biological data.
 
 \subsection{Comparing ``relaxed clock'' models}
 
-Lepage et al.\ (\citeyear{Lepage2007}) used path sampling to approximate Bayes
+\citet{Lepage2007} used path sampling to approximate Bayes
 factors comparing various ``relaxed-clock'' phylogenetic models for
 three empirical datasets.
 They found that models in which the rate of substitution evolves across the tree
@@ -703,7 +702,7 @@ they investigated than models that assume the rate of substitution on each
 branch is independent (uncorrelated rate models).
 This provides insight into how the rate of evolution evolves through time.
 
-Baele et al.\ (\citeyear{Baele2012}) demonstrated that modelling
+\citet{Baele2012} demonstrated that modeling
 among-branch rate variation with a lognormal distribution tends to explain
 mammalian sequence alignments better than using an exponential distribution.
 They used marginal likelihoods (PS and SS estimates) and Bayesian model
@@ -711,7 +710,7 @@ averaging to compare the fit of lognormally and exponentially distributed
 relaxed clocks for almost 1,000 loci from 12 mammalian species.
 They found that the lognormal relaxed-clock was a better fit for almost 88\% of
 the loci.
-Baele et al.\ (\citeyear{Baele2012}) also used marginal likelihoods to
+\citet{Baele2012} also used marginal likelihoods to
 demonstrate the importance of using sampling dates when estimating
 time-calibrated phylogenetic trees.
 They used path-sampling and stepping-stone methods to estimate the marginal
@@ -727,11 +726,10 @@ evolutionary history.
 
 \subsection{Comparing demographic models}
 
-Baele et al.\ (\citeyear{Baele2012}) used the path-sampling and stepping-stone
+\citet{Baele2012} used the path-sampling and stepping-stone
 estimators for marginal likelihoods to compare the fit of various demographic
-models to the HIV-1 group M data of Worobey et al.\ (\citeyear{Worobey2008}),
-and Methicillin-resistant \spp{Staphylococcus aureus} (MRSA)  data of Gray et
-al.\ (\citeyear{Gray2011}).
+models to the HIV-1 group M data of \citet{Worobey2008},
+and Methicillin-resistant \spp{Staphylococcus aureus} (MRSA)  data of \citet{Gray2011}.
 They found that a flexible, nonparametric model that enforces no particular
 demographic history is a better explanation of the HIV and MRSA sequence data
 than exponential and logistic population growth models.
@@ -747,18 +745,18 @@ predictors of viral and bacterial epidemics.
 
 Not only can we use marginal likelihoods to learn about evolutionary models,
 but we can also use them to learn important lessons about our data.
-Brown and Thomson (\citeyear{Brown2017}) explored six different genomic data sets
+\citet{Brown2017} explored six different genomic data sets
 that were collected to infer phylogenetic relationships within Amniota.
 For each locus across all six data sets, they used the stepping-stone method
 \citep{Xie2011} to approximate the marginal likelihood of models that included
 or excluded a particular branch (bipartition) in the amniote tree.
-This allowed Brown and Thomson (\citeyear{Brown2017}) to calculate, for each
+This allowed \citet{Brown2017} to calculate, for each
 gene, Bayes factors as measures of support for or against particular
 relationships, some of which are uncontroversial (e.g., the monophyly of birds)
 and others contentious (e.g., the placement of turtles).
 
-Their use of marginal likelihoods allowed Brown and Thomson
-(\citeyear{Brown2017}) to reveal a large degree of variation among loci in
+Their use of marginal likelihoods allowed
+\citet{Brown2017} to reveal a large degree of variation among loci in
 support for and against relationships that was masked by the corresponding
 posterior probabilities estimated by MCMC.
 Furthermore, they found that a small number of loci can have a large affect on
@@ -768,15 +766,15 @@ For example, they showed that including or excluding just two loci out of the
 248 locus dataset of \citep{Chiari2012} resulted in a posterior probability of
 1.0 in support of turtles either being sister to crocodylians or archosaurs
 (crocodylians and birds), respectively.
-By using marginal likelihoods of different topologies, Brown and Thomson
-(\citeyear{Brown2017}) were able to identify these two loci as putative paralogs
+By using marginal likelihoods of different topologies,
+\citet{Brown2017} were able to identify these two loci as putative paralogs
 due to their strikingly strong support for turtles being sister to
 crocodylians.
 This work demonstrates how marginal likelihoods can simultaneously be used as a
 powerful means of controlling the quality of data in ``phylogenomics'', while
 informing us about the evolutionary processes that gave rise to our data.
 
-Furthermore, Brown and Thomson (\citeyear{Brown2017}) found that the properties
+Furthermore, \citet{Brown2017} found that the properties
 of loci commonly used as proxies for the reliability of phylogenetic signal
 (rate of substitution, how ``clock-like'' the rate is, base composition
 heterogeneity, amount of missing data, and alignment uncertainty) were poor
@@ -795,7 +793,7 @@ A lot of progress has been made for inferring the relationship between pairs
 of phenotypic traits as they evolve across a phylogeny,
 but a general and efficient solution for large numbers of continuous
 and discrete traits has remained elusive.
-Tolkoff et al.\ (\citeyear{Tolkoff2017}) introduced Bayesian factor analysis to
+\citet{Tolkoff2017} introduced Bayesian factor analysis to
 a phylogenetic framework as a potential solution.
 Phylogenetic factor analysis works by modeling a small number of unobserved
 (latent) factors that evolve independently across the tree, which give rise to
