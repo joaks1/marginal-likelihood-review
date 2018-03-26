@@ -181,6 +181,21 @@ beta is a conjugate prior for the binomial likelihood function.
 This allows us to obtain the posterior distribution and marginal likelihood
 analytically.
 
+\embedFigure{images/bayes-demo.pdf}{
+    An illustration of the posterior probability densitites and marginal
+    likelihoods of the four different prior assumptions we made in our
+    coin-flipping experiment.
+    The data are 50 ``heads'' out of 100 coin flips, and the parameter,
+    \probheads, is the probability of the coin landing heads side up.
+    The binomial likelihood density function is proportional to a
+    $\textrm{Beta}(51, 51)$ and is the same across the four different beta
+    priors on \probheads ($M_1$--$M_4$).
+    The posterior of each model is a $\textrm{Beta}(\alpha + 50, \beta + 50)$
+    distribution.
+    The marginal likelihoods ($P(D)$; the average of the likelihood density
+    curve weighted by the prior) of the four models are compared.
+}{fig:bayesDemo}
+
 \begin{linenomath}
 After flipping the coin and observing that it landed heads side up 50 times, we
 can calculate the posterior probability distribution for the rate of landing
@@ -594,6 +609,26 @@ phylogenetic API (version 4.3.0 commit 72ce015) \citep{Sukumaran2010}, can be
 found in the supplementary materials, and all of the code to replicate our
 results is freely available at
 \href{https://github.com/phyletica/abc-glm-marginal-test}{https://github.com/phyletica/abc-glm-marginal-test}.
+
+\embedFigure{images/abc-glm-bayes-factors.pdf}{
+    A comparison of the approximate-likelihood Baysian computation general
+    linear model (ABC-GLM) estimator of the marginal likelihood
+    \citep{Leuenberger2010} to quadrature integration approximations
+    \citep{Xie2011} for 100 simulated datasets.
+    We compared the ratio of the marginal likelihood (Bayes factor) comparing
+    the correct branch-length model
+    [branch length $\sim$ uniform(0.0001, 0.1)]
+    to a model with a boader prior on the branch length
+    [branch length $\sim$ uniform(0.0001, 0.2)].
+    The solid line represents perfect performance of the ABC-GLM estimator
+    (i.e., matching the ``true'' value of the Bayes factor).
+    The dashed line represents the expected Bayes factor when failing to
+    penalize for the extra parameter space (branch length 0.1 to 0.2) with
+    essentially zero likelihood.
+    Quadrature integration with 1,000 and 10,000 steps using the rectangular
+    and trapezoidal rule produced identical values of log marginal likelihoods
+    to at least five decimal places for all 100 simulated datasets.
+}{fig:glmPerformance}
 
 
 \section{Uses of marginal likelihoods}
