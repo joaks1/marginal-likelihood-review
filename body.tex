@@ -383,19 +383,31 @@ phylogenetic models.
 Another approach that uses sequential importance-sampling steps is sequential
 Monte Carlo (SMC), also known as particle filtering.
 Recently, SMC algorithms have been developed for approximating the posterior
-distribution of phylogenetic trees \citep{Jordan2012,Bouchard2014}.
+distribution of phylogenetic trees \citep{Jordan2012,Bouchard2014,Wang2018}.
 While inferring the posterior, SMC algorithms can approximate the marginal
 likelihood of the model ``for free,'' by keeping a running average of the
 importance-sampling weights of the trees (particles) along the way.
 SMC algorithms hold a lot of promise for complementing MCMC in Bayesian
 phylogenetics due to their sequential nature and ease with which the
 computations can be parallelized
-\citep{Jordan2012,Dinh2016preprint,Fourment2017preprint}.
-However, these approaches are still in their infancy, and the accuracy of SMC
-estimates of marginal likelihoods still need to be compared to the methods
-discussed above.
+\citep{Jordan2012,Dinh2016preprint,Fourment2017preprint,Wang2018}.
 See \citet{Bouchard2014} for an accessible treatment
 of SMC in phylogenetics.
+
+\citet{Wang2018} introduced a variant of SMC that, similar to path sampling and
+stepping stone, transitions from a sample from the prior distribution to the
+posterior across a series of distributions where the likelihood is raised to
+power (annealing).
+Also, their approach maintains the full state space of the model while sampling
+across these distributions, which allows them to use standard
+Metropolis-Hastings algorithms from the MCMC literature for the proposals used
+during the SMC.
+This should make the algorithm easier to implement in existing phylogenetic
+software compared to other SMC approaches that build up the state space of the
+model during the algorithm.
+Under the simulation conditions they explored, \citet{Wang2018} showed that the
+annealed SMC algorithm compared favorably to MCMC and SS in terms of sampling
+the posterior distribution and estimaing the marginal likelihood, respectively.
 
 \subsubsection{Nested sampling (NS)}
 Recently, \citet{Maturana2017}
@@ -929,9 +941,9 @@ approaches to Bayesian phylogenetics.
 These methods essentially use the same amount of computation to both sample
 from the posterior distribution of phylogenetic models and provide an
 approximation of the marginal likelihood.
-Both approaches are new to phylogenetics, but hold a lot of promise
-for Bayesian phylogenetics generally and model comparison via
-marginal likelihoods specifically.
+Both approaches are relatively new to phylogenetics, but hold a lot of promise
+for Bayesian phylogenetics generally and model comparison via marginal
+likelihoods specifically.
 
 
 \subsection{The state of ABC approaches to Bayesian model choice}
