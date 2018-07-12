@@ -167,7 +167,7 @@ assumptions about the probability of the coin landing heads up
 (Figure~\ref{fig:bayesDemo}):
 We assume
 \begin{enumerate}
-    \item all values are equally probable
+    \item all values \jroedit{are equally probable}{have equal probability density}
         (\coinmodel[1]: $\probheads \sim \textrm{Beta}(1, 1)$),
     \item the coin is likely weighted to land mostly ``heads'' or ``tails''
         (\coinmodel[2]: $\probheads \sim \textrm{Beta}(0.6, 0.6)$),
@@ -182,7 +182,7 @@ This allows us to obtain the posterior distribution and marginal likelihood
 analytically.
 
 \embedFigure{images/bayes-demo.pdf}{
-    An illustration of the posterior probability densitites and marginal
+    An illustration of the posterior probability densities and marginal
     likelihoods of the four different prior assumptions we made in our
     coin-flipping experiment.
     The data are 50 ``heads'' out of 100 coin flips, and the parameter,
@@ -242,6 +242,16 @@ We have developed an interactive version of Figure~\ref{fig:bayesDemo} where
 readers can vary the parameters of the coin-flip experiment and prior
 assumptions to further gain intuition for marginal likelihoods
 (\href{https://kerrycobb.github.io/beta-binomial-web-demo/}{https://kerrycobb.github.io/beta-binomial-web-demo/}).
+
+\jroedit{}{
+This pedagogical example is somewhat contrived given that the models we are
+comparing are simply different priors.
+Using the marginal likelihood to choose a prior is dubious, because the
+``best'' prior will always be a point mass on the maximum likelihood estimate.
+Nonetheless, the principles of (and differences between) Bayesian parameter
+estimation and model choice that are illustrated by this example are directly
+relevant to more practical Bayesian inference settings.
+}
 Now we turn to methods for approximating the marginal likelihood of
 phylogenetic models, where simple analytical solutions are not possible.
 Nonetheless, the same fundamental principles apply.
@@ -257,7 +267,8 @@ are analytically intractable.
 %     intractable here? Or cite a good resource for understanding? Possibly
 %     explain a simple example?}
 This is particularly true for phylogenetic models, which have a complex
-structure containing both discrete and continuous elements \citep{Kim2000}.
+structure containing both discrete and continuous elements.
+% \citep{Kim2000}.
 Thus, we must resort to numerical techniques to approximate the marginal
 likelihood.
 
@@ -313,7 +324,7 @@ typical analysis.
 \subsection{Approaches that bridge the prior and posterior with small steps}
 
 \subsubsection{Path sampling (PS)}
-\citet{Lartillot2006} introduced path sampling
+\citet{Lartillot2006} introduced path sampling \citep{Gelman1998}
 (also called thermodynamic integration) to phylogenetics to address the problem
 that the posterior is often dominated by the likelihood and very divergent from
 the prior.
@@ -378,6 +389,12 @@ topologies.
 However, \citet{Holder2014} introduced such a distribution
 on trees, allowing the GSS to approximate the fully marginalized likelihood of
 phylogenetic models.
+\jroedit{}{
+Furthermore,
+\citet{Wu2014} and \citet{Rannala2017} showed that the GSS and PS methods
+remain statistically consistent and unbiased when the topology is allowed to
+vary.
+}
 
 \subsubsection{Sequential Monte Carlo (SMC)}
 Another approach that uses sequential importance-sampling steps is sequential
@@ -394,10 +411,11 @@ computations can be parallelized
 See \citet{Bouchard2014} for an accessible treatment
 of SMC in phylogenetics.
 
-\citet{Wang2018} introduced a variant of SMC that, similar to path sampling and
-stepping stone, transitions from a sample from the prior distribution to the
-posterior across a series of distributions where the likelihood is raised to
-power (annealing).
+\jroedit{}{
+\citet{Wang2018} introduced a variant of SMC into phylogenetics that, similar
+to path sampling and stepping stone, transitions from a sample from the prior
+distribution to the posterior across a series of distributions where the
+likelihood is raised to power (annealing).
 Also, their approach maintains the full state space of the model while sampling
 across these distributions, which allows them to use standard
 Metropolis-Hastings algorithms from the MCMC literature for the proposals used
@@ -408,6 +426,7 @@ model during the algorithm.
 Under the simulation conditions they explored, \citet{Wang2018} showed that the
 annealed SMC algorithm compared favorably to MCMC and SS in terms of sampling
 the posterior distribution and estimaing the marginal likelihood, respectively.
+}
 
 \subsubsection{Nested sampling (NS)}
 Recently, \citet{Maturana2017}
@@ -590,6 +609,15 @@ comparing the correct branch-length model
 [branch length $\sim$ uniform(0.0001, 0.1)]
 to a model with a prior approximately twice as broad
 [branch length $\sim$ uniform(0.0001, 0.2)].
+\jroedit{}{
+As we noted in our coin-flipping example, using marginal likelihoods to compare
+priors is dubious, and we do not advocate selecting priors in this way.
+However, in this case, comparing the marginal likelihood under these two priors
+is useful, because it allows us to directly test our prediction that the
+ABC-GLM method will not be able to correctly penalize the marginal likelihood
+for the additional parameter space under the broader prior.
+}
+
 
 This very simple model is a good test of the ABC-GLM marginal likelihood
 estimator for several reasons.
@@ -665,7 +693,7 @@ concatenated alignments of several loci.
 \citet{Brandley2005}
 used Bayes factors calculated from harmonic mean
 estimates of marginal likelihoods to choose among different strategies for
-partitioning aligned characters to subtitution models.
+partitioning aligned characters to substitution models.
 All three studies found that the model with the most subsets was strongly
 preferred.
 \citet{NylanderEtal2004} also showed that removing
