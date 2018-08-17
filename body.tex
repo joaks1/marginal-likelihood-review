@@ -27,7 +27,7 @@ framework.
 If we want to compare the fit of phylogenetic models, and in the process learn
 about evolutionary processes, we cannot avoid calculating marginal likelihoods.
 }{
-Learning about evolutionary patterns and processes by Bayesian comparison of
+Learning about evolutionary patterns and processes via Bayesian comparison of
 phylogenetic models requires the calculation of marginal likelihoods.
 }
 As the diversity and richness of phylogenetic models has increased, there has
@@ -363,8 +363,8 @@ Whereas both provide unbiased estimates of the marginal likelihood in theory,
 they can suffer from very large Monte Carlo error due to
 }
 the fact that the prior and posterior are often \emph{very} divergent,
-with the latter usually \emph{much} more peaked than the former \jro{}{due to
-    the strong influence of the likelihood}.
+with the latter usually \emph{much} more peaked than the former \jroedit{}{due
+    to the strong influence of the likelihood}.
 %\vmcomment{It is a bit tricky to lump these two techniques. Sampling from the prior is not really importance sampling, because the integral of interest can be written as an expectation with respect to the prior. I now see that you are paraphrasing Lartillot 2006. I made an edit that may give us a compromise.}
 A finite sample from the prior will often yield an underestimate of the
 marginal likelihood, because the region of parameter space with high likelihood
