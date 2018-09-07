@@ -538,7 +538,7 @@ distributions raises some important practical questions:
 How many power-posterior distributions are sufficient, how should they be
 spaced between the reference and posterior distribution, and how many MCMC
 samples are needed from each?
-There are no simple answers to these question, because they will vary depending
+There are no simple answers to these question\vmadd{s}, because they will vary depending
 on the data and model.
 However, one general strategy that is clearly advantageous is having most of
 the $\beta$ values near zero so that most of the power-posterior distributions
@@ -579,9 +579,9 @@ of SMC in phylogenetics.
 \citet{Wang2018} introduced a variant of SMC into phylogenetics that, similar
 to path sampling and stepping stone, transitions from a sample from the prior
 distribution to the posterior across a series of distributions where the
-likelihood is raised to power (annealing).
+likelihood is raised to \vmadd{a} power (annealing).
 This approach provides an estimator of the marginal likelihood that is unbiased
-from both a statistical and computational perspective.
+from both a statistical and computational perspective \vmcomment{Not sure I know what unbiased means from a computational perspective}.
 Also, their approach maintains the full state space of the model while sampling
 across the power-posterior distributions, which allows them to use standard
 Metropolis-Hastings algorithms from the MCMC literature for the proposals used
@@ -1076,7 +1076,7 @@ approximating the marginal likelihood of each model would be simpler.
 
 \jroedit{}{
 \begin{linenomath}
-Another way to compare models is based on their predictive power, with the idea
+Another\vmadd{, albeit not an unrelated,} way to compare models is based on their predictive power, with the idea
 that we should prefer the model that best predicts future data.
 There are many approaches to do this, but they
 are all centered around measuring the predictive power of a model using the
@@ -1131,7 +1131,7 @@ With joint samples of parameter values from the posterior (conditional on the
 training data \data), we can easily get a Monte Carlo approximation of the
 marginal posterior predictive likelihood
 (Equation~\ref{eq:marginalPredictiveLikelihood})
-by simply taking the average probability of the testing data across the
+by simply taking the average probability of the testing data \vmcomment{not clear how testing data are obtained} across the
 posterior samples of parameter values:
 \begin{equation}
     p(\data\new \given \model, \data) \simeq
@@ -1196,7 +1196,7 @@ simulated data,
 and found that a simple JC69 model \citep{JC1969} was often rejected for data
 simulated under more complex K2P \citep{K2P} and GTR \citep{Tavare1997} models.
 \citet{Lartillot2007} also used this approach to corroborate their findings
-based marginal likelihoods \citep{Lartillot2006} and cross validation that
+based \vmadd{on} marginal likelihoods \citep{Lartillot2006} and cross validation that
 allowing among-site variation in amino acid composition (i.e., the CAT model)
 leads to a better fit.
 }
@@ -1436,6 +1436,7 @@ averaging).
 However, other Bayesian model selection approaches, such as cross-validation
 and posterior-predictive methods, will be less sensitive to prior assumptions.
 }
+\vmcomment{I am not sure I see this mathematically. Prediction error also depends on the prior.}
 \jroedit{Accordingly}{Regardless}, the results of any application of Bayesian
 model selection should be accompanied by an assessment of the sensitivity of
 those results to the priors placed on the models' parameters.
