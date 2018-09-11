@@ -10,11 +10,12 @@
 \usepackage{graphicx}
 \usepackage{url}
 \usepackage{verbatim}
-\usepackage{appendix}
+\usepackage[title]{appendix}
 \usepackage{indentfirst}
 \usepackage{booktabs}
 \usepackage{multirow}
 \usepackage{ragged2e}
+\setlength{\RaggedRightParindent}{\parindent}
 \usepackage{upgreek}
 \usepackage[T1]{fontenc}
 \usepackage[titles]{tocloft}
@@ -62,3 +63,4 @@
 \DeclareCaptionLabelFormat{noSpace}{{#1}{#2}}
 \DeclareCaptionListFormat{figList}{Figure {#2}.}
 \DeclareCaptionListFormat{sFigList}{Figure S{#2}.}
+\DeclareCaptionListFormat{aFigList}{Figure A{#2}.}

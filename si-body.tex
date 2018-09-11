@@ -11,7 +11,7 @@ four nucleotides and the equilibrium nucleotide frequencies to be equal, there
 is only a single parameter in the model, the length of the branch, and the
 direction of evolution along the branch does not matter.
 
-\section{Simulating data sets}
+\subsection{Simulating data sets}
 We simulated 100 data sets under this model by
 \begin{enumerate}
     \item drawing 10,000 nucleotides of the ``ancestral'' sequence from their
@@ -23,7 +23,7 @@ We simulated 100 data sets under this model by
 This was done using the DendroPy phylogenetic API (version 4.3.0 commit
 72ce015) \citep{Sukumaran2010}.
 
-\section{Calculating ``true'' Bayes factors}
+\subsection{Calculating ``true'' Bayes factors}
 For each data set, we used quadrature approaches to approximate the marginal
 likelihood by integrating the posterior density over the branch length prior.
 We did this for two models:
@@ -41,7 +41,7 @@ identical to at least five decimal places.
 For each data set, we calculated the log Bayes factor comparing the correct
 model to the vague model.
 
-\section{Approximate-likelihood Bayesian computation}
+\subsection{Approximate-likelihood Bayesian computation}
 To collect an approximate posterior sample from the correct model for a data
 set, we first calculated the proportion of variable sites (\pvar) between the
 two sequences.
@@ -64,7 +64,7 @@ densities of the correct and vague model, and compared the ABC-GLM-estimated
 Bayes factor to the ``true'' Bayes factor calculated via quadrature
 integration (Figure~\ref{fig:glmPerformance}).
 
-\section{Full-likelihood Markov chain Monte Carlo analyses}
+\subsection{Full-likelihood Markov chain Monte Carlo analyses}
 One goal of the simplicity of the above model is that the additional
 approximation of the ABC approach would be limited.
 All numerical Bayesian analyses, based on full or approximate likelihoods,
@@ -92,12 +92,19 @@ generation).
 We plotted the branch length estimated via ABC-GLM and MCMC under both
 the true and vague models against the true branch lengths.
 The results of all four analyses across all 100 data sets are almost
-indistinguishable (Figure~S\ref{fig:branchLengthEstimates}), confirming that
+indistinguishable (Figure~A\ref{fig:branchLengthEstimates}), confirming that
 the approximation introduce by the tolerance is very minimal.
 Our ABC-GLM analyses are essentially equivalent to full-likelihood Bayesian
 analyses, creating a ``best-case scenario'' for evaluating the marginal
 likelihood estimates of the ABC-GLM method.
 
-\section{Reproducibility}
+\embedAppendixFigure{images/branch-length-estimates.pdf}{
+    A comparison of the true branch length separating each pair of simulated
+    sequences to the branch length estimated by ABC-GLM and full-likelihood
+    MCMC under the correct branch-length model (branch length $\sim$ uniform(0.0001,
+    0.1)) and the vague model (branch length $\sim$ uniform(0.0001, 0.1)).
+}{fig:branchLengthEstimates}
+
+\subsection{Reproducibility}
 All of the code to replicate our results is freely available at
 \href{https://github.com/phyletica/abc-glm-marginal-test}{https://github.com/phyletica/abc-glm-marginal-test}.
