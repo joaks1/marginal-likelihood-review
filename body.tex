@@ -91,7 +91,7 @@ proper probability density that sums and integrates to one:
 Marginal likelihoods are the currency of model comparison in a Bayesian
 framework.
 \jroedit{The}{This differs from the} frequentist approach to model
-choice\jroedit{}{, which} is based on comparing the maximum probability \vmadd{or density} of the
+choice\jroedit{}{, which} is based on comparing the maximum probability or density of the
 data under two models either using a likelihood ratio test or some
 information-theoretic criterion.
 Because adding a parameter (dimension) to a model will always ensure
@@ -205,9 +205,7 @@ assumptions about the probability of the coin landing heads up
 (Figure~\ref{fig:bayesDemo}):
 We assume
 \begin{enumerate}
-    \item all values \jroedit{are equally probable}{have equal probability density}
-        \jrocomment{Ziheng recommended being more precise here, but this sounds
-            a bit overly technical to me}
+    \item all values are equally \jroedit{probable}{likely}
         (\coinmodel[1]: $\probheads \sim \textrm{Beta}(1, 1)$),
     \item the coin is likely weighted to land mostly ``heads'' or ``tails''
         (\coinmodel[2]: $\probheads \sim \textrm{Beta}(0.6, 0.6)$),
@@ -528,9 +526,9 @@ power-posterior distributions in between the reference and the posterior, which
 make estimating the ratio of normalizing constants between each sequential pair
 of distributions more accurate.
 }
-\jrocomment{Guy wanted us to add a figure that captured the idea in these new
-    paragraphs. I don't have any good ideas. I've never found a graphical
-    depiction of importance sampling all that helpful. Any ideas??} 
+% \jrocomment{Guy wanted us to add a figure that captured the idea in these new
+%     paragraphs. I don't have any good ideas. I've never found a graphical
+%     depiction of importance sampling all that helpful. Any ideas??} 
 
 \jroedit{}{
 The fact that PS, SS, and GSS all use samples from a series of power-posterior
@@ -538,7 +536,7 @@ distributions raises some important practical questions:
 How many power-posterior distributions are sufficient, how should they be
 spaced between the reference and posterior distribution, and how many MCMC
 samples are needed from each?
-There are no simple answers to these question\vmadd{s}, because they will vary depending
+There are no simple answers to these questions, because they will vary depending
 on the data and model.
 However, one general strategy that is clearly advantageous is having most of
 the $\beta$ values near zero so that most of the power-posterior distributions
@@ -556,8 +554,8 @@ decreases after repeating the analysis with more $\beta$ values
 and/or more MCMC sampling from each step;
 a large decrease in variance suggests the sampling scheme was insufficient.
 }
-\jrocomment{I don't really like this paragraph, but Guy wanted us to give some
-    practical guidance. Thoughts?} 
+% \jrocomment{I don't really like this paragraph, but Guy wanted us to give some
+%     practical guidance. Thoughts?} 
 
 \subsubsection{Sequential Monte Carlo (SMC)}
 Another approach that uses sequential importance-sampling steps is sequential
@@ -579,9 +577,10 @@ of SMC in phylogenetics.
 \citet{Wang2018} introduced a variant of SMC into phylogenetics that, similar
 to path sampling and stepping stone, transitions from a sample from the prior
 distribution to the posterior across a series of distributions where the
-likelihood is raised to \vmadd{a} power (annealing).
+likelihood is raised to a power (annealing).
 This approach provides an estimator of the marginal likelihood that is unbiased
-from both a statistical and computational perspective \vmcomment{Not sure I know what unbiased means from a computational perspective}.
+from both a statistical and computational perspective.
+% \vmcomment{Not sure I know what unbiased means from a computational perspective}.
 Also, their approach maintains the full state space of the model while sampling
 across the power-posterior distributions, which allows them to use standard
 Metropolis-Hastings algorithms from the MCMC literature for the proposals used
@@ -953,11 +952,11 @@ Because ABC-GLM marginal densities fail to penalize parameters for their
 prior weight in regions of low likelihood, these approaches will likely
 be biased toward over-parameterized phylogeographical models.
 Nonetheless, knowledge of this bias can help guide interpretations of results.
-\jrocomment{Creating/moving the section on alternative methods makes this a bit
-awkward having to reference results the reader hasn't seen yet. We could move
-the alt methods section to before this section on empirical applications.
-However, that might make an awkward digression in between ML methods and ML
-applications. Thoughts?}
+% \jrocomment{Creating/moving the section on alternative methods makes this a bit
+% awkward having to reference results the reader hasn't seen yet. We could move
+% the alt methods section to before this section on empirical applications.
+% However, that might make an awkward digression in between ML methods and ML
+% applications. Thoughts?}
 
 
 \subsection{Species delimitation}
@@ -1076,7 +1075,8 @@ approximating the marginal likelihood of each model would be simpler.
 
 \jroedit{}{
 \begin{linenomath}
-Another\vmadd{, albeit not an unrelated,} way to compare models is based on their predictive power, with the idea
+Another, albeit not an unrelated, way to compare models is based on their
+predictive power, with the idea
 that we should prefer the model that best predicts future data.
 There are many approaches to do this, but they
 are all centered around measuring the predictive power of a model using the
@@ -1131,8 +1131,9 @@ With joint samples of parameter values from the posterior (conditional on the
 training data \data), we can easily get a Monte Carlo approximation of the
 marginal posterior predictive likelihood
 (Equation~\ref{eq:marginalPredictiveLikelihood})
-by simply taking the average probability of the testing data \vmcomment{not clear how testing data are obtained} across the
-posterior samples of parameter values:
+by simply taking the average probability of the testing data
+% \vmcomment{not clear how testing data are obtained}
+across the posterior samples of parameter values:
 \begin{equation}
     p(\data\new \given \model, \data) \simeq
     \frac{1}{\nposteriorsamples}
@@ -1196,7 +1197,7 @@ simulated data,
 and found that a simple JC69 model \citep{JC1969} was often rejected for data
 simulated under more complex K2P \citep{K2P} and GTR \citep{Tavare1997} models.
 \citet{Lartillot2007} also used this approach to corroborate their findings
-based \vmadd{on} marginal likelihoods \citep{Lartillot2006} and cross validation that
+based on marginal likelihoods \citep{Lartillot2006} and cross validation that
 allowing among-site variation in amino acid composition (i.e., the CAT model)
 leads to a better fit.
 }
@@ -1241,8 +1242,8 @@ whether or not it falls within a zone of tolerance around the empirical data.
 
 This simple approach assumes the likelihood within the zone of tolerance is
 \jroedit{uniform}{constant}.
-\jrocomment{Reviewer 3 was confused by ``uniform'' here, so I changed it to
-    ``constant,'' but that seem pretty similar}
+% \jrocomment{Reviewer 3 was confused by ``uniform'' here, so I changed it to
+%     ``constant,'' but that seem pretty similar}
 However, this zone usually needs to be quite large for computational
 tractability, so this assumption does not hold.
 Leuenberger and Wegmann \citep{Leuenberger2010} proposed fitting a general
@@ -1436,7 +1437,7 @@ averaging).
 However, other Bayesian model selection approaches, such as cross-validation
 and posterior-predictive methods, will be less sensitive to prior assumptions.
 }
-\vmcomment{I am not sure I see this mathematically. Prediction error also depends on the prior.}
+% \vmcomment{I am not sure I see this mathematically. Prediction error also depends on the prior.}
 \jroedit{Accordingly}{Regardless}, the results of any application of Bayesian
 model selection should be accompanied by an assessment of the sensitivity of
 those results to the priors placed on the models' parameters.
