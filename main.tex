@@ -30,10 +30,10 @@
 \affil[2]{Department of Statistics, University of California, Irvine, California 92697}
 \affil[3]{Department of Biology \& Burke Museum of Natural History and Culture, University of Washington, Seattle, Washington 98195}
 
-% \date{\today}
-\date{\parbox{\linewidth}{\centering%
-    \today\endgraf\bigskip
-    \textbf{Running head}: Marginal likelihoods in phylogenetics}}
+\date{\today}
+% \date{\parbox{\linewidth}{\centering%
+%     \today\endgraf\bigskip
+%     \textbf{Running head}: Marginal likelihoods in phylogenetics}}
 
 \makeatletter
 \let\msTitle\@title
@@ -47,7 +47,11 @@
 % \doublespacing
 % \begin{linenumbers}
 
-\maketitle
+\textbf{Running head}: \uppercase{Marginal likelihoods in phylogenetics}
+
+{\let\newpage\relax\maketitle}
+
+% \newpage
 
 \begin{abstract}
     \input{abstract.tex}
