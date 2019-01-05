@@ -205,7 +205,7 @@ assumptions about the probability of the coin landing heads up
 (Figure~\ref{fig:bayesDemo}):
 We assume
 \begin{enumerate}
-    \item all values are equally \jroedit{probable}{likely}
+    \item all values are equally \jroeditb{likely}{probable}
         (\coinmodel[1]: $\probheads \sim \textrm{Beta}(1, 1)$),
     \item the coin is likely weighted to land mostly ``heads'' or ``tails''
         (\coinmodel[2]: $\probheads \sim \textrm{Beta}(0.6, 0.6)$),
@@ -367,7 +367,7 @@ with the latter usually \emph{much} more peaked than the former \jroedit{}{due
 A finite sample from the prior will often yield an underestimate of the
 marginal likelihood, because the region of parameter space with high likelihood
 is likely to be missed.
-Whereas a finite sample from the posterior will almost always lead to an
+\jroedit{Whereas}{In comparison,} a finite sample from the posterior will almost always lead to an
 overestimate \citep{Lartillot2006,Xie2011,Fan2011}, because it will contain too
 few samples outside of the region of high likelihood, where the prior weight
 ``penalizes'' the average likelihood.
@@ -398,6 +398,7 @@ The second strategy is to turn the giant leap between the posterior and prior
 into a smaller leap between the posterior and a reference distribution that is
 as similar as possible to the posterior;
 \jroedit{}{
+    \jroeditb{}{many}
     methods in this category only require samples from the posterior
     distribution.
 }
@@ -407,7 +408,7 @@ approximating marginal likelihoods.
 In practical terms, the first strategy is computationally expensive, because
 samples need to be collected from each step between the posterior and prior,
 which is not normally part of a standard Bayesian phylogenetic analysis.
-The second strategy is very inexpensive because it attempts to approximate the
+The second strategy \jroeditb{is}{can be} very inexpensive \jroeditb{because it}{for methods that} attempt\jroeditb{s}{} to approximate the
 marginal likelihood using only the posterior samples collected from a
 typical analysis.
 
@@ -447,7 +448,7 @@ are left with the marginal likelihood.
 summing over MCMC samples taken from a discrete number of $\beta$ values evenly
 distributed between 1 and 0.
 
-\subsubsection{Stepping stone (SS)}
+\subsubsection{\jroedit{Stepping stone (SS)}{Stepping-stone (SS) sampling}}
 The stepping-stone method introduced by \citet{Xie2011}
 is similar to PS in that it also uses samples from power posteriors, but the
 \jroedit{motivation}{idea} is not based on approximating the integral per se, but by
@@ -511,7 +512,7 @@ the ratio of their normalizing constants (and thus the marginal likelihood).
 In fact, at the extreme that the reference distribution matches the posterior,
 we can determine the marginal likelihood exactly with only a single sample,
 because the difference in their densities is solely due to the normalizing
-constant of the posterior distribution.
+constant of the posterior distribution
 \citep{Fan2011}.
 }
 
@@ -540,7 +541,8 @@ There are no simple answers to these questions, because they will vary depending
 on the data and model.
 However, one general strategy that is clearly advantageous is having most of
 the $\beta$ values near zero so that most of the power-posterior distributions
-are similar to the reference distribution \citep{Fan2011}.
+are similar to the reference distribution 
+\citep{Lepage2007,Xie2011,Baele2016}.
 Also, a practical approach to assess if the number of $\beta$ values and the
 number of samples from each power posterior is sufficient is to estimate the
 marginal likelihood multiple times (starting with different seeds for the
@@ -569,7 +571,7 @@ importance-sampling weights of the trees (particles) along the way.
 SMC algorithms hold a lot of promise for complementing MCMC in Bayesian
 phylogenetics due to their sequential nature and ease with which the
 computations can be parallelized
-\citep{Jordan2012,Dinh2016preprint,Fourment2017preprint,Wang2018}.
+\citep{Jordan2012,Dinh2018,Fourment2018,Wang2018}.
 See \citet{Bouchard2014} for an accessible treatment
 of SMC in phylogenetics.
 
@@ -859,7 +861,7 @@ Brown and Thomson's \citeyear{Brown2017} use of marginal likelihoods allowed
 them to reveal a large degree of variation among loci in
 support for and against relationships that was masked by the corresponding
 posterior probabilities estimated by MCMC.
-Furthermore, they found that a small number of loci can have a large affect on
+Furthermore, they found that a small number of loci can have a large \jroeditb{affect}{effect} on
 the tree and associated posterior probabilities of branches inferred from the
 combined data.
 For example, they showed that including or excluding just two loci out of the
@@ -1060,14 +1062,17 @@ Whereas the first limitation is specific to using model averaging to estimate
 Bayes factors, the second problem is more general.
 }
 
+% mbox necessary to allow strikeout through citations
+\jroeditb{
 If two highly dissimilar models need to be compared,
-\citet{Lartillot2006} introduced a method of using
+\mbox{\citet{Lartillot2006}} introduced a method of using
 path sampling to directly approximate the Bayes factor.
-Similarly, \citet{Baele2013} extended the stepping-stone
-approach of \citet{Xie2011} to do the same.
+Similarly, \mbox{\citet{Baele2013}} extended the stepping-stone
+approach of \mbox{\citet{Xie2011}} to do the same.
 However, if there are many models to compare, doing MCMC over power posteriors
 for every pairwise comparison will quickly become computationally prohibitive;
 approximating the marginal likelihood of each model would be simpler.
+}{}
 
 \jroedit{}{
 \subsection{Measures of predictive performance}
@@ -1105,10 +1110,13 @@ distributions used for the models' parameters.
 
 \jroedit{}{
 Whether one should favor a posterior-predictive perspective or marginal
-likelihoods will depend on the goals of a particular model-choice exercise.
+likelihoods will depend on the goals of a particular model-choice exercise
+\jroeditb{}{and whether the prior is the appropriate ``penalty'' for adding
+    parameters to a model}.
+\jroeditb{
 Generally, marginal likelihoods will favor models that best explain
 the data in hand, whereas posterior predictive approaches will
-favor models that best predict future data.
+favor models that best predict future data.}{}
 Regardless, posterior predictive measures of model fit are a valuable
 complement to marginal likelihoods.
 Methods based on the marginal posterior predictive likelihood tend to be
@@ -1384,7 +1392,7 @@ it in popular Bayesian phylogenetic software packages,
 like
 RevBayes \citep{Hohna2016}
 and
-BEAST \citep{Drummond2012,Bouckaert2014}
+BEAST \citep{Suchard2018,Bouckaert2014}
 would be very useful, though nontrivial.
 
 Furthermore, nested sampling and sequential Monte Carlo are exciting numerical
