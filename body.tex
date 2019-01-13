@@ -23,13 +23,12 @@ number of parameters in phylogenetic models \jroedit{}{(including the tree
 
 Nonetheless, marginal likelihoods are central to model comparison in a Bayesian
 framework.
-\jroedit{
+\jroedit{%
 If we want to compare the fit of phylogenetic models, and in the process learn
 about evolutionary processes, we cannot avoid calculating marginal likelihoods.
-}{
+}{%
 Learning about evolutionary patterns and processes via Bayesian comparison of
-phylogenetic models requires the calculation of marginal likelihoods.
-}
+phylogenetic models requires the calculation of marginal likelihoods.}
 As the diversity and richness of phylogenetic models has increased, there has
 been a renewed appreciation of the importance of such Bayesian model
 comparison.
@@ -43,10 +42,9 @@ they \jroedit{are}{can be} useful,
 of phylogenetic models,
 (3) review some of the ways marginal likelihoods have been applied to learn
 about evolutionary history and processes,
-\jroedit{}{
+\jroedit{}{%
 (4) highlight some alternatives to marginal likelihoods for Bayesian model
-comparison,
-}
+comparison,}
 (5) discuss some of the challenges of Bayesian model choice, and
 (6) highlight some promising avenues for advancing the field of Bayesian
 phylogenetics.
@@ -97,22 +95,19 @@ information-theoretic criterion.
 Because adding a parameter (dimension) to a model will always ensure
 a maximum likelihood at least as large as without the parameter, some
 penalty must be imposed when parameters are added.
-\jroedit{}{
+\jroedit{}{%
 How large this penalty should be is not easy to define, which has
 led to many different possible criteria, e.g.,
 the Akaike information criterion \citep[AIC;][]{Akaike1974}, 
 second-order AIC \citep[AIC\sub{C};][]{Hurvich1989,Sugiura1978},
 and Bayesian information criterion
-\citep[BIC][]{Schwarz1978}.
-}
+\citep[BIC][]{Schwarz1978}.}
 
-\jroedit{
+\jroedit{%
 From a Bayesian perspective, we are interested in comparing the average fit of
-a model, rather than the maximum.
-}{
+a model, rather than the maximum.}{%
 Instead of focusing on the maximum likelihood of a model, the Bayesian approach
-compares the average fit of a model.
-}
+compares the average fit of a model.}
 This imposes a ``natural'' penalty for parameters, because each additional
 parameter introduces a dimension that must be averaged over.
 If that dimension introduces substantial parameter space with small likelihood,
@@ -120,9 +115,8 @@ and little space that improves the likelihood, it will decrease the marginal
 likelihood.
 Thus, unlike the maximum likelihood, adding a parameter to a model can
 decrease the \emph{marginal} likelihood,
-\jroedit{}{
-which ensures that more parameter-rich models are not automatically preferred.
-}
+\jroedit{}{%
+which ensures that more parameter-rich models are not automatically preferred.}
 
 \begin{linenomath}
 The ratio of two marginal likelihoods gives us the factor by which the
@@ -176,7 +170,7 @@ is multiplied to give use the posterior odds.
 Thus, marginal likelihoods and their ratios give us intuitive measures of how
 much the data ``favor'' one model over another, and these measures have natural
 probabilistic interpretations.
-\jroedit{}{
+\jroedit{}{%
 However, marginal likelihoods and Bayes factors do not offer a panacea for
 model choice.
 As Equation~\ref{eq:marginalLikelihood} shows, weighting the average likelihood
@@ -189,11 +183,10 @@ example of flipping a coin.}
 
 \subsection{A coin-flipping example}
 
-\jroedit{
+\jroedit{%
 Before we discuss methods for approximating marginal likelihoods, let's use a
 simple, albeit contrived, example to help gain some intuition for marginal
-likelihoods and how they differ from the posterior distribution of a model.
-}{}
+likelihoods and how they differ from the posterior distribution of a model.}{}
 Let's assume we are interested in the probability of a coin we have not seen
 landing heads-side up when it is flipped (\probheads);
 we refer to this as the rate of landing heads up to avoid confusion with other
@@ -278,7 +271,7 @@ marginal likelihood of a model can still be very sensitive to the prior
 assumptions we make about the parameters.
 \end{linenomath}
 
-\jroedit{}{
+\jroedit{}{%
 Because of this inherent sensitivity to the priors, we have to take more care
 when choosing priors on the models' parameters when our goal is to compare
 models versus estimating parameters.
@@ -305,10 +298,9 @@ distributions for the models' parameters based on existing knowledge.
 In the era of ``big data,'' one could also use a portion of their data to
 inform the priors, and the rest of the data for inference.
 Alternatively, we can use hierarchical models that allow the data to inform the
-priors on the parameters \citep[e.g.,][]{Suchard2003HPM}.
-}
+priors on the parameters \citep[e.g.,][]{Suchard2003HPM}.}
 
-\jroedit{}{
+\jroedit{}{%
 We have developed an interactive version of Figure~\ref{fig:bayesDemo} where
 readers can vary the parameters of the coin-flip experiment and prior
 assumptions to further gain intuition for marginal likelihoods
@@ -319,8 +311,7 @@ Using the marginal likelihood to choose a prior is dubious, because the
 ``best'' prior will always be a point mass on the maximum likelihood estimate.
 Nonetheless, the principles of (and differences between) Bayesian parameter
 estimation and model choice that are illustrated by this example are directly
-relevant to more practical Bayesian inference settings.
-}
+relevant to more practical Bayesian inference settings.}
 Now we turn to methods for approximating the marginal likelihood of
 phylogenetic models, where simple analytical solutions are
 \jroedit{}{generally} not possible.
@@ -356,10 +347,9 @@ As a result, the sum simplifies to the harmonic mean (HM) of the likelihoods
 from the posterior sample \citep{Newton1994}.
 Both of these techniques can be thought of as importance-sampling integral
 approximations.
-\jroedit{, and suffer from}{
+\jroedit{, and suffer from}{%
 Whereas both provide unbiased estimates of the marginal likelihood in theory,
-they can suffer from very large Monte Carlo error due to
-}
+they can suffer from very large Monte Carlo error due to}
 the fact that the prior and posterior are often \emph{very} divergent,
 with the latter usually \emph{much} more peaked than the former \jroedit{}{due
     to the strong influence of the likelihood}.
@@ -371,7 +361,7 @@ is likely to be missed.
 overestimate \citep{Lartillot2006,Xie2011,Fan2011}, because it will contain too
 few samples outside of the region of high likelihood, where the prior weight
 ``penalizes'' the average likelihood.
-\jroedit{}{
+\jroedit{}{%
 However, \citet{Baele2016} showed that for trees with 3--6 tips and relatively
 simple models, the average likelihood of a very large sample from the prior
 (30--50 billion samples) can yield accurate estimates of the marginal
@@ -389,19 +379,17 @@ posterior that cripples the simple approaches mentioned above.
 One general strategy is to turn the giant leap between the unnormalized
 posterior and prior into many small steps \jroedit{}{across intermediate
     distributions};
-\jroedit{}{
-    methods that fall into this category require samples collected from the
-    intermediate distributions.
-}
+\jroedit{}{%
+methods that fall into this category require samples collected from the
+intermediate distributions.}
 % along a series of power-posterior distributions.
 The second strategy is to turn the giant leap between the posterior and prior
 into a smaller leap between the posterior and a reference distribution that is
 as similar as possible to the posterior;
-\jroedit{}{
-    \jroeditb{}{many}
-    methods in this category only require samples from the posterior
-    distribution.
-}
+\jroedit{}{%
+\jroeditb{}{many}
+methods in this category only require samples from the posterior
+distribution.}
 These approaches are not mutually exclusive (e.g., see \citet{Fan2011}), but
 they serve as a useful way to categorize many of the methods available for
 approximating marginal likelihoods.
@@ -422,10 +410,9 @@ the prior.
 Rather than restrict themselves to a sample from the posterior, they collected
 MCMC samples from a series of distributions between the prior and posterior.
 Specifically, samples are taken from a series of power-posterior distributions,
-\jroedit{}{
+\jroedit{}{%
 $ p(\data \given \topology, \evoparameters, \model)^{\beta}
-p(\topology, \evoparameters \given \model)$,
-}
+p(\topology, \evoparameters \given \model)$,}
 where the likelihood is raised to a power $\beta$.
 When $\beta = 1$, this is equal to the unnormalized joint posterior, which
 integrates to what we want to know, the marginal likelihood.
@@ -486,16 +473,15 @@ topologies.
 However, \citet{Holder2014} introduced such a distribution
 on trees, allowing the GSS to approximate the fully marginalized likelihood of
 phylogenetic models.
-\jroedit{}{
+\jroedit{}{%
 \citet{Baele2016} introduced additional reference distributions on trees
 under coalescent models.
 Furthermore,
 \citet{Wu2014} and \citet{Rannala2017} showed that the GSS and PS methods
 remain statistically consistent and unbiased when the topology is allowed to
-vary.
-}
+vary.}
 
-\jroedit{}{
+\jroedit{}{%
 Based on intuition, it may seem that GSS would fail to adequately penalize
 the marginal likelihood, because it would lack samples from regions of
 parameter space with low likelihood (i.e., it does not use samples from the
@@ -513,10 +499,9 @@ In fact, at the extreme that the reference distribution matches the posterior,
 we can determine the marginal likelihood exactly with only a single sample,
 because the difference in their densities is solely due to the normalizing
 constant of the posterior distribution
-\citep{Fan2011}.
-}
+\citep{Fan2011}.}
 
-\jroedit{}{
+\jroedit{}{%
 All of the methods discussed below under ``Approaches that use only posterior
 samples'' are based on this idea of estimating the unknown normalizing constant
 of the posterior (the marginal likelihood) by "comparing" it to a reference
@@ -525,13 +510,12 @@ in normalizing constant).
 What is different about GSS is the use of samples from a series of
 power-posterior distributions in between the reference and the posterior, which
 make estimating the ratio of normalizing constants between each sequential pair
-of distributions more accurate.
-}
+of distributions more accurate.}
 % \jrocomment{Guy wanted us to add a figure that captured the idea in these new
 %     paragraphs. I don't have any good ideas. I've never found a graphical
 %     depiction of importance sampling all that helpful. Any ideas??} 
 
-\jroedit{}{
+\jroedit{}{%
 The fact that PS, SS, and GSS all use samples from a series of power-posterior
 distributions raises some important practical questions:
 How many power-posterior distributions are sufficient, how should they be
@@ -554,8 +538,7 @@ each other, and the ranking among models should be consistent.
 It can also be useful to check how much the variance among estimates
 decreases after repeating the analysis with more $\beta$ values
 and/or more MCMC sampling from each step;
-a large decrease in variance suggests the sampling scheme was insufficient.
-}
+a large decrease in variance suggests the sampling scheme was insufficient.}
 % \jrocomment{I don't really like this paragraph, but Guy wanted us to give some
 %     practical guidance. Thoughts?} 
 
@@ -575,7 +558,7 @@ computations can be parallelized
 See \citet{Bouchard2014} for an accessible treatment
 of SMC in phylogenetics.
 
-\jroedit{}{
+\jroedit{}{%
 \citet{Wang2018} introduced a variant of SMC into phylogenetics that, similar
 to path sampling and stepping stone, transitions from a sample from the prior
 distribution to the posterior across a series of distributions where the
@@ -592,8 +575,7 @@ software compared to other SMC approaches that build up the state space of the
 model during the algorithm.
 Under the simulation conditions they explored, \citet{Wang2018} showed that the
 annealed SMC algorithm compared favorably to MCMC and SS in terms of sampling
-the posterior distribution and estimating the marginal likelihood, respectively.
-}
+the posterior distribution and estimating the marginal likelihood, respectively.}
 
 \subsubsection{Nested sampling (NS)}
 Recently, \citet{Maturana2017} introduced the numerical technique known as
@@ -642,7 +624,7 @@ However, recent advances on defining a reference distribution on trees
 \citep{Holder2014,Baele2016} makes the GHM a tenable option in phylogenetics.
 % \thought{I think that Matsen might also have some work on tree distributions.}
 
-\jroedit{}{
+\jroedit{}{%
 As discussed above, the HM estimator is unbiased in theory, but can suffer
 from very large Monte Carlo error in practice.
 The degree to which the GHM estimator solves this problem will depend on how
@@ -650,8 +632,7 @@ much more similar the chosen reference distribution is to the posterior
 compared to prior.
 Knowing whether it is similar enough in practice will be difficult without
 comparing the estimates to other unbiased methods with much smaller
-Monte Carlo error (e.g., GSS, PS, or SMC).
-}
+Monte Carlo error (e.g., GSS, PS, or SMC).}
 
 \subsubsection{Inflated-density ratio (IDR)}
 The inflated-density ratio estimator solves the problem of choosing a
@@ -740,7 +721,7 @@ phylogenetic models.}{}
 It also suggests that relatively few, well-assigned subsets can go a long way
 to explain the variation in substitution rates among sites.
 
-\jroedit{}{
+\jroedit{}{%
 \citet{BaeleLemey2013} compared the marginal likelihoods of alternative
 partitioning strategies (in combination with either strict or relaxed-clock
 models) for an alignment of whole mitochondrial genomes of carnivores.
@@ -754,8 +735,7 @@ They also found that by allowing the sharing of information among partitions
 via hierarchical modeling \citep{Suchard2003HPM}, the model with the largest PS
 and SS-estimated marginal likelihood switched from a codon model to a
 nucleotide model partitioned by codon position.
-This demonstrates the sensitivity of marginal likelihoods to prior assumptions.
-}
+This demonstrates the sensitivity of marginal likelihoods to prior assumptions.}
 
 \subsection{Comparing models of character substitution}
 
@@ -836,7 +816,7 @@ gene, Bayes factors as measures of support for or against particular
 relationships, some of which are uncontroversial (e.g., the monophyly of birds)
 and others contentious (e.g., the placement of turtles).
 
-\jroedit{}{
+\jroedit{}{%
 Such use of marginal likelihoods to compare topologies, or constraints on
 topologies, raises some interesting questions.
 \citet{Bergsten2013} showed that using Bayes factors for topological tests can
@@ -854,8 +834,7 @@ both models.
 \citet{Brown2017} tried to limit the effect of this issue by constraining all
 ``uncontroversial'' bipartitions when they calculate the marginal likelihoods of
 models with and without a particular branch, essentially enforcing an
-informative prior across topologies under both models.
-}
+informative prior across topologies under both models.}
 
 Brown and Thomson's \citeyear{Brown2017} use of marginal likelihoods allowed
 them to reveal a large degree of variation among loci in
@@ -1002,13 +981,12 @@ likelihoods of delimitations will continue to be a powerful approach to
 learning about biodiversity.
 
 
-\jroedit{}{
-\section{Alternatives to marginal likelihoods for Bayesian model choice}
-}
+\jroedit{}{%
+\section{Alternatives to marginal likelihoods for Bayesian model choice}}
 
 \subsection{Bayesian model averaging}
 
-\jroedit{}{
+\jroedit{}{%
 Bayesian model averaging provides a way to avoid model choice altogether.
 Rather than infer the parameter of interest (e.g., the topology) under a single
 ``best'' model, we can incorporate uncertainty by averaging the posterior over
@@ -1017,22 +995,19 @@ In situations where model choice is not the primary goal, and the parameter of
 interest is sensitive to which model is used, model averaging is arguably the
 best solution from a Bayesian standpoint.
 Nonetheless, when we jointly sample the posterior across competing models, we
-can use the posterior sample for the purposes of model choice.
-}
-\jroedit{
+can use the posterior sample for the purposes of model choice.}
+\jroedit{%
 An alternative to using marginal likelihoods for Bayesian model comparison is
-to sample across the competing models directly.
-}{}
+to sample across the competing models directly.}{}
 The frequency of samples from each model approximates its posterior
 probability, which can be used to approximate Bayes factors among models.
-\jroedit{}{
+\jroedit{}{%
 Note, this approach is still based on marginal likelihoods---the marginal
 likelihood is how the data inform the model posterior probabilities, and the
 Bayes factor is simply a ratio of marginal likelihoods
 (Equations \ref{eq:bayesRuleModelProbability} \& \ref{eq:modelOdds}).
 However, by sampling across models, we can avoid calculating the marginal
-likelihoods directly.
-}
+likelihoods directly.}
 
 Algorithms for sampling across models include reversible-jump MCMC
 \citep{Green1995}, Gibbs sampling \citep{Neal2000}, Bayesian stochastic search
@@ -1050,39 +1025,35 @@ First, a Bayes factor that includes a model with small posterior probability
 will suffer from Monte Carlo error.
 For example, unless a very large sample from the posterior is collected, some
 models might not be sampled at all.
-\jroedit{}{
+\jroedit{}{%
 A potential solution to this problem is adjusting the prior probabilities of
 the models such that none of their posterior probabilities are very small
-\citep{Carlin1995,Suchard2005}.
-}
+\citep{Carlin1995,Suchard2005}.}
 Second, and perhaps more importantly, for these numerical algorithms to be able
 to ``jump'' among models, the models being sampled need to be similar.
-\jroedit{}{
+\jroedit{}{%
 Whereas the first limitation is specific to using model averaging to estimate
-Bayes factors, the second problem is more general.
-}
+Bayes factors, the second problem is more general.}
 
-\jroeditb{}{
+\jroeditb{}{%
 In comparison, with estimates of marginal likelihooods in hand, we can compare
-any models, no matter how different.
-}
+any models, regardless of how different they are in terms of parameterization
+or relative probability.}
 Alternatively, \jroeditb{if two highly dissimilar models need to be compared,}{}
 \citet{Lartillot2006} introduced a method of using path sampling to directly
 approximate the Bayes factor \jroeditb{}{between two models that can be highly
 dissimilar}.
 Similarly, \citet{Baele2013} extended the stepping-stone
 approach of \citet{Xie2011} to do the same.
-\jroeditb{
+\jroeditb{%
 However, if there are many models to compare, doing MCMC over power posteriors
 for every pairwise comparison will quickly become computationally prohibitive;
-approximating the marginal likelihood of each model would be simpler.
-}{}
+approximating the marginal likelihood of each model would be simpler.}{}
 
-\jroedit{}{
-\subsection{Measures of predictive performance}
-}
+\jroedit{}{%
+\subsection{Measures of predictive performance}}
 
-\jroedit{}{
+\jroedit{}{%
 \begin{linenomath}
 Another, albeit not an unrelated, way to compare models is based on their
 predictive power, with the idea
@@ -1109,15 +1080,14 @@ Thus, in situations where our data are informative and dominate the posterior
 distribution under each model, the marginal posterior predictive likelihood
 should be much less sensitive than the marginal likelihood to the prior
 distributions used for the models' parameters.
-\end{linenomath}
-}
+\end{linenomath}}
 
-\jroedit{}{
+\jroedit{}{%
 Whether one should favor a posterior-predictive perspective or marginal
 likelihoods will depend on the goals of a particular model-choice exercise
 \jroeditb{}{and whether the prior is the appropriate penalty for adding
     parameters to a model}.
-\jroeditb{
+\jroeditb{%
 Generally, marginal likelihoods will favor models that best explain
 the data in hand, whereas posterior predictive approaches will
 favor models that best predict future data.}{}
@@ -1130,14 +1100,12 @@ labeled with one of two names depending on the surrogate they use for the
 (1) \textbf{cross-validation methods} partition the data under study into a
 training (\data) and testing (\data{}\new) dataset,
 whereas
-(2) \textbf{posterior-predictive methods} generate \data{}\new via simulation.
-}
+(2) \textbf{posterior-predictive methods} generate \data{}\new via simulation.}
 
-\jroedit{}{
-\subsubsection{Cross-validation methods}
-}
+\jroedit{}{%
+\subsubsection{Cross-validation methods}}
 
-\jroedit{}{
+\jroedit{}{%
 \begin{linenomath}
 With joint samples of parameter values from the posterior (conditional on the
 training data \data), we can easily get a Monte Carlo approximation of the
@@ -1178,14 +1146,12 @@ This difference could reflect the lesser penalty against additional parameters
 imposed by the weight of the posterior
 (Equation~\ref{eq:marginalPredictiveLikelihood}) versus the prior
 (Equation~\ref{eq:marginalLikelihood}).
-\end{linenomath}
-}
+\end{linenomath}}
 
-\jroedit{}{
-\subsubsection{Posterior-predictive methods}
-}
+\jroedit{}{%
+\subsubsection{Posterior-predictive methods}}
 
-\jroedit{}{
+\jroedit{}{%
 Alternatively, we can take a different Monte Carlo approach to
 Equation~\ref{eq:marginalPredictiveLikelihood} and sample from $p(\data\new
 \given \model, \data)$ by simulating datasets.
@@ -1211,10 +1177,9 @@ simulated under more complex K2P \citep{K2P} and GTR \citep{Tavare1997} models.
 \citet{Lartillot2007} also used this approach to corroborate their findings
 based on marginal likelihoods \citep{Lartillot2006} and cross validation that
 allowing among-site variation in amino acid composition (i.e., the CAT model)
-leads to a better fit.
-}
+leads to a better fit.}
 
-\jroedit{}{
+\jroedit{}{%
 One drawback of the posterior predictive p-value is that it rewards models with
 large posterior predictive variance \citep{Lewis2014}.
 In other words, a model that produces a broad enough distribution of datasets
@@ -1233,8 +1198,7 @@ partitioned by codon position (three subsets).
 Again, this difference could be due to the lesser penalty against parameters
 imposed by the weight of the posterior
 (Equation~\ref{eq:marginalPredictiveLikelihood}) versus the prior
-(Equation~\ref{eq:marginalLikelihood}).
-}
+(Equation~\ref{eq:marginalLikelihood}).}
 
 \subsection{Approximate-likelihood approaches}
 
@@ -1274,7 +1238,7 @@ much is.
 By not accounting for prior weight in regions of parameter space outside the
 zone of tolerance, where the likelihood is low, we predict this method will not
 properly penalize models and tend to favor models with more parameters.
-\jroedit{
+\jroedit{%
 This is analogous with how the harmonic mean estimator tends to overestimate
 the marginal likelihood due to having very few samples outside of the region of
 high likelihood.}{}
@@ -1303,14 +1267,13 @@ comparing the correct branch-length model
 [branch length $\sim$ uniform(0.0001, 0.1)]
 to a model with a prior approximately twice as broad
 [branch length $\sim$ uniform(0.0001, 0.2)].
-\jroedit{}{
+\jroedit{}{%
 As we noted in our coin-flipping example, using marginal likelihoods to compare
 priors is dubious, and we do not advocate selecting priors in this way.
 However, in this case, comparing the marginal likelihood under these two priors
 is useful, because it allows us to directly test our prediction that the
 ABC-GLM method will not be able to correctly penalize the marginal likelihood
-for the additional parameter space under the broader prior.
-}
+for the additional parameter space under the broader prior.}
 
 This very simple model is a good test of the ABC-GLM marginal likelihood
 estimator for several reasons.
@@ -1447,12 +1410,11 @@ sensitive to priors on the \emph{parameters} of each model, even when the data
 are very informative (Figure~\ref{fig:bayesDemo}).
 This sensitivity to prior assumptions about parameters is inherent to Bayesian
 model choice
-\jroedit{}{
+\jroedit{}{%
 based on marginal likelihoods (i.e., Bayes factors and Bayesian model
 averaging).
 However, other Bayesian model selection approaches, such as cross-validation
-and posterior-predictive methods, will be less sensitive to prior assumptions.
-}
+and posterior-predictive methods, will be less sensitive to prior assumptions.}
 % \vmcomment{I am not sure I see this mathematically. Prediction error also depends on the prior.}
 \jroedit{Accordingly}{Regardless}, the results of any application of Bayesian
 model selection should be accompanied by an assessment of the sensitivity of
