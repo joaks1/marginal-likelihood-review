@@ -1062,13 +1062,17 @@ Whereas the first limitation is specific to using model averaging to estimate
 Bayes factors, the second problem is more general.
 }
 
-% mbox necessary to allow strikeout through citations
+\jroeditb{}{
+In comparison, with estimates of marginal likelihooods in hand, we can compare
+any models, no matter how different.
+}
+Alternatively, \jroeditb{if two highly dissimilar models need to be compared,}{}
+\citet{Lartillot2006} introduced a method of using path sampling to directly
+approximate the Bayes factor \jroeditb{}{between two models that can be highly
+dissimilar}.
+Similarly, \citet{Baele2013} extended the stepping-stone
+approach of \citet{Xie2011} to do the same.
 \jroeditb{
-If two highly dissimilar models need to be compared,
-\mbox{\citet{Lartillot2006}} introduced a method of using
-path sampling to directly approximate the Bayes factor.
-Similarly, \mbox{\citet{Baele2013}} extended the stepping-stone
-approach of \mbox{\citet{Xie2011}} to do the same.
 However, if there are many models to compare, doing MCMC over power posteriors
 for every pairwise comparison will quickly become computationally prohibitive;
 approximating the marginal likelihood of each model would be simpler.
@@ -1111,7 +1115,7 @@ distributions used for the models' parameters.
 \jroedit{}{
 Whether one should favor a posterior-predictive perspective or marginal
 likelihoods will depend on the goals of a particular model-choice exercise
-\jroeditb{}{and whether the prior is the appropriate ``penalty'' for adding
+\jroeditb{}{and whether the prior is the appropriate penalty for adding
     parameters to a model}.
 \jroeditb{
 Generally, marginal likelihoods will favor models that best explain
