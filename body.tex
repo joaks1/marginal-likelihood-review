@@ -166,7 +166,7 @@ If we look at the ratio of the posterior probabilities of two models,
     \label{eq:modelOdds}
 \end{equation}
 we see that the Bayes factor is the factor by which the prior odds of a model
-is multiplied to give use the posterior odds.
+is multiplied to give \jroedit{use}{us} the posterior odds.
 Thus, marginal likelihoods and their ratios give us intuitive measures of how
 much the data ``favor'' one model over another, and these measures have natural
 probabilistic interpretations.
@@ -629,7 +629,7 @@ As discussed above, the HM estimator is unbiased in theory, but can suffer
 from very large Monte Carlo error in practice.
 The degree to which the GHM estimator solves this problem will depend on how
 much more similar the chosen reference distribution is to the posterior
-compared to prior.
+compared with the prior.
 Knowing whether it is similar enough in practice will be difficult without
 comparing the estimates to other unbiased methods with much smaller
 Monte Carlo error (e.g., GSS, PS, or SMC).}
@@ -912,9 +912,12 @@ referred to as iDDC, which stands for integrating distributional, demographic,
 and coalescent models \citep{Papadopoulou2016}.
 This approach simulates data under various phylogeographical models upon
 proxies for habitat suitability derived from species distribution models.
-To choose the model the best explains the empirical data, this approach uses
-the marginal densities of the models estimated via the ABC-GLM method and
-p-values derived from these densities
+To choose the model \jroedit{the}{that} best explains the empirical data, this
+approach \jroedit{uses}{compares} the marginal densities of the models
+\jroedit{estimated via the ABC-GLM method}{%
+approximated with general linear models
+\citep[ABC-GLM;][]{Leuenberger2010}},
+and p-values derived from these densities
 \citep{He2013}
 \citep{Massatti2016}
 \citep{Bemmels2016}
